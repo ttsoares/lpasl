@@ -76,6 +76,31 @@ h3 {
   animation: asl-rail-scan 700ms var(--asl-ease, ease) 120ms both;
 }
 
+/* Clips the flow; the scan line above stays outside it, wider than the rail. */
+.hero-rail-window {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+}
+
+.hero-rail-track {
+  display: flex;
+  flex-direction: column;
+  animation: asl-rail-flow 14s linear infinite;
+}
+
+/* One copy of four per loop: the next copy lands where the last one began. */
+@keyframes asl-rail-flow {
+  from {
+    transform: translateY(-25%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
 @keyframes asl-rail-scan {
   0% {
     top: 0;
@@ -216,6 +241,7 @@ h3 {
 
   .rise > span,
   .fade-in,
+  .hero-rail-track,
   .borb,
   .borb img {
     animation: none;

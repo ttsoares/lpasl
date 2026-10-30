@@ -3,11 +3,11 @@ import { expect, test } from '@playwright/test'
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' })
 
-  test('header labels and the home butterfly are static', async ({ page }) => {
+  test('header labels, binary rail and the home butterfly are static', async ({ page }) => {
     await page.goto('/')
 
     const animations = await page.evaluate(() =>
-      [...document.querySelectorAll('.rise > span, .fade-in, .borb, .borb img')].map(
+      [...document.querySelectorAll('.rise > span, .fade-in, .hero-rail-track, .borb, .borb img')].map(
         (element) => getComputedStyle(element).animationName,
       ),
     )
@@ -36,4 +36,16 @@ test('inner page titles fade in', async ({ page }) => {
   )
 
   expect(name).toBe('fade-in')
+})
+
+test('binary rails flow on home and inner pages', async ({ page }) => {
+  for (const path of ['/', '/quem-somos']) {
+    await page.goto(path)
+
+    const name = await page.evaluate(
+      () => getComputedStyle(document.querySelector('.hero-rail-track')!).animationName,
+    )
+
+    expect(name, path).toBe('asl-rail-flow')
+  }
 })

@@ -80,7 +80,7 @@ export function PageHero({ title, lead, children }: PageHeroProps) {
           right: 'max(24px, calc((100% - 1200px) / 2))',
         }}
       >
-        <BinaryRail fontSize="9px" />
+        <BinaryRail fontSize="11px" opacity={0.72} />
       </Box>
     </Box>
   )
