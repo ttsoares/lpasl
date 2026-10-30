@@ -20,7 +20,14 @@ export function PageHero({ title, lead, children }: PageHeroProps) {
     <Box
       component="section"
       aria-labelledby="page-title"
-      sx={{ position: 'relative', bgcolor: colors.ink, color: colors.paper }}
+      sx={{
+        position: 'relative',
+        bgcolor: colors.ink,
+        color: colors.paper,
+        // Only shows in dark mode, where the band would otherwise run into the page.
+        borderBottom: 1,
+        borderColor: 'divider',
+      }}
     >
       <Container
         maxWidth="lg"

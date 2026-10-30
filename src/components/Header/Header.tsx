@@ -73,6 +73,7 @@ export function Header() {
                   component={Link}
                   to={entry.to}
                   aria-current={isActivePath(pathname, entry.to) ? 'page' : undefined}
+                  disableRipple
                   sx={navLinkSx(isActivePath(pathname, entry.to))}
                 >
                   <Rise delay={index * 55}>{entry.label}</Rise>
@@ -205,7 +206,10 @@ export function Header() {
   )
 }
 
-/** Desktop bar link: the amber underline grows on hover and stays on the active page. */
+/**
+ * Desktop bar link: the amber underline grows on hover and stays on the active
+ * page. Bar buttons skip the ripple; the underline and focus outline are their feedback.
+ */
 function navLinkSx(active: boolean) {
   return {
     position: 'relative',
@@ -255,6 +259,7 @@ function NavGroupMenu({ group, pathname, delay }: NavGroupMenuProps) {
         aria-controls={anchor ? menuId : undefined}
         onClick={(event) => setAnchor(event.currentTarget)}
         endIcon={<ExpandMoreIcon sx={{ ml: -0.5 }} />}
+        disableRipple
         sx={navLinkSx(active)}
       >
         <Rise delay={delay}>{group.label}</Rise>

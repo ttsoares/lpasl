@@ -32,6 +32,9 @@ function HomeHero() {
         display: 'flex',
         bgcolor: colors.ink,
         color: colors.paper,
+        // Only shows in dark mode, where the hero would otherwise run into the page.
+        borderBottom: 1,
+        borderColor: 'divider',
         minHeight: { lg: 'calc(100svh - 81px)' },
       }}
     >
