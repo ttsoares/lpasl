@@ -1,0 +1,228 @@
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html[data-theme='light'] {
+  background-color: #ffffff;
+}
+
+html[data-theme='dark'] {
+  background-color: #000000;
+}
+
+body {
+  margin: 0;
+}
+
+/* Avoids one-word last lines in paragraphs and lopsided headings. */
+p,
+li {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+.skip-link {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 2000;
+  transform: translateY(-200%);
+  padding: 16px 24px;
+  border-radius: 4px;
+  background-color: var(--asl-amber, #ffc00f);
+  color: var(--asl-ink, #000000);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 140ms var(--asl-ease, ease);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.footer-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--asl-amber, #ffc00f);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.hero-rail {
+  position: relative;
+}
+
+.hero-rail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -4px;
+  left: -4px;
+  height: 2px;
+  background-color: var(--asl-amber, #ffc00f);
+  animation: asl-rail-scan 700ms var(--asl-ease, ease) 120ms both;
+}
+
+@keyframes asl-rail-scan {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  100% {
+    top: calc(100% - 2px);
+    opacity: 0;
+  }
+}
+
+/* Header text emerging from below a clip line (see components/Rise). */
+.rise {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Room for descenders, so the clip never shaves a "ç" or a "g". */
+  padding-block: 0.15em;
+  margin-block: -0.15em;
+}
+
+.rise > span {
+  display: inline-block;
+  animation: rise 560ms var(--asl-ease) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+/* Page titles fading in (PageHero, NotFound). */
+.fade-in {
+  animation: fade-in 700ms var(--asl-ease) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The home butterfly (components/Borb): it flies in on a swaying path while
+   both wings flap, lands on the hero's "Associe-se" button (it is positioned
+   relative to the button, so it holds at any screen size), keeps flapping
+   slowly for 5 seconds, then vanishes. */
+.borb {
+  position: absolute;
+  top: calc(50% - 42px);
+  left: calc(50% - 40px);
+  z-index: 2;
+  height: 84px;
+  pointer-events: none;
+  animation:
+    borb-flight 2100ms 150ms both,
+    borb-vanish 400ms 7250ms both;
+}
+
+.borb-tilt {
+  display: flex;
+  height: 100%;
+  /* The art is drawn with the body upright; this restores its natural lean. */
+  transform: rotate(23.5deg);
+}
+
+.borb img {
+  display: block;
+  height: 100%;
+  width: auto;
+  /* Fast beats in flight, then two slow ones after landing. */
+  animation:
+    borb-flap 210ms ease-in-out 150ms 9,
+    borb-flap 900ms ease-in-out 2350ms 5;
+}
+
+.borb img:first-child {
+  transform-origin: right center;
+}
+
+.borb img:last-child {
+  transform-origin: left center;
+}
+
+@keyframes borb-flap {
+  50% {
+    transform: scaleX(0.3);
+  }
+}
+
+@keyframes borb-flight {
+  0% {
+    transform: translate(26vw, -70vh) rotate(16deg);
+    opacity: 0;
+    animation-timing-function: ease-in;
+  }
+  8% {
+    opacity: 1;
+  }
+  28% {
+    transform: translate(18vw, -34vh) rotate(-12deg);
+    animation-timing-function: ease-in-out;
+  }
+  48% {
+    transform: translate(10vw, -46vh) rotate(10deg);
+    animation-timing-function: ease-in-out;
+  }
+  68% {
+    transform: translate(4vw, -14vh) rotate(-8deg);
+    animation-timing-function: ease-in-out;
+  }
+  86% {
+    transform: translate(-0.6vw, 2vh) rotate(3deg);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes borb-vanish {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rail::after {
+    display: none;
+  }
+
+  .rise > span,
+  .fade-in,
+  .borb,
+  .borb img {
+    animation: none;
+  }
+
+  /* Without the flight there is nothing to see: only the logo stays. */
+  .borb {
+    display: none;
+  }
+}

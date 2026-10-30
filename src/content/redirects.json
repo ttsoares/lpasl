@@ -1,0 +1,26 @@
+{
+  "paths": [
+    { "from": "/missao", "to": "/quem-somos#missao" },
+    { "from": "/coordenacao-e-conselho", "to": "/coordenacao" },
+    { "from": "/edital_de_convocacao_1-2025", "to": "/noticias/edital-de-convocacao-1-2025" },
+    { "from": "/edital_de_convocacao_2-2025", "to": "/noticias/edital-de-convocacao-2-2025" },
+    { "from": "/category/coordenacao", "to": "/noticias" },
+    { "from": "/category/semcategoria", "to": "/noticias" },
+    { "from": "/wp-content/uploads/2022/12/asl-estatuto-final-2019-07.pdf", "to": "/docs/asl-estatuto-final-2019-07.pdf" },
+    { "from": "/wp-content/uploads/2022/12/asl-regimento-interno-2019-07.pdf", "to": "/docs/asl-regimento-interno-2019-07.pdf" },
+    { "from": "/wp-content/uploads/2022/12/proposta-associado.pdf", "to": "/docs/proposta-associado.pdf" }
+  ],
+  "ids": {
+    "40": "/quem-somos",
+    "45": "/quem-somos#missao",
+    "47": "/atuacao",
+    "49": "/contato",
+    "60": "/atuacao",
+    "70": "/documentos",
+    "75": "/associe-se",
+    "102": "/noticias/projeto-software-livre-brasil",
+    "124": "/coordenacao",
+    "271": "/noticias/edital-de-convocacao-1-2025",
+    "276": "/noticias/edital-de-convocacao-2-2025"
+  }
+}
