@@ -84,29 +84,29 @@ function HomeHero() {
               spacing={2}
               sx={{ mt: 6, alignItems: { sm: 'center' } }}
             >
-              <Button component={Link} to="/quem-somos" variant="contained" size="large">
-                Conheça a ASL
-              </Button>
               <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                <Button
-                  component={Link}
-                  to="/associe-se"
-                  variant="outlined"
-                  size="large"
-                  sx={{
-                    color: colors.paper,
-                    borderColor: 'rgba(255, 255, 255, 0.72)',
-                    '&:hover': {
-                      color: colors.ink,
-                      borderColor: colors.amber,
-                      backgroundColor: colors.amber,
-                    },
-                  }}
-                >
+                <Button component={Link} to="/associe-se" variant="contained" size="large">
                   Associe-se
                 </Button>
                 <Borb />
               </Box>
+              <Button
+                component={Link}
+                to="/quem-somos"
+                variant="outlined"
+                size="large"
+                sx={{
+                  color: colors.paper,
+                  borderColor: 'rgba(255, 255, 255, 0.72)',
+                  '&:hover': {
+                    color: colors.ink,
+                    borderColor: colors.amber,
+                    backgroundColor: colors.amber,
+                  },
+                }}
+              >
+                Conheça a ASL
+              </Button>
             </Stack>
           </Box>
 

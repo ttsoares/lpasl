@@ -7,18 +7,21 @@ import {
   Container,
   Drawer,
   IconButton,
+  Menu,
+  MenuItem,
   Toolbar,
   Tooltip,
   Typography,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useColorMode } from '../../app/color-mode'
 import { Rise } from '../Rise/Rise'
 import { BrandLockup } from '../Brand/BrandLockup'
-import { isActivePath, navItems } from '../../content/navigation'
+import { isActivePath, navEntries, navItems, type NavGroup } from '../../content/navigation'
 import { site } from '../../content/site'
 import { motion, typeScale } from '../../styles/tokens'
 
@@ -61,45 +64,21 @@ export function Header() {
             aria-label="Navegação principal"
             sx={{ display: { xs: 'none', lg: 'flex' }, alignItems: 'center', gap: 0.5 }}
           >
-            {navItems.map((item, index) => {
-              const active = isActivePath(pathname, item.to)
-              return (
+            {navEntries.map((entry, index) =>
+              'items' in entry ? (
+                <NavGroupMenu key={entry.label} group={entry} pathname={pathname} delay={index * 55} />
+              ) : (
                 <Button
-                  key={item.to}
+                  key={entry.to}
                   component={Link}
-                  to={item.to}
-                  aria-current={active ? 'page' : undefined}
-                  sx={{
-                    position: 'relative',
-                    px: 1,
-                    py: 1,
-                    flexShrink: 0,
-                    color: 'text.primary',
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    whiteSpace: 'nowrap',
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      right: 8,
-                      bottom: 4,
-                      left: 8,
-                      height: 2,
-                      bgcolor: 'primary.main',
-                      transform: active ? 'scaleX(1)' : 'scaleX(0)',
-                      transformOrigin: 'left',
-                      transition: `transform ${motion.fast} ${motion.ease}`,
-                    },
-                    '&:hover': {
-                      bgcolor: 'transparent',
-                      '&::after': { transform: 'scaleX(1)' },
-                    },
-                  }}
+                  to={entry.to}
+                  aria-current={isActivePath(pathname, entry.to) ? 'page' : undefined}
+                  sx={navLinkSx(isActivePath(pathname, entry.to))}
                 >
-                  <Rise delay={index * 55}>{item.label}</Rise>
+                  <Rise delay={index * 55}>{entry.label}</Rise>
                 </Button>
-              )
-            })}
+              ),
+            )}
           </Box>
 
           <Tooltip title={modeLabel}>
@@ -119,7 +98,7 @@ export function Header() {
             size="small"
             sx={{ ml: { xs: 0.5, sm: 1 }, whiteSpace: 'nowrap' }}
           >
-            <Rise delay={navItems.length * 55}>Associe-se</Rise>
+            <Rise delay={navEntries.length * 55}>Associe-se</Rise>
           </Button>
 
           <IconButton
@@ -223,5 +202,93 @@ export function Header() {
         </Box>
       </Drawer>
     </AppBar>
+  )
+}
+
+/** Desktop bar link: the amber underline grows on hover and stays on the active page. */
+function navLinkSx(active: boolean) {
+  return {
+    position: 'relative',
+    px: 1,
+    py: 1,
+    flexShrink: 0,
+    color: 'text.primary',
+    fontSize: '1rem',
+    fontWeight: 500,
+    whiteSpace: 'nowrap',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      right: 8,
+      bottom: 4,
+      left: 8,
+      height: 2,
+      bgcolor: 'primary.main',
+      transform: active ? 'scaleX(1)' : 'scaleX(0)',
+      transformOrigin: 'left',
+      transition: `transform ${motion.fast} ${motion.ease}`,
+    },
+    '&:hover': {
+      bgcolor: 'transparent',
+      '&::after': { transform: 'scaleX(1)' },
+    },
+  } as const
+}
+
+type NavGroupMenuProps = {
+  group: NavGroup
+  pathname: string
+  delay: number
+}
+
+/** A bar entry that opens its pages in a menu; underlined while one of them is open. */
+function NavGroupMenu({ group, pathname, delay }: NavGroupMenuProps) {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+  const active = group.items.some((item) => isActivePath(pathname, item.to))
+  const menuId = `menu-${group.label.toLowerCase().replace(/\W+/g, '-')}`
+
+  return (
+    <>
+      <Button
+        aria-haspopup="true"
+        aria-expanded={anchor ? 'true' : undefined}
+        aria-controls={anchor ? menuId : undefined}
+        onClick={(event) => setAnchor(event.currentTarget)}
+        endIcon={<ExpandMoreIcon sx={{ ml: -0.5 }} />}
+        sx={navLinkSx(active)}
+      >
+        <Rise delay={delay}>{group.label}</Rise>
+      </Button>
+      <Menu
+        id={menuId}
+        anchorEl={anchor}
+        open={Boolean(anchor)}
+        onClose={() => setAnchor(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: { mt: 1, minWidth: 200, border: 1, borderColor: 'divider', borderRadius: 0 },
+          },
+        }}
+      >
+        {group.items.map((item) => {
+          const current = isActivePath(pathname, item.to)
+          return (
+            <MenuItem
+              key={item.to}
+              component={Link}
+              to={item.to}
+              onClick={() => setAnchor(null)}
+              aria-current={current ? 'page' : undefined}
+              selected={current}
+              sx={{ minHeight: 44, fontWeight: current ? 600 : 400 }}
+            >
+              {item.label}
+            </MenuItem>
+          )
+        })}
+      </Menu>
+    </>
   )
 }

@@ -189,13 +189,17 @@ The first real page content: the hero only. Sections below it are still to come.
 
 - `src/pages/Home.tsx` — full-bleed ink hero that fills the viewport under the header on
   `lg` and up (`calc(100svh - 81px)`, the header's 80px plus its 1px rule). Layout is a 7/5
-  grid: amber display headline, lead paragraph and two CTAs on the left; the butterfly plate
+  grid: amber display headline, lead paragraph and two CTAs on the left (Associe-se filled
+  and first, Conheça a ASL outlined); the butterfly plate
   and the binary rail on the right. A hairline rule closes the hero with the founding facts
   line, "Desde 2003, em Porto Alegre. **Organizamos o FISL.**"  On `xs` the right column is
   dropped entirely and the headline switches from forced line breaks to natural wrapping.
 - `src/components/BinaryRail/BinaryRail.tsx` — the 0/1 rail, generated from the ASCII of
   "ASL" (one byte per character, 24 bits). Each byte's first bit is amber. It is
-  `aria-hidden`: it is a graphic, not content.
+  `aria-hidden`: it is a graphic, not content. The bits repeat at a fixed pitch and flow
+  downward (`asl-rail-flow`, 14s per byte run, edge-faded with a mask, still under reduced
+  motion), so the rail reads as a live signal at any height. Inner headers use 11px digits
+  at 0.72 opacity; the home hero keeps 0.5 beside the larger plate.
 - `src/index.css` — `.hero-rail::after` is the amber scan line, the page's single load
   moment: 700ms, 120ms delay, travelling the rail once and fading out. `display: none` under
   `prefers-reduced-motion: reduce`.

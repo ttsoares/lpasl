@@ -52,3 +52,14 @@ test('legacy WordPress links reach the new page', async ({ page }) => {
   await page.goto('/?p=124')
   await expect(page).toHaveURL('/coordenacao')
 })
+
+test('the A ASL menu opens its institutional pages', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 800 })
+  await page.goto('/')
+
+  await page.getByRole('button', { name: 'A ASL' }).click()
+  await page.getByRole('menuitem', { name: 'Coordenação' }).click()
+
+  await expect(page).toHaveURL(/\/coordenacao$/)
+  await expect(page.getByRole('menu')).toBeHidden()
+})
