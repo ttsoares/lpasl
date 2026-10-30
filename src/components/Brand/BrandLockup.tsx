@@ -36,14 +36,14 @@ export function BrandLockup({ height = 40, tone = 'auto' }: BrandLockupProps) {
         sx={{
           fontFamily: fonts.display,
           fontWeight: 800,
-          fontStretch: '125%',
+          fontStretch: '100%',
           fontSize: height * 0.55,
           letterSpacing: '-0.04em',
           lineHeight: 1,
           color: wordmarkColor,
         }}
       >
-        <Rise>ASL</Rise>
+        <Rise>ASL.org</Rise>
       </Box>
     </Box>
   )
