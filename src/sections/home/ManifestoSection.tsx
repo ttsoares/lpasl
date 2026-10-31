@@ -2,6 +2,7 @@ import { Box, Link as MuiLink, Typography } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
 import { Link } from 'react-router-dom'
 import { Section } from '../../components/Section/Section'
+import { hideOnPhone } from '../../styles/phone'
 import { colors } from '../../styles/tokens'
 
 const mission =
@@ -12,7 +13,8 @@ export function ManifestoSection() {
     <Section
       tone="ink"
       labelledBy="missao-title"
-      sx={{ borderTop: `1px solid rgba(255, 255, 255, 0.16)` }}
+      // On phones the mission lives on Quem somos only.
+      sx={{ borderTop: `1px solid rgba(255, 255, 255, 0.16)`, ...hideOnPhone }}
     >
       <Box
         sx={{

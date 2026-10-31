@@ -3,13 +3,21 @@ import { Link } from 'react-router-dom'
 import { Box, Container, Typography } from '@mui/material'
 import { useColorMode } from '../../app/color-mode'
 import { site } from '../../content/site'
+import { hideOnPhone } from '../../styles/phone'
 import { colors } from '../../styles/tokens'
 
 const currentYear = new Date().getFullYear()
 
-function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
+type FooterColumnProps = {
+  title: string
+  /** Leave it off phones, where it repeats the menu. */
+  wide?: boolean
+  children: ReactNode
+}
+
+function FooterColumn({ title, wide = false, children }: FooterColumnProps) {
   return (
-    <Box>
+    <Box sx={wide ? hideOnPhone : undefined}>
       <Typography component="h2" variant="subtitle1" sx={{ fontWeight: 600, color: colors.paper }}>
         {title}
       </Typography>
@@ -22,7 +30,7 @@ function FooterColumn({ title, children }: { title: string; children: ReactNode 
           p: 0,
           display: 'flex',
           flexDirection: 'column',
-          gap: 1,
+          gap: { xs: 0, sm: 1 },
           color: 'rgba(255, 255, 255, 0.72)',
         }}
       >
@@ -74,7 +82,7 @@ export function Footer() {
             </Typography>
           </Box>
 
-          <FooterColumn title="Navegue">
+          <FooterColumn title="Navegue" wide>
             <li>
               <Link className="footer-link" to="/quem-somos">
                 Quem somos
@@ -102,7 +110,7 @@ export function Footer() {
             </li>
           </FooterColumn>
 
-          <FooterColumn title="Participe">
+          <FooterColumn title="Participe" wide>
             <li>
               <Link className="footer-link" to="/associe-se">
                 Associe-se

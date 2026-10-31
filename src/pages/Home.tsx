@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { BinaryRail } from '../components/BinaryRail/BinaryRail'
 import { FlyingBorb } from '../components/FlyingBorb/FlyingBorb'
 import { site } from '../content/site'
+import { hideOnPhone } from '../styles/phone'
 import { colors, layout, sky, typeScale } from '../styles/tokens'
 import { GovernanceSection } from '../sections/home/GovernanceSection'
 import { InitiativesSection } from '../sections/home/InitiativesSection'
@@ -36,9 +37,12 @@ const skyFade = [
   'transparent',
 ].join(', ')
 
+// Tablets and up, in either orientation. Phones fail one side or the other
+// (narrow upright, short on their side), so they never fetch three.js.
+const skyScreen = '(min-width: 600px) and (min-height: 600px)'
+
 function HomeHero() {
-  // The square is hidden below md; don't fetch three.js where nobody sees it.
-  const wide = useMediaQuery((theme) => theme.breakpoints.up('md'))
+  const showSky = useMediaQuery(skyScreen)
 
   return (
     <Box
@@ -121,6 +125,7 @@ function HomeHero() {
                     borderColor: colors.amber,
                     backgroundColor: colors.amber,
                   },
+                  ...hideOnPhone,
                 }}
               >
                 Conheça a ASL
@@ -130,12 +135,16 @@ function HomeHero() {
 
           <Box
             sx={{
-              display: { xs: 'none', md: 'flex' },
+              display: 'none',
+              [`@media ${skyScreen}`]: { display: 'flex' },
               alignItems: 'stretch',
-              gap: { md: 4, lg: 6 },
-              // Bleed out of the column: left into the gap beside the text, and
-              // right into the page margin, up to 96px or as much as it has
-              // (never less than the container's 24px gutter).
+              // Below md the grid is one column, so this lands under the
+              // buttons as a banner.
+              mt: { sm: 8, md: 0 },
+              gap: { sm: 3, md: 4, lg: 6 },
+              // Bleed out of the column: left into the gap beside the text (or
+              // the gutter, as a banner), and right into the page margin, up
+              // to 96px or as much as it has (never less than the 24px gutter).
               ml: -3,
               mr: `calc(-1 * min(96px, max(24px, (100vw - ${layout.maxWidth}px) / 2 + 24px)))`,
             }}
@@ -147,7 +156,7 @@ function HomeHero() {
                 display: 'grid',
                 placeItems: 'center',
                 position: 'relative',
-                aspectRatio: '1',
+                aspectRatio: { sm: '16 / 7', md: '1' },
                 background: `linear-gradient(${sky.top}, ${sky.bottom})`,
                 // Feather all four edges into the hero's black. The eased stops
                 // avoid the visible seam a straight ramp leaves.
@@ -157,7 +166,7 @@ function HomeHero() {
                 maskComposite: 'intersect',
               }}
             >
-              {wide && <FlyingBorb />}
+              {showSky && <FlyingBorb />}
             </Box>
           </Box>
         </Box>

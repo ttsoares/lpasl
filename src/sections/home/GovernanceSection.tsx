@@ -2,11 +2,13 @@ import { Box, Typography } from '@mui/material'
 import { Section } from '../../components/Section/Section'
 import { SectionHeading } from '../../components/SectionHeading/SectionHeading'
 import { governance } from '../../content/people'
+import { hideOnPhone } from '../../styles/phone'
 import { typeScale } from '../../styles/tokens'
 
 export function GovernanceSection() {
   return (
-    <Section tone="sand" labelledBy="coordenacao-title">
+    // On phones the names live on Coordenação only.
+    <Section tone="sand" labelledBy="coordenacao-title" sx={hideOnPhone}>
       <SectionHeading
         id="coordenacao-title"
         title={

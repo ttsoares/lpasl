@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Section } from '../../components/Section/Section'
 import { SectionHeading } from '../../components/SectionHeading/SectionHeading'
 import { formatPostDate, posts } from '../../content/posts'
+import { hideOnPhone } from '../../styles/phone'
 import { typeScale } from '../../styles/tokens'
 
 export function NewsSection() {
@@ -25,7 +26,7 @@ export function NewsSection() {
               gridTemplateColumns: { xs: '1fr', md: '3fr 7fr 2fr' },
               columnGap: 6,
               rowGap: 1,
-              py: { xs: 3, md: 4 },
+              py: { xs: 2, md: 4 },
               borderTop: '1px solid',
               borderColor: 'divider',
               alignItems: 'baseline',
@@ -51,7 +52,7 @@ export function NewsSection() {
                   {post.title}
                 </MuiLink>
               </Typography>
-              <Typography sx={{ mt: 1, color: 'text.secondary', maxWidth: '58ch' }}>
+              <Typography sx={{ mt: 1, color: 'text.secondary', maxWidth: '58ch', ...hideOnPhone }}>
                 {post.summary}
               </Typography>
             </Box>

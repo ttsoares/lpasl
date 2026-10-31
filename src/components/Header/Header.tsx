@@ -23,6 +23,7 @@ import { Rise } from '../Rise/Rise'
 import { BrandLockup } from '../Brand/BrandLockup'
 import { isActivePath, navEntries, navItems, type NavGroup } from '../../content/navigation'
 import { site } from '../../content/site'
+import { hideOnPhone, phone } from '../../styles/phone'
 import { motion, typeScale } from '../../styles/tokens'
 
 export function Header() {
@@ -32,6 +33,10 @@ export function Header() {
   const menuOpen = menuState.open && menuState.path === pathname
 
   const modeLabel = mode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'
+  const modeIcon = mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />
+  // On phones the bar keeps one call to action; these pages already lead with
+  // Associe-se, so the bar's copy would be a second one.
+  const pageHasCta = pathname === '/' || pathname === '/associe-se'
 
   const openMenu = () => setMenuState({ open: true, path: pathname })
   const closeMenu = () => setMenuState({ open: false, path: pathname })
@@ -54,7 +59,7 @@ export function Header() {
           <Link
             to="/"
             aria-label={`${site.name} — página inicial`}
-            style={{ display: 'flex', alignItems: 'center', marginRight: 'auto' }}
+            style={{ display: 'flex', alignItems: 'center', minHeight: 48, marginRight: 'auto' }}
           >
             <BrandLockup height={40} />
           </Link>
@@ -86,9 +91,10 @@ export function Header() {
             <IconButton
               onClick={toggleMode}
               aria-label={modeLabel}
-              sx={{ ml: { xs: 0, md: 1 }, color: 'text.primary' }}
+              // On phones it moves into the menu, to keep the bar to brand and menu.
+              sx={{ ml: { xs: 0, md: 1 }, color: 'text.primary', ...hideOnPhone }}
             >
-              {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+              {modeIcon}
             </IconButton>
           </Tooltip>
 
@@ -97,7 +103,11 @@ export function Header() {
             to="/associe-se"
             variant="contained"
             size="small"
-            sx={{ ml: { xs: 0.5, sm: 1 }, whiteSpace: 'nowrap' }}
+            sx={{
+              ml: { xs: 0.5, sm: 1 },
+              whiteSpace: 'nowrap',
+              [phone]: { minHeight: 44, ...(pageHasCta && { display: 'none' }) },
+            }}
           >
             <Rise delay={navEntries.length * 55}>Associe-se</Rise>
           </Button>
@@ -186,6 +196,20 @@ export function Header() {
           </Box>
 
           <Box sx={{ mt: 'auto', p: 3, borderTop: 1, borderColor: 'divider' }}>
+            <Button
+              onClick={toggleMode}
+              startIcon={modeIcon}
+              fullWidth
+              sx={{
+                display: { xs: 'flex', sm: 'none' },
+                justifyContent: 'flex-start',
+                mb: 2,
+                minHeight: 48,
+                color: 'text.primary',
+              }}
+            >
+              {modeLabel}
+            </Button>
             <Button
               component={Link}
               to="/associe-se"

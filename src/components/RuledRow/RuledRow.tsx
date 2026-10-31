@@ -1,6 +1,7 @@
 import { Box, Link as MuiLink, Typography } from '@mui/material'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { hideOnPhone } from '../../styles/phone'
 import { typeScale } from '../../styles/tokens'
 
 type RuledRowProps = {
@@ -11,13 +12,17 @@ type RuledRowProps = {
   to?: string
   /** Rendered under the description, inside the row. */
   children?: ReactNode
+  /** On phones, show only the title: for lists that link to the full entry. */
+  brief?: boolean
 }
 
 /**
  * One editorial row: title, description and an optional meta value, separated
  * from its neighbours by a hairline. Replaces the card grid.
  */
-export function RuledRow({ title, description, meta, to, children }: RuledRowProps) {
+export function RuledRow({ title, description, meta, to, children, brief = false }: RuledRowProps) {
+  const detail = brief ? hideOnPhone : {}
+
   return (
     <Box
       component="li"
@@ -26,7 +31,7 @@ export function RuledRow({ title, description, meta, to, children }: RuledRowPro
         gridTemplateColumns: { xs: '1fr', md: '4fr 7fr 1fr' },
         columnGap: 6,
         rowGap: 1,
-        py: { xs: 3, md: 4 },
+        py: { xs: brief ? 1 : 3, md: 4 },
         borderTop: '1px solid',
         borderColor: 'divider',
         alignItems: 'baseline',
@@ -50,7 +55,7 @@ export function RuledRow({ title, description, meta, to, children }: RuledRowPro
         )}
       </Typography>
 
-      <Box>
+      <Box sx={detail}>
         <Typography sx={{ color: 'text.secondary', maxWidth: '58ch' }}>{description}</Typography>
         {children}
       </Box>
@@ -62,6 +67,7 @@ export function RuledRow({ title, description, meta, to, children }: RuledRowPro
             color: 'text.secondary',
             justifySelf: { md: 'end' },
             fontVariantNumeric: 'tabular-nums',
+            ...detail,
           }}
         >
           {meta}

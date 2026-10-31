@@ -5,6 +5,7 @@ import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { initiatives, partnerships } from '../content/initiatives'
 import { site } from '../content/site'
+import { hideOnPhone } from '../styles/phone'
 import { colors, typeScale } from '../styles/tokens'
 
 export function Atuacao() {
@@ -192,6 +193,7 @@ export function Atuacao() {
                 color: colors.paper,
                 borderColor: 'rgba(255, 255, 255, 0.6)',
                 '&:hover': { borderColor: colors.paper, bgcolor: 'rgba(255, 255, 255, 0.08)' },
+                ...hideOnPhone,
               }}
             >
               Quero ser voluntário

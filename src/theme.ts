@@ -1,4 +1,5 @@
 import { createTheme, type PaletteMode } from '@mui/material/styles'
+import { phone } from './styles/phone'
 import { colors, fonts, layout, motion, radii, typeScale } from './styles/tokens'
 
 const display = {
@@ -199,6 +200,18 @@ export function getTheme(mode: PaletteMode = 'light') {
             textDecorationColor: 'currentColor',
             textDecorationThickness: '2px',
             textUnderlineOffset: 3,
+            // A link standing on its own (not inside running text) is a tap
+            // target on phones: give it the 44px minimum.
+            [phone]: {
+              '&:not(p *)': { display: 'inline-flex', alignItems: 'center', minWidth: 44, minHeight: 44 },
+            },
+          },
+        },
+      },
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            [phone]: { padding: 12 },
           },
         },
       },

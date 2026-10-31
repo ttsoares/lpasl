@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Section } from '../../components/Section/Section'
+import { hideOnPhone } from '../../styles/phone'
 import { colors, typeScale } from '../../styles/tokens'
 
 export function MembershipSection() {
@@ -67,6 +68,7 @@ export function MembershipSection() {
               color: colors.ink,
               borderColor: colors.ink,
               '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.08)', borderColor: colors.ink },
+              ...hideOnPhone,
             }}
           >
             Proposta de associado

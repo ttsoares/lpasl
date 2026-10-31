@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { about } from '../content/about'
+import { hideOnPhone } from '../styles/phone'
 import { colors, typeScale } from '../styles/tokens'
 
 export function QuemSomos() {
@@ -204,6 +205,7 @@ export function QuemSomos() {
                   borderColor: colors.paper,
                   bgcolor: 'rgba(255, 255, 255, 0.08)',
                 },
+                ...hideOnPhone,
               }}
             >
               Associe-se

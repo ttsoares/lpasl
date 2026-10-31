@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { governance, pastTerms, type Group } from '../content/people'
+import { hideOnPhone } from '../styles/phone'
 import { colors, typeScale } from '../styles/tokens'
 
 const currentGroups: Group[] = [
@@ -126,7 +127,8 @@ export function Coordenacao() {
         </Box>
       </Section>
 
-      <Section tone="sand" labelledBy="historico-title">
+      {/* The archive is reference material: kept off phones. */}
+      <Section tone="sand" labelledBy="historico-title" sx={hideOnPhone}>
         <Typography id="historico-title" component="h2" variant="h2">
           Gestões anteriores
         </Typography>
@@ -252,6 +254,7 @@ export function Coordenacao() {
                   borderColor: colors.paper,
                   bgcolor: 'rgba(255, 255, 255, 0.08)',
                 },
+                ...hideOnPhone,
               }}
             >
               Falar com a coordenação

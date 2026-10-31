@@ -34,14 +34,16 @@ const BEAT = 3.2
 /**
  * Where the butterfly is at time t, in scene units. A Lissajous curve with a
  * second, slower harmonic on each axis so it reads as wandering, not orbiting.
- * Stays within about ±0.7 across and ±0.55 up and down, clear of the faded
- * edges.
+ * In a square frame it stays within about ±0.7 across and ±0.55 up and down,
+ * clear of the faded edges; `aspect` widens and flattens it to fit a banner.
  */
-function flightPath(t: number, out: Vector3) {
+function flightPath(t: number, aspect: number, out: Vector3) {
   const w = (Math.PI * 2) / LAP
+  const across = Math.max(1, aspect * 0.85)
+  const upDown = aspect > 1.2 ? 0.75 : 1
   return out.set(
-    0.55 * Math.sin(3 * w * t) + 0.15 * Math.sin(7 * w * t + 1.1),
-    0.42 * Math.sin(4 * w * t + 0.6) + 0.12 * Math.cos(5 * w * t),
+    across * (0.55 * Math.sin(3 * w * t) + 0.15 * Math.sin(7 * w * t + 1.1)),
+    upDown * (0.42 * Math.sin(4 * w * t + 0.6) + 0.12 * Math.cos(5 * w * t)),
     0.4 * Math.sin(2 * w * t + 2.0),
   )
 }
@@ -142,8 +144,8 @@ export function mountFlyingBorb(container: HTMLElement, { still }: { still: bool
     const dt = Math.min(clock.getDelta(), 1 / 20)
     elapsed += dt
 
-    flightPath(elapsed, pos)
-    const heading = flightPath(elapsed + 0.3, ahead).sub(pos)
+    flightPath(elapsed, camera.aspect, pos)
+    const heading = flightPath(elapsed + 0.3, camera.aspect, ahead).sub(pos)
     // Ease toward the heading rather than snapping, so turns read as banking.
     butterfly.root.quaternion.slerp(aim(heading, target), 1 - Math.exp(-3 * dt))
 

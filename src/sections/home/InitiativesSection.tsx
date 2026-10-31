@@ -22,6 +22,7 @@ export function InitiativesSection() {
             description={initiative.summary}
             meta={initiative.since ? `Desde ${initiative.since}` : undefined}
             to={`/atuacao#${initiative.slug}`}
+            brief
           />
         ))}
       </Box>

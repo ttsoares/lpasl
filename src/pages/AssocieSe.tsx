@@ -4,6 +4,7 @@ import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { documents } from '../content/documents'
 import { site } from '../content/site'
+import { hideOnPhone } from '../styles/phone'
 import { typeScale } from '../styles/tokens'
 
 const steps = [
@@ -71,7 +72,13 @@ export function AssocieSe() {
                   <Borb />
                 </Box>
               )}
-              <Button href={`mailto:${site.emails.general}`} variant="outlined" size="large">
+              {/* Step 3 already links the address; on phones the download is the one action. */}
+              <Button
+                href={`mailto:${site.emails.general}`}
+                variant="outlined"
+                size="large"
+                sx={hideOnPhone}
+              >
                 Enviar por e-mail
               </Button>
             </Stack>
