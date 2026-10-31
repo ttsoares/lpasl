@@ -3,29 +3,48 @@ import { expect, test } from '@playwright/test'
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' })
 
-  test('header labels, binary rail and the home butterfly are static', async ({ page }) => {
-    await page.goto('/')
+  test('header labels, binary rails and the butterfly are static', async ({ page }) => {
+    for (const path of ['/', '/associe-se']) {
+      await page.goto(path)
 
-    const animations = await page.evaluate(() =>
-      [...document.querySelectorAll('.rise > span, .fade-in, .hero-rail-track, .borb, .borb img')].map(
-        (element) => getComputedStyle(element).animationName,
-      ),
-    )
+      const animations = await page.evaluate(() =>
+        [...document.querySelectorAll('.rise > span, .fade-in, .hero-rail-track, .borb, .borb img')].map(
+          (element) => getComputedStyle(element).animationName,
+        ),
+      )
 
-    expect(animations.length).toBeGreaterThan(0)
-    expect(animations.every((name) => name === 'none')).toBe(true)
+      expect(animations.length, path).toBeGreaterThan(0)
+      expect(animations.every((name) => name === 'none'), path).toBe(true)
+    }
   })
 })
 
-test('header labels and the home butterfly animate by default', async ({ page }) => {
+test('header labels animate by default', async ({ page }) => {
   await page.goto('/')
 
-  const names = await page.evaluate(() => ({
-    label: getComputedStyle(document.querySelector('.rise > span')!).animationName,
-    flight: getComputedStyle(document.querySelector('.borb')!).animationName,
-  }))
+  const name = await page.evaluate(
+    () => getComputedStyle(document.querySelector('.rise > span')!).animationName,
+  )
 
-  expect(names).toEqual({ label: 'rise', flight: 'borb-flight, borb-vanish' })
+  expect(name).toBe('rise')
+})
+
+test('the butterfly waits for the proposal button, then flies to it', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 600 })
+  await page.goto('/associe-se')
+  const borb = page.getByRole('link', { name: /Baixar a proposta/ }).locator('xpath=..').locator('.borb')
+
+  await expect(borb).toHaveClass(/borb-waiting/)
+  await expect(borb).toHaveCSS('animation-name', 'borb-flight, borb-vanish')
+
+  await borb.locator('xpath=..').scrollIntoViewIfNeeded()
+  await expect(borb).not.toHaveClass(/borb-waiting/)
+  await expect(page.locator('main .borb')).toHaveCount(1)
+})
+
+test('the home page has no butterfly on its buttons', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('.borb')).toHaveCount(0)
 })
 
 test('inner page titles fade in', async ({ page }) => {

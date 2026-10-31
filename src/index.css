@@ -150,10 +150,11 @@ h3 {
   }
 }
 
-/* The home butterfly (components/Borb): it flies in on a swaying path while
-   both wings flap, lands on the hero's "Associe-se" button (it is positioned
-   relative to the button, so it holds at any screen size), keeps flapping
-   slowly for 5 seconds, then vanishes. */
+/* The Associe-se butterfly (components/Borb): it flies in on a swaying path
+   while both wings flap, lands on the "Baixar a proposta" button (it is
+   positioned relative to the button, so it holds at any screen size), keeps
+   flapping slowly for 5 seconds, then vanishes. It waits, paused, until the
+   button is in view. */
 .borb {
   position: absolute;
   top: calc(50% - 42px);
@@ -189,6 +190,11 @@ h3 {
 
 .borb img:last-child {
   transform-origin: left center;
+}
+
+.borb-waiting,
+.borb-waiting img {
+  animation-play-state: paused;
 }
 
 @keyframes borb-flap {

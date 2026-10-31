@@ -51,3 +51,10 @@ export const motion = {
   reveal: '420ms',
   ease: 'cubic-bezier(0.22, 1, 0.36, 1)',
 } as const
+
+// The hero's sky square: the 3D scene paints this gradient, and the CSS uses
+// the same pair as its placeholder before the scene loads.
+export const sky = {
+  top: '#1E6FC2',
+  bottom: '#7DBBEC',
+} as const

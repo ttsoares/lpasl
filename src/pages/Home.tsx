@@ -1,9 +1,9 @@
-import { Box, Button, Container, Stack, Typography } from '@mui/material'
+import { Box, Button, Container, Stack, Typography, useMediaQuery } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Borb } from '../components/Borb/Borb'
 import { BinaryRail } from '../components/BinaryRail/BinaryRail'
+import { FlyingBorb } from '../components/FlyingBorb/FlyingBorb'
 import { site } from '../content/site'
-import { colors, layout, typeScale } from '../styles/tokens'
+import { colors, layout, sky, typeScale } from '../styles/tokens'
 import { GovernanceSection } from '../sections/home/GovernanceSection'
 import { InitiativesSection } from '../sections/home/InitiativesSection'
 import { ManifestoSection } from '../sections/home/ManifestoSection'
@@ -23,7 +23,23 @@ export function Home() {
   )
 }
 
+const skyFade = [
+  'transparent',
+  'rgb(0 0 0 / 0.2) 5%',
+  'rgb(0 0 0 / 0.55) 11%',
+  'rgb(0 0 0 / 0.85) 17%',
+  '#000 23%',
+  '#000 77%',
+  'rgb(0 0 0 / 0.85) 83%',
+  'rgb(0 0 0 / 0.55) 89%',
+  'rgb(0 0 0 / 0.2) 95%',
+  'transparent',
+].join(', ')
+
 function HomeHero() {
+  // The square is hidden below md; don't fetch three.js where nobody sees it.
+  const wide = useMediaQuery((theme) => theme.breakpoints.up('md'))
+
   return (
     <Box
       component="section"
@@ -36,6 +52,8 @@ function HomeHero() {
         borderBottom: 1,
         borderColor: 'divider',
         minHeight: { lg: 'calc(100svh - 81px)' },
+        // The sky square bleeds past the container; never let it scroll the page.
+        overflowX: 'clip',
       }}
     >
       <Container
@@ -87,12 +105,9 @@ function HomeHero() {
               spacing={2}
               sx={{ mt: 6, alignItems: { sm: 'center' } }}
             >
-              <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-                <Button component={Link} to="/associe-se" variant="contained" size="large">
-                  Associe-se
-                </Button>
-                <Borb />
-              </Box>
+              <Button component={Link} to="/associe-se" variant="contained" size="large">
+                Associe-se
+              </Button>
               <Button
                 component={Link}
                 to="/quem-somos"
@@ -117,10 +132,12 @@ function HomeHero() {
             sx={{
               display: { xs: 'none', md: 'flex' },
               alignItems: 'stretch',
-              justifySelf: 'end',
-              gap: 3,
-              width: '100%',
-              maxWidth: 442,
+              gap: { md: 4, lg: 6 },
+              // Bleed out of the column: left into the gap beside the text, and
+              // right into the page margin, up to 96px or as much as it has
+              // (never less than the container's 24px gutter).
+              ml: -3,
+              mr: `calc(-1 * min(96px, max(24px, (100vw - ${layout.maxWidth}px) / 2 + 24px)))`,
             }}
           >
             <BinaryRail />
@@ -131,17 +148,16 @@ function HomeHero() {
                 placeItems: 'center',
                 position: 'relative',
                 aspectRatio: '1',
-                bgcolor: colors.paper,
+                background: `linear-gradient(${sky.top}, ${sky.bottom})`,
+                // Feather all four edges into the hero's black. The eased stops
+                // avoid the visible seam a straight ramp leaves.
+                maskImage: ['to right', 'to bottom']
+                  .map((dir) => `linear-gradient(${dir}, ${skyFade})`)
+                  .join(', '),
+                maskComposite: 'intersect',
               }}
             >
-              <Box
-                component="img"
-                src="/brand/logo-mark.svg"
-                alt=""
-                width={586}
-                height={720}
-                sx={{ display: 'block', width: 'auto', height: '62%' }}
-              />
+              {wide && <FlyingBorb />}
             </Box>
           </Box>
         </Box>

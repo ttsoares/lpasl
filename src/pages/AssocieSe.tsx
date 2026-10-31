@@ -1,4 +1,5 @@
 import { Box, Button, Link as MuiLink, Stack, Typography } from '@mui/material'
+import { Borb } from '../components/Borb/Borb'
 import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { documents } from '../content/documents'
@@ -58,14 +59,17 @@ export function AssocieSe() {
 
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 4 }}>
               {proposal && (
-                <Button
-                  href={proposal.href}
-                  download={proposal.filename}
-                  variant="contained"
-                  size="large"
-                >
-                  Baixar a proposta (PDF, {proposal.size})
-                </Button>
+                <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                  <Button
+                    href={proposal.href}
+                    download={proposal.filename}
+                    variant="contained"
+                    size="large"
+                  >
+                    Baixar a proposta (PDF, {proposal.size})
+                  </Button>
+                  <Borb />
+                </Box>
               )}
               <Button href={`mailto:${site.emails.general}`} variant="outlined" size="large">
                 Enviar por e-mail
