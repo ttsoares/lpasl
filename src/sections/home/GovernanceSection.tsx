@@ -19,7 +19,7 @@ export function GovernanceSection() {
             </Box>
           </>
         }
-        lead={`Eleita em ${governance.electedOn}.`}
+        lead={`Eleitos em ${governance.electedOn}.`}
         action={{ label: 'Ver coordenação e conselho', to: '/coordenacao' }}
       />
 

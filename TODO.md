@@ -94,8 +94,20 @@ hosting, ASL's decisions, SEO, audits and performance.
       Daniel Dornelles Barbieri"; "Fátima de Fátima Torres Formoso" (2008–2010,
       likely a doubled first name); "Daniel Muller" (Muller or Müller?). Also
       confirm "Priscilla" (two terms) over "Priscila" (one term).
-- [ ] **Election dates before 2016.** Terms from 2014–2016 back show "Data da
-      eleição não localizada". Add the dates if the atas exist.
+- [ ] **Election dates and atas.** Terms from 2014–2016 back show "Data da
+      eleição não consta nos registros publicados". Add the dates if the atas
+      exist, and link each term to its ata (`record` in `people.ts`).
+- [ ] **Approve the body descriptions on `/coordenacao`.** One sentence per
+      body (coordenação, suplentes, conselho fiscal) drafted from the Estatuto,
+      art. 20–23 (`bodyRoles` in `people.ts`). ASL to confirm the wording.
+- [ ] **Annual fee vs "membership is free".** The Estatuto (art. 7, §2) says
+      full members vote and stand for election "30 dias após o seu ingresso e
+      com a quitação da anuidade do exercício", i.e. an annual fee. The site
+      (`/associe-se`, `/coordenacao`, `PRODUCT.md`) says joining is free. ASL
+      must say which is current; if a fee applies, the free-membership copy
+      changes everywhere. Also: the Estatuto has the Coordenação approve new
+      members (art. 7, §2) and the Assembleia only referendar (art. 19), while
+      `/associe-se` says the proposal is voted at the Assembleia.
 - [ ] **Coordination on the home page** shows the seven coordination roles on
       tablets and desktops (phones skip it). Confirm that is the right level of
       detail for a home page.

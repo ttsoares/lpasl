@@ -43,7 +43,30 @@ export type Group = {
 export type PastTerm = {
   period: string
   election?: string
+  /** The published record of the election (ata or edital), when there is one. */
+  record?: { href: string; label: string }
   groups: Group[]
+}
+
+/** The edital that convened the election of the current term. */
+export const currentElectionRecord = {
+  href: '/noticias/edital-de-convocacao-1-2025',
+  label: 'Edital de convocação 1/2025',
+}
+
+/**
+ * What each body does, in one sentence, from the Estatuto (2019): art. 20–23.
+ * Draft wording pending ASL's approval; tracked in TODO.md.
+ */
+export const bodyRoles: Record<string, string> = {
+  Coordenação:
+    'Dirige a associação: prepara o plano de trabalho e o orçamento, convoca as assembleias e coordena os programas (art. 20 e 21).',
+  'Suplentes da coordenação':
+    'Assumem um cargo da coordenação que fique vago, pela ordem da chapa eleita (art. 20 e 21).',
+  'Conselho fiscal':
+    'Examina as contas e os balanços da associação e emite pareceres sobre eles; reúne-se a cada três meses (art. 23).',
+  'Suplentes do conselho fiscal':
+    'Assumem o lugar de um conselheiro que deixe o cargo, pela ordem da chapa eleita (art. 22).',
 }
 
 const coordination = (
@@ -86,7 +109,7 @@ const council = (title: string, names: (string | null)[]): Group => ({
 export const pastTerms: PastTerm[] = [
   {
     period: '2022–2025',
-    election: 'Eleita em 22 de outubro de 2022',
+    election: 'Eleitos em 22 de outubro de 2022',
     groups: [
       coordination(
         'Sady Jacques',
@@ -116,7 +139,7 @@ export const pastTerms: PastTerm[] = [
   },
   {
     period: '2019–2021',
-    election: 'Eleita em 15 de dezembro de 2018',
+    election: 'Eleitos em 15 de dezembro de 2018',
     groups: [
       coordination('Fabrício Reis da Silva', 'Daniel Muller', 'Sady Jacques'),
       council('Conselho geral', ['Ricardo Fritsch', 'Carlos Alberto Jacques de Castro', 'José Francisco Nunes Fernandez', 'Clarisse de Lima Abrahão']),
@@ -134,7 +157,7 @@ export const pastTerms: PastTerm[] = [
   },
   {
     period: '2016–2018',
-    election: 'Eleita em 14 de dezembro de 2016',
+    election: 'Eleitos em 14 de dezembro de 2016',
     groups: [
       coordination('Sady Jacques', 'Ricardo Fritsch', 'Clarisse de Lima Abrahão'),
       council('Conselho geral', [

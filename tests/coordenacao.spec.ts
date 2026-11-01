@@ -4,7 +4,7 @@ test.describe('/coordenacao', () => {
   test('the archive of previous terms is on phones too', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/coordenacao')
-    await expect(page.getByRole('heading', { name: 'Gestões anteriores' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Mandatos anteriores' })).toBeVisible()
     await expect(page.locator('details')).toHaveCount(8)
   })
 
@@ -28,7 +28,40 @@ test.describe('/coordenacao', () => {
   test('unknown election dates are stated, not left blank', async ({ page }) => {
     await page.goto('/coordenacao')
     const term = page.locator('details').filter({ has: page.locator('summary h3', { hasText: '2014–2016' }) })
-    await expect(term.locator('summary')).toContainText('Data da eleição não localizada')
+    await expect(term.locator('summary')).toContainText('Data da eleição não consta nos registros publicados')
+  })
+
+  test('the current term links to the edital that convened its election', async ({ page }) => {
+    await page.goto('/coordenacao')
+    await expect(page.getByRole('link', { name: 'Edital de convocação 1/2025' })).toHaveAttribute(
+      'href',
+      '/noticias/edital-de-convocacao-1-2025',
+    )
+  })
+
+  test('each body says what it does', async ({ page }) => {
+    await page.goto('/coordenacao')
+    await expect(page.getByText(/Examina as contas e os balanços/)).toBeVisible()
+  })
+
+  test('a link to one term opens it', async ({ page }) => {
+    await page.goto('/coordenacao#mandato-2010-2012')
+    await expect(page.locator('#mandato-2010-2012')).toHaveAttribute('open', '')
+    await expect(page.locator('#mandato-2010-2012 h4').first()).toBeVisible()
+  })
+
+  test('on phones each body is followed by its own substitutes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/coordenacao')
+    const titles = await page
+      .locator('#atual-title ~ div h3')
+      .allTextContents()
+    expect(titles).toEqual([
+      'Coordenação',
+      'Suplentes da coordenação',
+      'Conselho fiscal',
+      'Suplentes do conselho fiscal',
+    ])
   })
 
   test('the closing band leads to joining', async ({ page }) => {
