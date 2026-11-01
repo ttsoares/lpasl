@@ -1,96 +1,42 @@
-import { Box, Button, Container, Link as MuiLink, Stack, Typography } from '@mui/material'
-import { visuallyHidden } from '@mui/utils'
+import { Box, Button, Container, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
-import { initiatives, partnerships } from '../content/initiatives'
+import { initiatives, partnerships, type Initiative } from '../content/initiatives'
 import { site } from '../content/site'
 import { hideOnPhone } from '../styles/phone'
-import { colors, typeScale } from '../styles/tokens'
+import { colors, textRoles } from '../styles/tokens'
+import {
+  AtuacaoHero,
+  FislAct,
+  KafuneAct,
+  PslAct,
+  RadioAct,
+  TvAct,
+} from '../sections/atuacao/Acts'
+import '../sections/atuacao/atuacao.css'
+
+/** Each initiative gets its own scroll device; see sections/atuacao. */
+const acts: Record<string, (props: { initiative: Initiative }) => React.JSX.Element> = {
+  'psl-br': PslAct,
+  fisl: FislAct,
+  'tv-software-livre': TvAct,
+  'radio-software-livre': RadioAct,
+  'cine-kafune': KafuneAct,
+}
 
 export function Atuacao() {
   return (
     <>
-      <PageHero
-        title="Atuação"
-        lead="Sete iniciativas e duas parcerias institucionais que levam o software livre da discussão para a prática."
-      />
+      <div className="atu">
+        <AtuacaoHero lead="Cinco iniciativas e duas parcerias institucionais que levam o software livre da discussão para a prática." />
 
-      <Section labelledBy="iniciativas-heading" sx={{ pt: { xs: 8, md: 10 } }}>
-        <Typography id="iniciativas-heading" component="h2" sx={visuallyHidden}>
-          Iniciativas
-        </Typography>
-
-        <Box component="ol" sx={{ listStyle: 'none', m: 0, p: 0 }}>
-          {initiatives.map((initiative, index) => (
-            <Box
-              component="li"
-              key={initiative.slug}
-              id={initiative.slug}
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', md: '4fr 7fr' },
-                columnGap: 6,
-                rowGap: 2,
-                py: { xs: 4, md: 6 },
-                borderTop: index === 0 ? 'none' : '1px solid',
-                borderColor: 'divider',
-                scrollMarginTop: 96,
-              }}
-            >
-              <Box>
-                <Typography
-                  component="h3"
-                  sx={{
-                    fontSize: typeScale.h3,
-                    fontWeight: 600,
-                    letterSpacing: '-0.01em',
-                    lineHeight: 1.2,
-                    maxWidth: '20ch',
-                  }}
-                >
-                  {initiative.name}
-                </Typography>
-
-                {initiative.since && (
-                  <Typography
-                    sx={{ mt: 2, fontSize: typeScale.small, color: 'text.secondary' }}
-                  >
-                    Desde {initiative.since}
-                  </Typography>
-                )}
-              </Box>
-
-              <Box>
-                {initiative.body.map((paragraph) => (
-                  <Typography
-                    key={paragraph.slice(0, 24)}
-                    sx={{
-                      maxWidth: '58ch',
-                      lineHeight: 1.65,
-                      '& + &': { mt: 2 },
-                    }}
-                  >
-                    {paragraph}
-                  </Typography>
-                ))}
-
-                {initiative.url && (
-                  <MuiLink
-                    href={initiative.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Saiba mais sobre ${initiative.name} (abre em nova aba)`}
-                    sx={{ display: 'inline-block', mt: 3, fontWeight: 500 }}
-                  >
-                    Saiba mais
-                  </MuiLink>
-                )}
-              </Box>
-            </Box>
-          ))}
-        </Box>
-      </Section>
+        <section aria-label="Iniciativas">
+          {initiatives.map((initiative) => {
+            const Act = acts[initiative.slug]
+            return Act ? <Act key={initiative.slug} initiative={initiative} /> : null
+          })}
+        </section>
+      </div>
 
       <Section tone="sand" labelledBy="parcerias-heading">
         <Box
@@ -117,14 +63,14 @@ export function Atuacao() {
               >
                 <Typography
                   component="h3"
-                  sx={{ fontSize: typeScale.subhead, fontWeight: 600, letterSpacing: '-0.01em' }}
+                  sx={{ ...textRoles.itemTitle }}
                 >
                   {partnership.name}
                 </Typography>
                 {partnership.body.map((paragraph) => (
                   <Typography
                     key={paragraph.slice(0, 24)}
-                    sx={{ mt: 2, maxWidth: '58ch', lineHeight: 1.65 }}
+                    sx={{ ...textRoles.prose, mt: 2 }}
                   >
                     {paragraph}
                   </Typography>
@@ -167,8 +113,7 @@ export function Atuacao() {
               sx={{
                 mt: 3,
                 maxWidth: '46ch',
-                fontSize: typeScale.subhead,
-                lineHeight: 1.5,
+                ...textRoles.lead,
                 color: 'rgba(255, 255, 255, 0.76)',
               }}
             >

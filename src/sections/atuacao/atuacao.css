@@ -1,0 +1,461 @@
+/*
+ * Atuação: one dark run of five scenes, each with its own scroll device.
+ *
+ * Every rule outside `.is-live` is the finished composition, which is what
+ * phones, reduced motion and no-JS get. `useScrollProgress` adds `.is-live`
+ * on wide screens with motion allowed and writes the section's progress into
+ * `--p` (0 to 1). Only transform, opacity and clip-path animate.
+ */
+
+.atu {
+  background: #000;
+  color: #fff;
+}
+
+.atu-wrap {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1248px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.atu a:focus-visible,
+.atu button:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Shared copy */
+
+.atu-name {
+  margin: 0;
+  font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  /* The site's h2 role: same size and tracking as every other section title. */
+  font-size: clamp(1.9375rem, 3.4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.atu-since {
+  margin: 16px 0 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+  color: #ffc00f;
+}
+
+.atu-body {
+  max-width: 65ch;
+  margin: 16px 0 0;
+  /* Light text on black reads tighter than it is: a touch more leading than paper. */
+  line-height: 1.65;
+  text-wrap: pretty;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.atu-since + .atu-body,
+.atu-onair + .atu-body {
+  margin-top: 24px;
+}
+
+.atu-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 16px;
+  font-weight: 500;
+  color: #ffc00f;
+  text-underline-offset: 4px;
+}
+
+.atu-link:hover {
+  color: #fff;
+}
+
+.atu-act {
+  position: relative;
+  padding: 96px 0;
+  /* Home page rows deep-link here (/atuacao#fisl); clear the sticky header. */
+  scroll-margin-top: 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.atu-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .atu-split {
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+  }
+
+  .atu-split-flip {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+/* Hero: the page opens on its title */
+
+.atu-hero {
+  padding: 72px 0 80px;
+}
+
+.atu-title {
+  margin: 0;
+  font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: clamp(2.75rem, 8vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: #ffc00f;
+}
+
+.atu-lead {
+  max-width: 44ch;
+  margin: 28px 0 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* PSL.Br: a paper panel wipes open across the logo */
+
+.atu-psl-panel {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  max-width: 420px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.atu-psl-panel img {
+  width: 180px;
+  height: 180px;
+}
+
+.atu-psl.is-live {
+  --r: clamp(0, (var(--p, 0) - 0.12) * 3.2, 1);
+}
+
+.atu-psl.is-live .atu-psl-panel {
+  clip-path: inset(0 calc((1 - var(--r)) * 100%) 0 0 round 8px);
+}
+
+.atu-psl.is-live .atu-psl-panel img {
+  transform: scale(calc(0.8 + var(--r) * 0.2));
+}
+
+/* FISL: the yellow sign shows alone, then the diamond opens onto the poster */
+
+.atu-fisl-frame {
+  justify-self: center;
+  width: min(100%, 440px);
+  aspect-ratio: 1;
+}
+
+.atu-fisl-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.atu-fisl.is-live {
+  --o: clamp(0, (var(--p, 0) - 0.1) * 1.6, 1);
+  height: 240vh;
+  padding: 0;
+}
+
+.atu-fisl.is-live .atu-stage {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  align-items: center;
+  height: calc(100vh - 80px);
+}
+
+.atu-fisl.is-live .atu-fisl-frame {
+  width: min(100%, 440px, 62vh);
+}
+
+.atu-fisl.is-live .atu-fisl-frame img {
+  clip-path: polygon(
+    calc(50% - var(--o) * 50%) calc((1 - var(--o)) * 3.5%),
+    calc(100% - (1 - var(--o)) * 3.5%) calc(50% - var(--o) * 50%),
+    calc(50% + var(--o) * 50%) calc(100% - (1 - var(--o)) * 3.5%),
+    calc((1 - var(--o)) * 3.5%) calc(50% + var(--o) * 50%)
+  );
+  transform: scale(calc(0.72 + var(--o) * 0.28)) rotate(calc((1 - var(--o)) * -14deg));
+}
+
+/* TV Software Livre, the peak: a small monitor grows to fill the screen */
+
+.atu-tv-giant {
+  display: none;
+}
+
+.atu-tv-frame {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 24px;
+}
+
+.atu-tv-screen {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 654 / 480;
+  border-radius: 8px;
+  background: #111;
+}
+
+.atu-tv-screen video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Scanlines make the archive's softness read as broadcast, not as low quality. */
+.atu-tv-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.45;
+}
+
+.atu-tv-screen.has-sound::after {
+  display: none;
+}
+
+.atu-tv-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 16px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.atu-tv-sound {
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 4px;
+  background: #ffc00f;
+  color: #000;
+  font: 600 1rem 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, sans-serif;
+  cursor: pointer;
+  transition: background-color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.atu-tv-sound:hover {
+  background: #e0a800;
+}
+
+.atu-tv-copy .atu-copy {
+  max-width: 720px;
+  margin: 64px auto 0;
+}
+
+.atu-tv-track.is-live {
+  --g: clamp(0, (var(--p, 0) - 0.08) * 1.45, 1);
+  /* The tallest span on the page: this is the moment it was built for. */
+  height: 300vh;
+}
+
+.atu-tv:has(.atu-tv-track.is-live) {
+  padding-top: 0;
+}
+
+.atu-tv-track.is-live .atu-tv-stage {
+  position: sticky;
+  top: 80px;
+  display: grid;
+  place-items: center;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+.atu-tv-track.is-live .atu-tv-giant {
+  display: block;
+  position: absolute;
+  margin: 0;
+  font-family: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: 44vw;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 192, 15, 0.4);
+  pointer-events: none;
+  user-select: none;
+  transform: scale(calc(0.9 + var(--g) * 0.25));
+}
+
+.atu-tv-track.is-live .atu-tv-frame {
+  position: relative;
+  z-index: 1;
+  max-width: none;
+  padding: 0;
+  width: min(100%, calc((100vh - 80px) * 1.3625));
+}
+
+.atu-tv-track.is-live .atu-tv-screen {
+  transform: scale(calc(0.36 + var(--g) * 0.64));
+  border-radius: calc((1 - var(--g)) * 24px);
+}
+
+.atu-tv-track.is-live .atu-tv-screen::after {
+  opacity: calc(0.6 - var(--g) * 0.3);
+}
+
+.atu-tv-track.is-live .atu-tv-caption {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+/* Rádio Software Livre: a studio photo drifting slower than the page */
+
+.atu-radio-photo {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.atu-radio-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.atu-onair {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+.atu-onair-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e5322d;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .atu-onair-dot {
+    animation: atu-onair 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes atu-onair {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* The photo stays inside its column; it only drifts within its own frame. */
+.atu-radio.is-live .atu-radio-photo img {
+  transform: translate3d(0, calc((var(--p, 0) - 0.5) * -6%), 0) scale(1.12);
+}
+
+/* Cine Kafuné: letterbox bars part on the logo */
+
+.atu-kafune {
+  background: #1c1c1c;
+}
+
+.atu-kafune-screen {
+  max-width: 1600px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.atu-kafune-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.atu-kafune-copy .atu-copy {
+  max-width: 640px;
+  margin: 64px auto 0;
+}
+
+.atu-kafune.is-live {
+  --l: clamp(0, (var(--p, 0) - 0.1) * 2.6, 1);
+}
+
+.atu-kafune.is-live .atu-kafune-screen img {
+  clip-path: inset(calc((1 - var(--l)) * 50%) 0);
+  transform: scale(calc(1.08 - var(--l) * 0.08));
+}
+
+/* Phones: tighter rhythm, the front plane steps aside */
+
+@media (max-width: 599.95px) {
+  .atu-act {
+    padding: 64px 0;
+  }
+
+  .atu-hero {
+    padding: 48px 0 56px;
+  }
+
+  /* The banner is mostly empty black: crop its sides so the logo stays legible. */
+  .atu-kafune-screen img {
+    height: 160px;
+    object-fit: cover;
+  }
+
+  .atu-lead {
+    font-size: 1.0625rem;
+  }
+
+  .atu-psl-panel {
+    max-width: none;
+    aspect-ratio: 16 / 10;
+  }
+
+  .atu-tv-frame {
+    padding: 0;
+  }
+
+  .atu-tv-screen {
+    border-radius: 0;
+  }
+
+  .atu-tv-caption {
+    padding: 0 24px;
+  }
+}

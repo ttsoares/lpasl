@@ -58,27 +58,6 @@ export const initiatives: Initiative[] = [
       'Atualmente transmite por demanda eventos livres e independentes.',
     ],
     since: '2009',
-    url: 'http://www.radio.softwarelivre.org/',
-  },
-  {
-    slug: 'pontao-minuano',
-    name: 'Pontão de Cultura Digital Minuano',
-    summary:
-      'Integra a Rede Cultura Viva com cursos e oficinas de vídeo, áudio, materiais gráficos e metarreciclagem para os Pontos de Cultura da região Sul.',
-    body: [
-      'Integrando a Rede Cultura Viva, o projeto disponibiliza cursos e oficinas de vídeo, materiais gráficos, metarreciclagem e áudio.',
-      'O objetivo é instrumentalizar os Pontos de Cultura da região Sul do país com ferramentas de comunicação e de produção cultural em software livre.',
-    ],
-  },
-  {
-    slug: 'festival-de-cultura-livre',
-    name: 'Festival de Cultura Livre',
-    summary:
-      'Acontece junto com o FISL e aproxima hackers, desenvolvedores, artistas e produtores culturais em torno da Cultura Livre.',
-    body: [
-      'O Festival de Cultura Livre acontece junto com o FISL e proporciona uma aproximação entre hackers, desenvolvedores, artistas e produtores culturais.',
-      'O encontro trabalha o amadurecimento do software livre como base para uma sociedade fundada nos conceitos da Cultura Livre.',
-    ],
   },
   {
     slug: 'cine-kafune',
