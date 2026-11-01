@@ -3,7 +3,7 @@ import { PageHero } from '../components/PageHero/PageHero'
 import { RuledRow } from '../components/RuledRow/RuledRow'
 import { Section } from '../components/Section/Section'
 import { site } from '../content/site'
-import { typeScale } from '../styles/tokens'
+import { textRoles } from '../styles/tokens'
 
 const channels = [
   {
@@ -84,7 +84,7 @@ export function Contato() {
           </Box>
 
           <Box>
-            <Typography component="h2" sx={{ fontSize: typeScale.subhead, fontWeight: 600, mb: 1 }}>
+            <Typography component="h2" sx={{ ...textRoles.itemTitle, mb: 1 }}>
               Telefone
             </Typography>
             <MuiLink href={`tel:${site.phone.href}`} underline="always" sx={linkSx}>

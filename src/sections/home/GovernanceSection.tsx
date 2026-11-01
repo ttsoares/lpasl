@@ -3,7 +3,7 @@ import { Section } from '../../components/Section/Section'
 import { SectionHeading } from '../../components/SectionHeading/SectionHeading'
 import { governance } from '../../content/people'
 import { hideOnPhone } from '../../styles/phone'
-import { typeScale } from '../../styles/tokens'
+import { textRoles } from '../../styles/tokens'
 
 export function GovernanceSection() {
   return (
@@ -38,7 +38,7 @@ export function GovernanceSection() {
       >
         {governance.coordination.map((person) => (
           <Box component="li" key={person.name}>
-            <Typography sx={{ fontSize: typeScale.small, color: 'text.secondary' }}>
+            <Typography sx={{ ...textRoles.meta, color: 'text.secondary' }}>
               {person.role}
             </Typography>
             <Typography sx={{ mt: 1, fontWeight: 600, letterSpacing: '-0.01em' }}>
@@ -52,10 +52,10 @@ export function GovernanceSection() {
         sx={{
           mt: { xs: 4, md: 6 },
           pt: 3,
-          maxWidth: '58ch',
+          maxWidth: textRoles.prose.maxWidth,
           borderTop: '1px solid',
           borderColor: 'divider',
-          fontSize: typeScale.small,
+          ...textRoles.meta,
           color: 'text.secondary',
         }}
       >

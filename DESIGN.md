@@ -63,6 +63,21 @@ Scale: `display clamp(3rem, 7vw, 6rem)`, `h1 clamp(2.4375rem, 4.6vw, 4rem)`,
 small `0.875rem`. The text scale follows a Major Third (×1.25): 16 → 20 → 25 → 31 → 39.
 Only the display size is larger, as the brand's one loud element. Line length capped at 65ch.
 
+Text roles (`textRoles` in `src/styles/tokens.ts`, spread into `sx`). Use the role, never
+a one-off size, so the same job reads the same on every page:
+
+| Role | Treatment | Used for |
+| --- | --- | --- |
+| `statement` | Archivo 600, width 112%, h3 size, leading 1.25 | One strong line: mission, term periods |
+| `itemTitle` | Plex Sans 600, subhead size, leading 1.3, −0.01em | Row and block titles, article subheads |
+| `lead` | Plex Sans subhead size, leading 1.5 | The sentence under a title, article standfirst |
+| `prose` | Plex Sans body, leading 1.6, max 65ch, `text-wrap: pretty` | All running text |
+| `meta` | Plex Sans small, leading 1.45, tabular figures | Dates, years, captions |
+
+Headings balance their lines (`text-wrap: balance`). Light text on black takes leading
+1.65 instead of 1.6. Long articles (editais) open with their summary as a standfirst and
+split into named parts (Convocação, Ordem do dia) under `itemTitle` subheads.
+
 ### Space, shape, motion
 
 - Spacing: 8px base; 8 / 16 / 24 / 32 / 48 / 64. Section rhythm doubles the top step
@@ -75,6 +90,10 @@ Only the display size is larger, as the brand's one loud element. Line length ca
   (`components/Borb`, two wing images squeezed toward the body) flying in from above
   with its wings flapping, landing on the hero's "Associe-se" button (anchored to the button, so it holds at any size), flapping slowly for 5s and then vanishing so only the logo stays (2.1s flight). Everything is disabled under
   `prefers-reduced-motion`.
+- Exception, `/atuacao` (2026-11-01, requested by the user): one scroll-driven scene per
+  initiative (`src/sections/atuacao/`), built with the scroll-craft skill. Scenes run only at
+  ≥900px with motion allowed; phones, reduced motion and no-JS get the finished static
+  composition. Brief in `scrollcraft/builds/atuacao/BRIEF.md`.
 - Focus: 3px `currentColor` ring with 3px offset, visible on paper and on ink.
 
 ## Layout concept

@@ -58,3 +58,47 @@ export const sky = {
   top: '#1E6FC2',
   bottom: '#7DBBEC',
 } as const
+
+/**
+ * Text roles, spread into `sx`. One definition per job so a role reads the
+ * same on every page; sizes come from `typeScale`. Rationale in DESIGN.md.
+ */
+export const textRoles = {
+  /** Archivo at reading size, for one strong line: a mission, a term period. */
+  statement: {
+    fontFamily: fonts.display,
+    fontWeight: 600,
+    fontStretch: '112%',
+    fontSize: typeScale.h3,
+    lineHeight: 1.25,
+    letterSpacing: '-0.02em',
+    textWrap: 'balance',
+  },
+  /** Title of a row, card or block inside a section, and article subheads. */
+  itemTitle: {
+    fontFamily: fonts.body,
+    fontWeight: 600,
+    fontSize: typeScale.subhead,
+    lineHeight: 1.3,
+    letterSpacing: '-0.01em',
+    textWrap: 'balance',
+  },
+  /** The sentence under a title that says what the section is for. */
+  lead: {
+    fontSize: typeScale.subhead,
+    lineHeight: 1.5,
+    textWrap: 'pretty',
+  },
+  /** Running text. */
+  prose: {
+    maxWidth: layout.textWidth,
+    lineHeight: 1.6,
+    textWrap: 'pretty',
+  },
+  /** Dates, years, counts and captions. */
+  meta: {
+    fontSize: typeScale.small,
+    lineHeight: 1.45,
+    fontVariantNumeric: 'tabular-nums',
+  },
+} as const

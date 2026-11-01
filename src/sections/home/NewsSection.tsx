@@ -4,7 +4,7 @@ import { Section } from '../../components/Section/Section'
 import { SectionHeading } from '../../components/SectionHeading/SectionHeading'
 import { formatPostDate, posts } from '../../content/posts'
 import { hideOnPhone } from '../../styles/phone'
-import { typeScale } from '../../styles/tokens'
+import { textRoles } from '../../styles/tokens'
 
 export function NewsSection() {
   return (
@@ -33,7 +33,7 @@ export function NewsSection() {
             }}
           >
             <Typography
-              sx={{ fontSize: typeScale.small, color: 'text.primary', fontWeight: 600 }}
+              sx={{ ...textRoles.meta, color: 'text.primary', fontWeight: 600 }}
             >
               {post.category}
             </Typography>
@@ -41,7 +41,7 @@ export function NewsSection() {
             <Box>
               <Typography
                 component="h3"
-                sx={{ fontSize: typeScale.subhead, fontWeight: 600, letterSpacing: '-0.01em' }}
+                sx={{ ...textRoles.itemTitle }}
               >
                 <MuiLink
                   component={Link}
@@ -52,7 +52,7 @@ export function NewsSection() {
                   {post.title}
                 </MuiLink>
               </Typography>
-              <Typography sx={{ mt: 1, color: 'text.secondary', maxWidth: '58ch', ...hideOnPhone }}>
+              <Typography sx={{ ...textRoles.prose, mt: 1, color: 'text.secondary', ...hideOnPhone }}>
                 {post.summary}
               </Typography>
             </Box>
@@ -61,7 +61,7 @@ export function NewsSection() {
               component="time"
               dateTime={post.date}
               sx={{
-                fontSize: typeScale.small,
+                ...textRoles.meta,
                 color: 'text.secondary',
                 justifySelf: { md: 'end' },
                 textAlign: { md: 'right' },

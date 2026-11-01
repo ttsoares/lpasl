@@ -2,7 +2,7 @@ import { Box, Link as MuiLink, Typography } from '@mui/material'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { hideOnPhone } from '../../styles/phone'
-import { typeScale } from '../../styles/tokens'
+import { textRoles } from '../../styles/tokens'
 
 type RuledRowProps = {
   title: string
@@ -39,7 +39,7 @@ export function RuledRow({ title, description, meta, to, children, brief = false
     >
       <Typography
         component="h3"
-        sx={{ fontSize: typeScale.subhead, fontWeight: 600, letterSpacing: '-0.01em' }}
+        sx={{ ...textRoles.itemTitle }}
       >
         {to ? (
           <MuiLink
@@ -56,17 +56,16 @@ export function RuledRow({ title, description, meta, to, children, brief = false
       </Typography>
 
       <Box sx={detail}>
-        <Typography sx={{ color: 'text.secondary', maxWidth: '58ch' }}>{description}</Typography>
+        <Typography sx={{ ...textRoles.prose, color: 'text.secondary' }}>{description}</Typography>
         {children}
       </Box>
 
       {meta && (
         <Typography
           sx={{
-            fontSize: typeScale.small,
+            ...textRoles.meta,
             color: 'text.secondary',
             justifySelf: { md: 'end' },
-            fontVariantNumeric: 'tabular-nums',
             ...detail,
           }}
         >

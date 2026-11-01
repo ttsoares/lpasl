@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from '@mui/material'
 import type { ReactNode } from 'react'
 import { BinaryRail } from '../BinaryRail/BinaryRail'
-import { colors, typeScale } from '../../styles/tokens'
+import { colors, textRoles, typeScale } from '../../styles/tokens'
 
 type PageHeroProps = {
   title: string
@@ -64,8 +64,7 @@ export function PageHero({ title, lead, children }: PageHeroProps) {
               sx={{
                 mt: 4,
                 maxWidth: '52ch',
-                fontSize: typeScale.subhead,
-                lineHeight: 1.5,
+                ...textRoles.lead,
                 color: 'rgba(255, 255, 255, 0.76)',
               }}
             >

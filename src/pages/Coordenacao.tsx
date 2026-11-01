@@ -6,7 +6,7 @@ import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { governance, pastTerms, type Group } from '../content/people'
 import { hideOnPhone } from '../styles/phone'
-import { colors, typeScale } from '../styles/tokens'
+import { colors, textRoles } from '../styles/tokens'
 
 const currentGroups: Group[] = [
   { title: 'Coordenação', people: [...governance.coordination] },
@@ -47,7 +47,7 @@ function PeopleGroup({ group }: { group: Group }) {
       <Typography
         id={id}
         component="h3"
-        sx={{ fontSize: typeScale.subhead, fontWeight: 600, letterSpacing: '-0.01em' }}
+        sx={{ ...textRoles.itemTitle }}
       >
         {group.title}
       </Typography>
@@ -75,7 +75,7 @@ function PeopleGroup({ group }: { group: Group }) {
               '&:last-of-type': { borderBottom: 'none', pb: 0 },
             }}
           >
-            <Typography component="dt" sx={{ fontSize: typeScale.small, color: 'text.secondary' }}>
+            <Typography component="dt" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
               {person.role}
             </Typography>
             <Typography component="dd" sx={{ m: 0, fontWeight: 500 }}>
@@ -164,17 +164,13 @@ export function Coordenacao() {
                   <Typography
                     component="span"
                     sx={{
-                      fontFamily: '"Archivo Variable", "Archivo", system-ui, sans-serif',
-                      fontWeight: 600,
-                      fontStretch: '112%',
-                      letterSpacing: '-0.02em',
-                      fontSize: typeScale.h3,
+                      ...textRoles.statement,
                     }}
                   >
                     {term.period}
                   </Typography>
                   {term.election && (
-                    <Typography component="span" sx={{ fontSize: typeScale.small, color: 'text.secondary' }}>
+                    <Typography component="span" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
                       {term.election}
                     </Typography>
                   )}

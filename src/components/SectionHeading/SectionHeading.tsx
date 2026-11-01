@@ -1,7 +1,7 @@
 import { Box, Link as MuiLink, Typography } from '@mui/material'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { typeScale } from '../../styles/tokens'
+import { textRoles } from '../../styles/tokens'
 
 type SectionHeadingProps = {
   id: string
@@ -35,7 +35,7 @@ export function SectionHeading({ id, title, lead, action }: SectionHeadingProps)
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: '46ch' }}>
         {lead && (
           <Typography
-            sx={{ fontSize: typeScale.subhead, lineHeight: 1.5, color: 'text.secondary' }}
+            sx={{ ...textRoles.lead, color: 'text.secondary' }}
           >
             {lead}
           </Typography>

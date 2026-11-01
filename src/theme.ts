@@ -8,6 +8,7 @@ const display = {
   fontStretch: '125%',
   letterSpacing: '-0.035em',
   lineHeight: 0.96,
+  textWrap: 'balance',
 } as const
 
 export function getTheme(mode: PaletteMode = 'light') {
@@ -53,10 +54,11 @@ export function getTheme(mode: PaletteMode = 'light') {
         fontSize: typeScale.h3,
         lineHeight: 1.25,
         letterSpacing: '-0.01em',
+        textWrap: 'balance',
       },
       h4: { fontFamily: fonts.body, fontWeight: 600, letterSpacing: '-0.01em' },
       subtitle1: { fontSize: typeScale.subhead, lineHeight: 1.4 },
-      body1: { fontSize: typeScale.body, lineHeight: 1.6 },
+      body1: { fontSize: typeScale.body, lineHeight: 1.6, textWrap: 'pretty' },
       body2: { fontSize: typeScale.small, lineHeight: 1.6 },
       button: {
         textTransform: 'none',

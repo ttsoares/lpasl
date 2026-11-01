@@ -4,7 +4,7 @@ import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { about } from '../content/about'
 import { hideOnPhone } from '../styles/phone'
-import { colors, typeScale } from '../styles/tokens'
+import { colors, textRoles } from '../styles/tokens'
 
 export function QuemSomos() {
   return (
@@ -34,7 +34,7 @@ export function QuemSomos() {
 
             <Box sx={{ mt: 4 }}>
               {about.intro.map((paragraph) => (
-                <Typography key={paragraph} sx={{ maxWidth: '58ch', '& + &': { mt: 3 } }}>
+                <Typography key={paragraph} sx={{ ...textRoles.prose, '& + &': { mt: 2 } }}>
                   {paragraph}
                 </Typography>
               ))}
@@ -71,7 +71,7 @@ export function QuemSomos() {
                   '&:last-of-type': { borderBottom: 'none' },
                 }}
               >
-                <Typography component="dt" sx={{ fontSize: typeScale.small, color: 'text.secondary' }}>
+                <Typography component="dt" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
                   {fact.label}
                 </Typography>
                 <Typography component="dd" sx={{ m: 0, fontWeight: 500 }}>
@@ -98,12 +98,7 @@ export function QuemSomos() {
           </Typography>
           <Typography
             sx={{
-              fontFamily: '"Archivo Variable", "Archivo", system-ui, sans-serif',
-              fontWeight: 600,
-              fontStretch: '112%',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.25,
-              fontSize: typeScale.h3,
+              ...textRoles.statement,
               maxWidth: '34ch',
             }}
           >
@@ -137,15 +132,14 @@ export function QuemSomos() {
               <Typography
                 aria-hidden
                 sx={{
-                  fontSize: typeScale.small,
+                  ...textRoles.meta,
                   color: 'text.secondary',
-                  fontVariantNumeric: 'tabular-nums',
                   pt: 0.5,
                 }}
               >
                 {index + 1}
               </Typography>
-              <Typography sx={{ maxWidth: '62ch' }}>{objective}</Typography>
+              <Typography sx={textRoles.prose}>{objective}</Typography>
             </Box>
           ))}
         </Box>

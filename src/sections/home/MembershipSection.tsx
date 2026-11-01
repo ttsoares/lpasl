@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Section } from '../../components/Section/Section'
 import { hideOnPhone } from '../../styles/phone'
-import { colors, typeScale } from '../../styles/tokens'
+import { colors, textRoles } from '../../styles/tokens'
 
 export function MembershipSection() {
   return (
@@ -34,8 +34,7 @@ export function MembershipSection() {
             sx={{
               mt: 3,
               maxWidth: '46ch',
-              fontSize: typeScale.subhead,
-              lineHeight: 1.5,
+              ...textRoles.lead,
               color: colors.ink,
             }}
           >

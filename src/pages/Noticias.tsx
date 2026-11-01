@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { formatPostDate, postsNewestFirst } from '../content/posts'
-import { typeScale } from '../styles/tokens'
+import { textRoles } from '../styles/tokens'
 
 export function Noticias() {
   return (
@@ -20,7 +20,7 @@ export function Noticias() {
         </Typography>
 
         {postsNewestFirst.length === 0 && (
-          <Typography sx={{ color: 'text.secondary', maxWidth: '58ch' }}>
+          <Typography sx={{ ...textRoles.prose, color: 'text.secondary' }}>
             Ainda não há publicações. Esta página reúne os editais de convocação, comunicados e
             novidades da ASL assim que forem publicados.
           </Typography>
@@ -42,14 +42,14 @@ export function Noticias() {
                 alignItems: 'baseline',
               }}
             >
-              <Typography sx={{ fontSize: typeScale.small, color: 'text.primary', fontWeight: 600 }}>
+              <Typography sx={{ ...textRoles.meta, color: 'text.primary', fontWeight: 600 }}>
                 {post.category}
               </Typography>
 
               <Box>
                 <Typography
                   component="h3"
-                  sx={{ fontSize: typeScale.subhead, fontWeight: 600, letterSpacing: '-0.01em' }}
+                  sx={{ ...textRoles.itemTitle }}
                 >
                   <MuiLink
                     component={Link}
@@ -60,7 +60,7 @@ export function Noticias() {
                     {post.title}
                   </MuiLink>
                 </Typography>
-                <Typography sx={{ mt: 1, color: 'text.secondary', maxWidth: '58ch' }}>
+                <Typography sx={{ ...textRoles.prose, mt: 1, color: 'text.secondary' }}>
                   {post.summary}
                 </Typography>
               </Box>
@@ -69,7 +69,7 @@ export function Noticias() {
                 component="time"
                 dateTime={post.date}
                 sx={{
-                  fontSize: typeScale.small,
+                  ...textRoles.meta,
                   color: 'text.secondary',
                   justifySelf: { md: 'end' },
                   textAlign: { md: 'right' },
