@@ -101,6 +101,7 @@ export function Header() {
           <Button
             component={Link}
             to="/associe-se"
+            aria-current={pathname === '/associe-se' ? 'page' : undefined}
             variant="contained"
             size="small"
             sx={{

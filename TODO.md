@@ -3,14 +3,17 @@
 What is left before asl.org.br can replace the current WordPress site.
 Ordered by what blocks what; each item says what "done" looks like.
 
-State as of `861a5fc` (31 Oct 2026): every page is built (home, `/quem-somos`,
+State as of 1 Nov 2026: every page is built (home, `/quem-somos`,
 `/atuacao`, `/coordenacao`, `/documentos`, `/contato`, `/noticias`,
 `/noticias/:slug`, `/associe-se`, 404), the redirect map is generated at build,
-favicons and the Open Graph card are in, and 60 Playwright tests cover routes,
-motion and the phone layout. The home hero flies a 3D swallowtail
-(`src/components/FlyingBorb/`); below 600px the site is a single column with one
-call to action per screen (`src/styles/phone.ts`). What remains is hosting,
-ASL's decisions, SEO, audits and performance.
+favicons and the Open Graph card are in, and 68 Playwright tests cover routes,
+motion, the phone layout, `/atuacao` and `/associe-se`. The home hero flies a 3D
+swallowtail (`src/components/FlyingBorb/`); `/atuacao` is a run of five
+scroll-driven scenes (`src/sections/atuacao/`); below 600px the site is a single
+column with one call to action per screen (`src/styles/phone.ts`). Product
+truth (audience, main action, binding facts) is in `PRODUCT.md`; text roles are
+in `src/styles/tokens.ts` (`textRoles`) and `DESIGN.md`. What remains is
+hosting, ASL's decisions, SEO, audits and performance.
 
 ---
 
@@ -43,7 +46,18 @@ ASL's decisions, SEO, audits and performance.
 
 - [ ] **Membership flow.** Apoia.se (recurring donation), a form plus a payment
       path, or download-the-PDF-and-email-it? The site currently does the last
-      one; confirm it, and the cost.
+      one; confirm it. Cost is settled: membership is free (1 Nov 2026, recorded
+      in `PRODUCT.md`).
+- [ ] **Who may join?** `/associe-se` states no eligibility. Anyone, or are
+      there conditions (age, sponsorship by a member)? *Done when:* one line in
+      "Antes de enviar" says it. (From the /associe-se critique, 1 Nov 2026.)
+- [ ] **Signature format.** Is a photographed or digitally signed proposal
+      accepted, or only a scan of a hand-signed one? This is the biggest
+      friction for new members. *Done when:* "Antes de enviar" says which.
+- [ ] **Approve the data line on `/associe-se`.** "Seus dados: usados apenas
+      para analisar a sua proposta de associação." is a draft (LGPD). ASL must
+      confirm it, and say whether the sender gets a reply when the proposal
+      arrives, so the page can promise it.
 - [ ] **Contact form?** A `mailto:` link is honest and needs no backend. A form
       needs spam protection, a destination mailbox, and an LGPD note. Recommend
       `mailto:` for launch (that is what `/contato` does now).
@@ -129,8 +143,8 @@ ASL's decisions, SEO, audits and performance.
       the current page; MUI's icons and the `@mui/material` barrel are the bulk.
       (three.js is already its own 128 kB gzip chunk, loaded only on the home
       page at 600×600 and up.)
-- [ ] Preload the two fonts used above the fold; consider dropping the
-      Vietnamese and Latin-Ext subsets if Portuguese-only is settled.
+- [ ] Preload the two fonts used above the fold; drop the Vietnamese and
+      Latin-Ext subsets (Portuguese-only is settled in `PRODUCT.md`).
 - [ ] Measure Lighthouse on a throttled connection before launch, not after.
 
 ---
@@ -160,7 +174,7 @@ ASL's decisions, SEO, audits and performance.
       "em movimento."; check it doesn't feel cramped, or reduce the hero
       block's left bleed (`ml: -3` in Home.tsx).
 - [ ] **Perched butterfly on `/associe-se`.** On tablets and desktops its upper
-      wings briefly overlap the end of step 4 ("…Assembleia") until it
+      wings may briefly overlap the end of step 4 (now two lines) until it
       vanishes, about 7s after landing. Shift it right if that bothers anyone.
 - [ ] **Sky image.** `~/ASL/midias/blue-sky.webp` is a watermarked Shutterstock
       preview; do not ship it. The sky is painted in code (`sky.ts`).
@@ -185,9 +199,28 @@ ASL's decisions, SEO, audits and performance.
       permission for the marks is clear.
 - [ ] Print stylesheet for `/documentos` and `/quem-somos`.
 - [ ] `prefers-contrast: more` support.
-- [ ] English version, if ASL wants one. Nothing in the architecture prevents
-      it (content is already separated from presentation), but it doubles the
-      content work.
+- English version: not planned. The site is Portuguese only (`PRODUCT.md`).
+
+---
+
+## 11. `/atuacao` scroll scenes: open questions
+
+- [ ] **Real phones and Safari.** The scenes were checked in headless Chromium
+      only. Check scroll smoothness on a real iPhone, an Android phone and
+      desktop Safari. Scenes run only at ≥900px with motion allowed; below that
+      and under reduced motion the page is static by design.
+- [ ] **Video with sound.** The FISL 10 clip (`public/media/atuacao/tv-fisl10.mp4`,
+      75 s, 5 MB) loops with sound while on screen. Browsers block sound until
+      the visitor's first interaction, so a direct visit plays muted and
+      unmutes on the first click or key. Check that in Safari and Firefox, and
+      confirm ASL wants sound on by default.
+- [ ] **Footage rights.** Confirm ASL may publish the FISL 10 recording of
+      President Lula's speech, and credit it if needed.
+- [ ] **Removed initiatives.** Pontão de Cultura Digital Minuano and Festival
+      de Cultura Livre were dropped from the site (home and `/atuacao`) on
+      request. Confirm with ASL that they are no longer active.
+- [ ] **`scrollcraft/`** holds the scene brief and the skill's build log. It is
+      committed as a record; delete it if nobody needs it.
 
 ---
 
@@ -198,6 +231,8 @@ ASL's decisions, SEO, audits and performance.
   the primary conversion. Documented in `DESIGN.md`.
 - Display type runs at line-height 0.96–1.05 rather than the 1.1–1.2 rule; at
   76px the looser value breaks the headline apart.
+- `/atuacao` uses scroll-driven motion, against the "no scroll-fade" rule in
+  `DESIGN.md`; recorded there as a page-specific exception the user asked for.
 - On phones (below 600px) the home page drops the manifesto and the
   coordination list, lists show titles only, the footer drops its menu
   columns, and secondary buttons are hidden. Tablets and desktops keep all of

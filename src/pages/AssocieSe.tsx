@@ -1,17 +1,81 @@
 import { Box, Button, Link as MuiLink, Stack, Typography } from '@mui/material'
+import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { Borb } from '../components/Borb/Borb'
 import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { documents } from '../content/documents'
 import { site } from '../content/site'
 import { hideOnPhone } from '../styles/phone'
-import { typeScale } from '../styles/tokens'
+import { textRoles } from '../styles/tokens'
 
-const steps = [
-  'Baixe e leia o Estatuto Social para conhecer as finalidades e os deveres da associação.',
-  'Preencha e assine a Proposta de Associado.',
-  `Envie o formulário para ${site.emails.general}.`,
-  'Sua proposta é votada na próxima Assembleia Geral, que se reúne uma vez por ano.',
+const statute = documents.find((doc) => doc.title === 'Estatuto Social')
+const proposal = documents.find((doc) => doc.title === 'Proposta de Associado')
+
+/** Opens the visitor's mail app with the subject ASL sorts proposals by. */
+const proposalMailto = `mailto:${site.emails.general}?subject=${encodeURIComponent('Proposta de associado')}`
+
+const linkSx = { fontWeight: 600, textUnderlineOffset: 4 }
+
+/** Every step names the thing it needs and links to it, so no step is a dead end. */
+const steps: { key: string; content: ReactNode }[] = [
+  {
+    key: 'estatuto',
+    content: (
+      <>
+        Leia o{' '}
+        {statute ? (
+          <MuiLink href={statute.href} underline="always" sx={linkSx}>
+            Estatuto Social (PDF, {statute.size})
+          </MuiLink>
+        ) : (
+          'Estatuto Social'
+        )}{' '}
+        para conhecer as finalidades e os deveres da associação.
+      </>
+    ),
+  },
+  {
+    key: 'proposta',
+    content: (
+      <>
+        Baixe, preencha e assine a{' '}
+        {proposal ? (
+          <MuiLink href={proposal.href} download={proposal.filename} underline="always" sx={linkSx}>
+            Proposta de Associado
+          </MuiLink>
+        ) : (
+          'Proposta de Associado'
+        )}
+        .
+      </>
+    ),
+  },
+  {
+    key: 'envio',
+    content: (
+      <>
+        Envie a proposta assinada para{' '}
+        <MuiLink href={proposalMailto} underline="always" sx={linkSx}>
+          {site.emails.general}
+        </MuiLink>
+        .
+      </>
+    ),
+  },
+  {
+    key: 'assembleia',
+    content: (
+      <>
+        A proposta é votada na Assembleia Geral, que se reúne uma vez por ano. A convocação sai
+        em{' '}
+        <MuiLink component={Link} to="/noticias" underline="always" sx={linkSx}>
+          Notícias
+        </MuiLink>
+        , como edital.
+      </>
+    ),
+  },
 ]
 
 /** What people ask before they commit: answered beside the steps, not after them. */
@@ -19,9 +83,9 @@ const facts = [
   { term: 'Custo', detail: 'Nenhum. A associação é gratuita.' },
   { term: 'Aprovação', detail: 'Na Assembleia Geral, uma vez por ano.' },
   { term: 'Participação', detail: 'Associados participam das decisões nas assembleias da ASL.' },
+  // Draft, pending ASL's approval of the wording (LGPD); tracked in TODO.md.
+  { term: 'Seus dados', detail: 'Usados apenas para analisar a sua proposta de associação.' },
 ]
-
-const proposal = documents.find((doc) => doc.title === 'Proposta de Associado')
 
 const factSx = { py: 2, borderTop: '1px solid', borderColor: 'divider' }
 
@@ -52,9 +116,9 @@ export function AssocieSe() {
               Como se associar
             </Typography>
 
-            <Box component="ol" sx={{ maxWidth: '62ch', pl: 3, '& li': { mb: 2 } }}>
+            <Box component="ol" sx={{ maxWidth: textRoles.prose.maxWidth, pl: 3, '& li': { ...textRoles.prose, mb: 2 } }}>
               {steps.map((step) => (
-                <li key={step}>{step}</li>
+                <li key={step.key}>{step.content}</li>
               ))}
             </Box>
 
@@ -72,9 +136,9 @@ export function AssocieSe() {
                   <Borb />
                 </Box>
               )}
-              {/* Step 3 already links the address; on phones the download is the one action. */}
+              {/* Step 3 links the address too; on phones the download is the one action. */}
               <Button
-                href={`mailto:${site.emails.general}`}
+                href={proposalMailto}
                 variant="outlined"
                 size="large"
                 sx={hideOnPhone}
@@ -88,7 +152,7 @@ export function AssocieSe() {
             <Typography
               id="antes-heading"
               component="h3"
-              sx={{ mb: 2, fontSize: typeScale.subhead, fontWeight: 600 }}
+              sx={{ ...textRoles.itemTitle, mb: 2 }}
             >
               Antes de enviar
             </Typography>
@@ -109,13 +173,22 @@ export function AssocieSe() {
                   Dúvidas
                 </Typography>
                 <Typography component="dd" sx={{ m: 0, mt: 0.5 }}>
-                  <MuiLink
-                    href={`mailto:${site.emails.general}`}
-                    underline="always"
-                    sx={{ fontWeight: 600, textUnderlineOffset: 4 }}
-                  >
+                  <MuiLink href={`mailto:${site.emails.general}`} underline="always" sx={linkSx}>
                     {site.emails.general}
                   </MuiLink>
+                </Typography>
+              </Box>
+              {/* Support without joining stays one quiet line here, so the page ends on joining. */}
+              <Box sx={factSx}>
+                <Typography component="dt" sx={{ fontWeight: 600 }}>
+                  Apoiar sem se associar
+                </Typography>
+                <Typography component="dd" sx={{ m: 0, mt: 0.5, color: 'text.secondary' }}>
+                  Contribuição mensal no{' '}
+                  <MuiLink href="https://apoia.se/softwarelivre" underline="always" sx={linkSx}>
+                    Apoia.se
+                  </MuiLink>
+                  .
                 </Typography>
               </Box>
             </Box>
@@ -123,22 +196,6 @@ export function AssocieSe() {
         </Box>
       </Section>
 
-      <Section tone="sand" labelledBy="apoio-heading" compact>
-        <Typography
-          id="apoio-heading"
-          variant="h2"
-          sx={{ mb: 3 }}
-        >
-          Prefere apoiar sem se associar?
-        </Typography>
-        <Typography sx={{ maxWidth: '58ch' }}>
-          A campanha de contribuição mensal segue aberta no{' '}
-          <MuiLink href="https://apoia.se/softwarelivre" underline="always">
-            Apoia.se
-          </MuiLink>
-          .
-        </Typography>
-      </Section>
     </>
   )
 }
