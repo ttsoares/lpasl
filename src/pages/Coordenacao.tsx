@@ -15,12 +15,11 @@ import {
 import { colors, textRoles } from '../styles/tokens'
 
 /**
- * In reading order: each body, then its substitutes. On wide screens the grid
- * pairs them in rows (titulares left, suplentes right); on phones they stack
- * in this order, so substitutes follow the body they stand in for.
+ * The other bodies of the current term, in reading order: coordination
+ * substitutes, then the council and its substitutes. The coordination itself
+ * is set apart above them as the page's main moment.
  */
-const currentGroups: Group[] = [
-  { title: 'Coordenação', people: [...governance.coordination] },
+const supportingGroups: Group[] = [
   {
     title: 'Suplentes da coordenação',
     people: governance.coordinationSubstitutes.map((name, index) => ({
@@ -63,7 +62,6 @@ const linkSx = { fontWeight: 600, textUnderlineOffset: 4 }
 
 /** Anchors for the current term's bodies, used by the phone jump links. */
 const groupAnchors: Record<string, string> = {
-  Coordenação: 'coordenacao-atual',
   'Conselho fiscal': 'conselho-fiscal-atual',
 }
 
@@ -87,6 +85,7 @@ function PeopleGroup({
   level,
   describe = false,
   id,
+  subgrid = false,
 }: {
   group: Group
   level: 'h3' | 'h4'
@@ -94,11 +93,24 @@ function PeopleGroup({
   describe?: boolean
   /** Anchor for the in-page jump links. */
   id?: string
+  /** Share the parent grid's rows, so titles, descriptions and lists line up across columns. */
+  subgrid?: boolean
 }) {
   const role = describe ? bodyRoles[group.title] : undefined
 
   return (
-    <Box id={id} sx={{ scrollMarginTop: 96 }}>
+    <Box
+      id={id}
+      sx={{
+        scrollMarginTop: 96,
+        ...(subgrid && {
+          display: { md: 'grid' },
+          gridRow: { md: 'span 3' },
+          gridTemplateRows: { md: 'subgrid' },
+          alignContent: 'start',
+        }),
+      }}
+    >
       <Typography component={level} sx={{ ...textRoles.itemTitle }}>
         {group.title}
       </Typography>
@@ -141,6 +153,56 @@ function PeopleGroup({
                 color: person.vacant ? 'text.secondary' : 'text.primary',
               }}
             >
+              {person.name}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  )
+}
+
+/**
+ * The elected coordination, set as the page's one strong moment: names in the
+ * display face, like the term periods. On wide screens the three executive
+ * posts share the first row and the four area posts the second, so the grid
+ * itself shows how the body is built (art. 20).
+ */
+function CoordinationPeak() {
+  return (
+    <Box id="coordenacao-atual" sx={{ scrollMarginTop: 96 }}>
+      <Typography component="h3" sx={{ ...textRoles.itemTitle }}>
+        Coordenação
+      </Typography>
+      <Typography sx={{ ...textRoles.prose, mt: 1, color: 'text.secondary' }}>
+        {bodyRoles['Coordenação']}
+      </Typography>
+
+      <Box
+        component="dl"
+        sx={{
+          m: 0,
+          mt: { xs: 4, md: 6 },
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(12, 1fr)' },
+          columnGap: 4,
+          rowGap: { xs: 4, md: 6 },
+        }}
+      >
+        {governance.coordination.map((person, index) => (
+          <Box
+            key={person.role}
+            sx={{
+              gridColumn: { md: index < 3 ? 'span 4' : 'span 3' },
+              pt: 2,
+              borderTop: '1px solid',
+              borderColor: 'text.primary',
+            }}
+          >
+            <Typography component="dt" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
+              {person.role}
+            </Typography>
+            <Typography component="dd" sx={{ ...textRoles.statement, m: 0, mt: 1 }}>
               {person.name}
             </Typography>
           </Box>
@@ -201,22 +263,28 @@ export function Coordenacao() {
           </Box>
         </Box>
 
+        <Box sx={{ mt: { xs: 5, md: 8 } }}>
+          <CoordinationPeak />
+        </Box>
+
+        {/* The quieter bodies: a denser row, so the coordination above reads as the peak. */}
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-            columnGap: 8,
-            rowGap: { xs: 5, md: 8 },
-            mt: { xs: 5, md: 8 },
-            alignItems: 'start',
+            gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+            columnGap: 6,
+            // Rows belong to the subgrid on wide screens, so no gap between them there.
+            rowGap: { xs: 5, md: 0 },
+            mt: { xs: 8, md: 12 },
           }}
         >
-          {currentGroups.map((group) => (
+          {supportingGroups.map((group) => (
             <PeopleGroup
               key={group.title}
               group={group}
               level="h3"
               describe
+              subgrid
               id={groupAnchors[group.title]}
             />
           ))}
