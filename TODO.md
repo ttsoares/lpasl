@@ -105,7 +105,9 @@ hosting, ASL's decisions, SEO, audits and performance.
       com a quitação da anuidade do exercício", i.e. an annual fee. The site
       (`/associe-se`, `/coordenacao`, `PRODUCT.md`) says joining is free. ASL
       must say which is current; if a fee applies, the free-membership copy
-      changes everywhere. Also: the Estatuto has the Coordenação approve new
+      changes everywhere. Decision on 1 Nov 2026: keep "gratuito" on the
+      site (ASL said membership is free) until ASL confirms the Assembleia
+      set the anuidade at zero (art. 12 and art. 19 let it fix the amount). Also: the Estatuto has the Coordenação approve new
       members (art. 7, §2) and the Assembleia only referendar (art. 19), while
       `/associe-se` says the proposal is voted at the Assembleia.
 - [ ] **Coordination on the home page** shows the seven coordination roles on
