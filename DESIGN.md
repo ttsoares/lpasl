@@ -218,8 +218,9 @@ The first real page content: the hero only. Sections below it are still to come.
   and the binary rail on the right. A hairline rule closes the hero with the founding facts
   line, "Desde 2003, em Porto Alegre. **Organizamos o FISL.**"  On `xs` the right column is
   dropped entirely and the headline switches from forced line breaks to natural wrapping.
-- `src/components/BinaryRail/BinaryRail.tsx` — the 0/1 rail, generated from the ASCII of
-  "ASL" (one byte per character, 24 bits). Each byte's first bit is amber. It is
+- `src/components/BinaryRail/BinaryRail.tsx` — the 0/1 rail, the byte `01110111` (119, read as
+  11/9: ASL's founding on 11 September 2003) repeated three times per copy (24 bits; until 1 Nov 2026 it spelled "ASL" in ASCII). Each byte's
+  first bit is amber. It is
   `aria-hidden`: it is a graphic, not content. The bits repeat at a fixed pitch and flow
   downward (`asl-rail-flow`, 14s per byte run, edge-faded with a mask, still under reduced
   motion), so the rail reads as a live signal at any height. Inner headers use 11px digits

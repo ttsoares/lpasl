@@ -2,8 +2,8 @@ import { Box } from '@mui/material'
 import { fonts } from '../../styles/tokens'
 
 type BinaryRailProps = {
-  /** ASCII text to encode. The rail is a graphic, not readable content. */
-  text?: string
+  /** The bit pattern, in whole bytes. The rail is a graphic, not readable content. */
+  pattern?: string
   /** Digit size; the default scales with the viewport for the home hero. */
   fontSize?: string
   /** White digits' opacity; small rails need more to read as a signal. */
@@ -14,20 +14,25 @@ type BinaryRailProps = {
 const copies = [0, 1, 2, 3]
 
 /**
+ * Bits per copy. The pattern repeats up to this length so a copy stays tall
+ * enough to fill the home hero, and the 14s loop keeps the same speed.
+ */
+const copyLength = 24
+
+/**
  * The binary rail from the ASL butterfly, used as a structural mark.
- * Each character becomes one byte; the first bit of each byte is amber so the
+ * The stream is 01110111, repeated: 119 in binary, read as 11/9, the day ASL
+ * was founded (11 September 2003). The first bit of each byte is amber so the
  * rail keeps the rhythm of the mark without becoming decoration.
  * The bits repeat at a fixed pitch and the stack slides down by one copy per
  * loop, so the flow never shows a seam and never depends on the rail's height.
  */
 export function BinaryRail({
-  text = 'ASL',
+  pattern = '01110111',
   fontSize = 'clamp(10px, 1.05vw, 14px)',
   opacity = 0.5,
 }: BinaryRailProps) {
-  const bits = Array.from(text).flatMap((character) =>
-    character.charCodeAt(0).toString(2).padStart(8, '0').split(''),
-  )
+  const bits = Array.from({ length: copyLength }, (_, index) => pattern[index % pattern.length])
 
   return (
     <Box
