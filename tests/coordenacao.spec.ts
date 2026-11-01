@@ -28,7 +28,7 @@ test.describe('/coordenacao', () => {
   test('unknown election dates are stated, not left blank', async ({ page }) => {
     await page.goto('/coordenacao')
     const term = page.locator('details').filter({ has: page.locator('summary h3', { hasText: '2014–2016' }) })
-    await expect(term.locator('summary')).toContainText('Data da eleição não consta nos registros publicados')
+    await expect(term.locator('summary')).toContainText('data da eleição não consta nos registros publicados')
   })
 
   test('the current term links to the edital that convened its election', async ({ page }) => {

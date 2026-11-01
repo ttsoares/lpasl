@@ -44,10 +44,39 @@ const currentGroups: Group[] = [
   },
 ]
 
+/**
+ * Terms with no recorded election date, newest first. Said once above the
+ * archive instead of in every row, so five identical lines don't read as noise.
+ */
+const undated = pastTerms.filter((term) => !term.election).map((term) => term.period)
+const undatedNote =
+  undated.length === 0
+    ? null
+    : undated.length === 1
+      ? `O mandato ${undated[0]} não tem data de eleição nos registros publicados.`
+      : `Os mandatos de ${undated[undated.length - 1]} a ${undated[0]} não têm data de eleição nos registros publicados.`
+
 /** `2022–2025` -> `mandato-2022-2025`: a stable anchor for linking to one term. */
 const termAnchor = (period: string) => `mandato-${period.replace('–', '-')}`
 
 const linkSx = { fontWeight: 600, textUnderlineOffset: 4 }
+
+/** Anchors for the current term's bodies, used by the phone jump links. */
+const groupAnchors: Record<string, string> = {
+  Coordenação: 'coordenacao-atual',
+  'Conselho fiscal': 'conselho-fiscal-atual',
+}
+
+/**
+ * On phones the current term is ~2,000px of names before the archive and the
+ * join action; these links let the reader skip ahead. Wide screens don't need them.
+ */
+const jumpLinks = [
+  { label: 'Coordenação', href: '#coordenacao-atual' },
+  { label: 'Conselho fiscal', href: '#conselho-fiscal-atual' },
+  { label: 'Mandatos anteriores', href: '#mandatos-anteriores' },
+  { label: 'Associe-se', href: '#associe-se-coordenacao' },
+]
 
 /**
  * One body (coordination, council, substitutes). A plain container, not a
@@ -57,16 +86,19 @@ function PeopleGroup({
   group,
   level,
   describe = false,
+  id,
 }: {
   group: Group
   level: 'h3' | 'h4'
   /** Show what the body does, under its title (current term only). */
   describe?: boolean
+  /** Anchor for the in-page jump links. */
+  id?: string
 }) {
   const role = describe ? bodyRoles[group.title] : undefined
 
   return (
-    <Box>
+    <Box id={id} sx={{ scrollMarginTop: 96 }}>
       <Typography component={level} sx={{ ...textRoles.itemTitle }}>
         {group.title}
       </Typography>
@@ -143,8 +175,31 @@ export function Coordenacao() {
           <MuiLink component={Link} to={currentElectionRecord.href} underline="always" sx={linkSx}>
             {currentElectionRecord.label}
           </MuiLink>
-          . Os cargos não são remunerados (Estatuto, art. 16).
+          . Os cargos não são remunerados (Estatuto, art. 16, §1º).
         </Typography>
+
+        <Box
+          component="nav"
+          aria-label="Nesta página"
+          sx={{ display: { xs: 'block', md: 'none' }, mt: 4 }}
+        >
+          <Box
+            component="ul"
+            sx={{ listStyle: 'none', m: 0, p: 0, display: 'flex', flexWrap: 'wrap', columnGap: 3 }}
+          >
+            {jumpLinks.map((link) => (
+              <li key={link.href}>
+                <MuiLink
+                  href={link.href}
+                  underline="always"
+                  sx={{ ...linkSx, display: 'inline-flex', alignItems: 'center', minHeight: 44 }}
+                >
+                  {link.label}
+                </MuiLink>
+              </li>
+            ))}
+          </Box>
+        </Box>
 
         <Box
           sx={{
@@ -157,24 +212,36 @@ export function Coordenacao() {
           }}
         >
           {currentGroups.map((group) => (
-            <PeopleGroup key={group.title} group={group} level="h3" describe />
+            <PeopleGroup
+              key={group.title}
+              group={group}
+              level="h3"
+              describe
+              id={groupAnchors[group.title]}
+            />
           ))}
         </Box>
       </Section>
 
       {/* Shown on every width: the hero lead promises it, and terms start closed. */}
-      <Section tone="sand" labelledBy="historico-title">
+      <Section id="mandatos-anteriores" tone="sand" labelledBy="historico-title" sx={{ scrollMarginTop: 64 }}>
         <Typography id="historico-title" component="h2" variant="h2">
           Mandatos anteriores
         </Typography>
         <Typography sx={{ ...textRoles.prose, mt: 3, color: 'text.secondary' }}>
           A composição de cada mandato desde 2006, do mais recente para o mais antigo, como a
-          associação a publicou. Encontrou um erro ou tem a ata de uma eleição?{' '}
+          associação a publicou no seu site anterior. Até o mandato 2019–2021 havia também um
+          conselho geral, órgão que o Estatuto de 2019 não prevê. Encontrou um erro ou tem a ata de uma eleição?{' '}
           <MuiLink component={Link} to="/contato" underline="always" sx={linkSx}>
             Fale com a associação
           </MuiLink>
           .
         </Typography>
+        {undatedNote && (
+          <Typography sx={{ ...textRoles.meta, mt: 2, color: 'text.secondary' }}>
+            {undatedNote}
+          </Typography>
+        )}
 
         <Box sx={{ mt: { xs: 5, md: 8 } }}>
           {pastTerms.map((term) => (
@@ -226,7 +293,12 @@ export function Coordenacao() {
                   <Box component="span" sx={visuallyHidden}>
                     ,{' '}
                   </Box>
-                  {term.election ?? 'Data da eleição não consta nos registros publicados'}
+                  {/* Undated rows stay visually empty: the archive note says why once. */}
+                  {term.election ?? (
+                    <Box component="span" sx={visuallyHidden}>
+                      data da eleição não consta nos registros publicados
+                    </Box>
+                  )}
                 </Typography>
               </Box>
 
@@ -258,8 +330,10 @@ export function Coordenacao() {
 
       <Box
         component="section"
+        id="associe-se-coordenacao"
         aria-labelledby="coordenacao-cta"
         sx={{
+          scrollMarginTop: 64,
           // Ink in both modes: in dark mode the archive band above is graphite,
           // so graphite here would run the two together.
           bgcolor: colors.ink,
