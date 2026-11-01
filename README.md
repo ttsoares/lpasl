@@ -4,7 +4,7 @@ Redesign of [asl.org.br](https://asl.org.br) — a modern, accessible site for t
 Brazilian free software association founded in 2003.
 
 Built with **React 19**, **Vite**, **TypeScript**, **Material UI** and
-**React Router**. Fonts are self-hosted (Archivo, IBM Plex Sans, IBM Plex Mono).
+**React Router**. Fonts are self-hosted (Archivo, Instrument Sans, IBM Plex Mono).
 
 ## Status
 

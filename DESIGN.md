@@ -51,17 +51,22 @@ Rules:
 | Role | Family | Treatment |
 | --- | --- | --- |
 | Display | **Archivo Variable** | weight 800, width 125%, tracking −0.035em, leading 0.96 |
-| Body/UI | **IBM Plex Sans Variable** | 400/500/600, 16px base, leading 1.6 |
+| Body/UI | **Instrument Sans Variable** | 400/500/600, 16px base, leading 1.6, tracking +0.005em |
 | Binary/mono | **IBM Plex Mono** | 400/500, used only for actual 0/1 content |
 
 All three are OFL and self-hosted through Fontsource. Archivo is used only for display sizes
-(h1/h2 and the hero); IBM Plex Sans carries everything readable. Plex Mono never labels UI
+(h1/h2 and the hero); Instrument Sans carries everything readable. Plex Mono never labels UI
 sections — it only renders binary.
+
+Body face changed from IBM Plex Sans to Instrument Sans on 1 Nov 2026 (warmer, less corporate,
+same roles). Its zero is wide, so `ch` overstates the measure: widths for running text are set
+in `em` (`layout.textWidth` = 33em, about 70 characters), not `ch`. Rule: widths on Instrument
+Sans text use `em`; `ch` is kept only for Archivo headings, where the zero is near the average glyph.
 
 Scale: `display clamp(3rem, 7vw, 6rem)`, `h1 clamp(2.4375rem, 4.6vw, 4rem)`,
 `h2 clamp(1.9375rem, 3.4vw, 3rem)`, `h3 1.5625rem`, `subhead 1.25rem`, body `1rem`,
 small `0.875rem`. The text scale follows a Major Third (×1.25): 16 → 20 → 25 → 31 → 39.
-Only the display size is larger, as the brand's one loud element. Line length capped at 65ch.
+Only the display size is larger, as the brand's one loud element. Line length capped at 33em (about 70 characters).
 
 Text roles (`textRoles` in `src/styles/tokens.ts`, spread into `sx`). Use the role, never
 a one-off size, so the same job reads the same on every page:
@@ -69,10 +74,10 @@ a one-off size, so the same job reads the same on every page:
 | Role | Treatment | Used for |
 | --- | --- | --- |
 | `statement` | Archivo 600, width 112%, h3 size, leading 1.25 | One strong line: mission, term periods |
-| `itemTitle` | Plex Sans 600, subhead size, leading 1.3, −0.01em | Row and block titles, article subheads |
-| `lead` | Plex Sans subhead size, leading 1.5 | The sentence under a title, article standfirst |
-| `prose` | Plex Sans body, leading 1.6, max 65ch, `text-wrap: pretty` | All running text |
-| `meta` | Plex Sans small, leading 1.45, tabular figures | Dates, years, captions |
+| `itemTitle` | Instrument Sans 600, subhead size, leading 1.3, −0.01em | Row and block titles, article subheads |
+| `lead` | Instrument Sans subhead size, leading 1.5 | The sentence under a title, article standfirst |
+| `prose` | Instrument Sans body, leading 1.6, max 33em, `text-wrap: pretty` | All running text |
+| `meta` | Instrument Sans small, leading 1.45, tabular figures | Dates, years, captions |
 
 Headings balance their lines (`text-wrap: balance`). Light text on black takes leading
 1.65 instead of 1.6. Long articles (editais) open with their summary as a standfirst and
@@ -144,7 +149,7 @@ AI-landing-page kit, not choices made for ASL:
 
 | Dropped | Why | Replaced with |
 | --- | --- | --- |
-| Space Grotesk + Inter | The standard generated pairing | Archivo Expanded + IBM Plex Sans |
+| Space Grotesk + Inter | The standard generated pairing | Archivo Expanded + Instrument Sans (Plex Sans until Nov 2026) |
 | Lime secondary accent | Dilutes the brand; amber is already loud | Amber only |
 | Amber gradient mesh | Decoration with no job | Flat amber on black |
 | Eyebrow chips (`Vite + React…`) | Generic template chrome | Founding facts as a sentence rule |

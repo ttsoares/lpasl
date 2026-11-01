@@ -32,7 +32,7 @@ export function SectionHeading({ id, title, lead, action }: SectionHeadingProps)
         {title}
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: '46ch' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: '27.5em' }}>
         {lead && (
           <Typography
             sx={{ ...textRoles.lead, color: 'text.secondary' }}

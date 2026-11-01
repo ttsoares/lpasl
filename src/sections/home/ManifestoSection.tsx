@@ -50,7 +50,7 @@ export function ManifestoSection() {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, alignSelf: 'end' }}>
-          <Typography sx={{ color: 'rgba(255, 255, 255, 0.72)', maxWidth: '44ch' }}>
+          <Typography sx={{ color: 'rgba(255, 255, 255, 0.72)', maxWidth: '26.5em' }}>
             Fundada em 11 de setembro de 2003, em Porto Alegre, a ASL organiza o FISL — o maior
             evento de software livre da América do Sul — e mantém projetos de transmissão,
             formação e cultura livre.

@@ -58,7 +58,7 @@ export function getTheme(mode: PaletteMode = 'light') {
       },
       h4: { fontFamily: fonts.body, fontWeight: 600, letterSpacing: '-0.01em' },
       subtitle1: { fontSize: typeScale.subhead, lineHeight: 1.4 },
-      body1: { fontSize: typeScale.body, lineHeight: 1.6, textWrap: 'pretty' },
+      body1: { fontSize: typeScale.body, lineHeight: 1.6, letterSpacing: '0.005em', textWrap: 'pretty' },
       body2: { fontSize: typeScale.small, lineHeight: 1.6 },
       button: {
         textTransform: 'none',
@@ -95,6 +95,8 @@ export function getTheme(mode: PaletteMode = 'light') {
           body: {
             backgroundColor: background,
             color: text,
+            // Instrument Sans is spaced tight for display; open it a hair for reading.
+            letterSpacing: '0.005em',
           },
           a: {
             color: 'inherit',

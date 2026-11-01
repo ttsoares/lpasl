@@ -73,7 +73,7 @@ export function Footer() {
             <Typography
               sx={{
                 mt: 3,
-                maxWidth: '40ch',
+                maxWidth: '24em',
                 color: 'rgba(255, 255, 255, 0.72)',
                 lineHeight: 1.6,
               }}

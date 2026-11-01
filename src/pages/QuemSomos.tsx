@@ -111,7 +111,7 @@ export function QuemSomos() {
         <Typography id="objetivos-title" component="h2" variant="h2" sx={{ maxWidth: '16ch' }}>
           Objetivos
         </Typography>
-        <Typography sx={{ mt: 3, maxWidth: '52ch', color: 'text.secondary' }}>
+        <Typography sx={{ mt: 3, maxWidth: '31em', color: 'text.secondary' }}>
           Os sete objetivos previstos no estatuto da associação.
         </Typography>
 
@@ -173,7 +173,7 @@ export function QuemSomos() {
             >
               A ASL organiza o FISL.
             </Typography>
-            <Typography sx={{ mt: 3, maxWidth: '52ch', color: 'rgba(255, 255, 255, 0.76)' }}>
+            <Typography sx={{ mt: 3, maxWidth: '31em', color: 'rgba(255, 255, 255, 0.76)' }}>
               O Fórum Internacional Software Livre é o maior evento de software livre da América
               do Sul e acontece todos os anos em Porto Alegre.
             </Typography>

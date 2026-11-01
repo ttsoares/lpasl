@@ -17,7 +17,7 @@ export const colors = {
 
 export const fonts = {
   display: '"Archivo Variable", "Archivo", system-ui, sans-serif',
-  body: '"IBM Plex Sans Variable", "IBM Plex Sans", system-ui, sans-serif',
+  body: '"Instrument Sans Variable", "Instrument Sans", system-ui, sans-serif',
   mono: '"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace',
 } as const
 
@@ -41,7 +41,9 @@ export const radii = {
 
 export const layout = {
   maxWidth: 1280,
-  textWidth: '65ch',
+  // In em, not ch: Instrument Sans has a wide zero, so 65ch ran to ~90 characters.
+  // 33em holds about 70 characters of running Portuguese at any size.
+  textWidth: '33em',
   gutter: 24,
 } as const
 

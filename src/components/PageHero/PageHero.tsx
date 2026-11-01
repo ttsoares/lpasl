@@ -63,7 +63,7 @@ export function PageHero({ title, lead, children }: PageHeroProps) {
             <Typography
               sx={{
                 mt: 4,
-                maxWidth: '52ch',
+                maxWidth: '31em',
                 ...textRoles.lead,
                 color: 'rgba(255, 255, 255, 0.76)',
               }}

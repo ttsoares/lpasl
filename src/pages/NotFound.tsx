@@ -7,7 +7,7 @@ export function NotFound() {
       <Typography variant="h1" className="fade-in" sx={{ maxWidth: '14ch', textWrap: 'balance' }}>
         Página não encontrada.
       </Typography>
-      <Typography sx={{ mt: 3, maxWidth: '52ch', color: 'text.secondary' }}>
+      <Typography sx={{ mt: 3, maxWidth: '31em', color: 'text.secondary' }}>
         O endereço pode ter mudado ou o conteúdo não está mais disponível.
       </Typography>
       <Box sx={{ mt: 4 }}>

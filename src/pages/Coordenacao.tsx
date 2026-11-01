@@ -132,7 +132,7 @@ export function Coordenacao() {
         <Typography id="historico-title" component="h2" variant="h2">
           Gestões anteriores
         </Typography>
-        <Typography sx={{ mt: 3, maxWidth: '52ch', color: 'text.secondary' }}>
+        <Typography sx={{ mt: 3, maxWidth: '31em', color: 'text.secondary' }}>
           A composição de cada gestão desde 2006, na ordem em que foi publicada pela associação.
         </Typography>
 
@@ -228,7 +228,7 @@ export function Coordenacao() {
             >
               As regras que valem para todos.
             </Typography>
-            <Typography sx={{ mt: 3, maxWidth: '52ch', color: 'rgba(255, 255, 255, 0.76)' }}>
+            <Typography sx={{ mt: 3, maxWidth: '31em', color: 'rgba(255, 255, 255, 0.76)' }}>
               O estatuto e o regimento interno definem como a associação se organiza e como as
               decisões são tomadas.
             </Typography>

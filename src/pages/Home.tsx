@@ -95,7 +95,7 @@ function HomeHero() {
             <Typography
               sx={{
                 mt: 4,
-                maxWidth: '50ch',
+                maxWidth: '30em',
                 color: 'rgba(255, 255, 255, 0.76)',
                 fontSize: { xs: typeScale.body, md: typeScale.subhead },
                 lineHeight: 1.6,

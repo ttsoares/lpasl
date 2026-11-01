@@ -112,7 +112,7 @@ export function Atuacao() {
             <Typography
               sx={{
                 mt: 3,
-                maxWidth: '46ch',
+                maxWidth: '27.5em',
                 ...textRoles.lead,
                 color: 'rgba(255, 255, 255, 0.76)',
               }}

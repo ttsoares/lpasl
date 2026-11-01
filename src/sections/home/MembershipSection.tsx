@@ -33,7 +33,7 @@ export function MembershipSection() {
           <Typography
             sx={{
               mt: 3,
-              maxWidth: '46ch',
+              maxWidth: '27.5em',
               ...textRoles.lead,
               color: colors.ink,
             }}
