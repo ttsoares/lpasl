@@ -1,6 +1,8 @@
 export type Person = {
   name: string
   role: string
+  /** A seat the record lists with no one in it. */
+  vacant?: boolean
 }
 
 /** Coordination and fiscal council elected on 14 November 2025, for 2025–2028. */
@@ -62,18 +64,22 @@ const coordination = (
   ],
 })
 
+/** Seats keep their published position; an empty one is shown, not dropped. */
+const seats = (names: (string | null)[], role: (position: number) => string): Person[] =>
+  names.map((name, index) =>
+    name
+      ? { name, role: role(index + 1) }
+      : { name: 'Vaga não preenchida', role: role(index + 1), vacant: true },
+  )
+
 const substitutes = (names: (string | null)[], title: string): Group => ({
   title,
-  people: names
-    .filter((name): name is string => Boolean(name))
-    .map((name, index) => ({ name, role: `${index + 1}º suplente` })),
+  people: seats(names, (position) => `${position}º suplente`),
 })
 
 const council = (title: string, names: (string | null)[]): Group => ({
   title,
-  people: names
-    .filter((name): name is string => Boolean(name))
-    .map((name, index) => ({ name, role: `Conselheiro ${index + 1}` })),
+  people: seats(names, (position) => `Conselheiro ${position}`),
 })
 
 /** Terms before 2025–2028, most recent first, as published by the association. */
@@ -100,7 +106,7 @@ export const pastTerms: PastTerm[] = [
       council('Conselho fiscal', [
         'Thomas Tschoepke Soares',
         'Júnior Goergen',
-        'Lucas Alberto Souza Santos',
+        'Lucas Alberto Souza de Santos',
       ]),
       substitutes(
         ['José Antônio Dias Tavares', 'Paulo Albert Ressadori', 'Alessandra Maria Bohm'],
@@ -113,15 +119,15 @@ export const pastTerms: PastTerm[] = [
     election: 'Eleita em 15 de dezembro de 2018',
     groups: [
       coordination('Fabrício Reis da Silva', 'Daniel Muller', 'Sady Jacques'),
-      council('Conselho geral', ['Ricardo Fritsch', 'Carlos Castro', 'José Fernandez', 'Clarisse Abrahão']),
-      substitutes([null, 'Cláudia Archer', 'Paulo Meirelles'], 'Suplentes do conselho geral'),
+      council('Conselho geral', ['Ricardo Fritsch', 'Carlos Alberto Jacques de Castro', 'José Francisco Nunes Fernandez', 'Clarisse de Lima Abrahão']),
+      substitutes([null, 'Cláudia Maria da Costa Archer', 'Paulo Roberto Miranda Meirelles'], 'Suplentes do conselho geral'),
       council('Conselho fiscal', [
         'Thomas Tschoepke Soares',
-        'Junior Goergen',
-        'Flavio Eduardo Neves Teixeira',
+        'Júnior Goergen',
+        'Flávio Eduardo Neves Teixeira',
       ]),
       substitutes(
-        ['Tania Regina da Silva', 'José Antônio Dias Tavares', 'Alexandre Thomé'],
+        ['Tânia Regina da Silva', 'José Antônio Dias Tavares', 'Alexandre Junqueira Thomé'],
         'Suplentes do conselho fiscal',
       ),
     ],
@@ -130,21 +136,21 @@ export const pastTerms: PastTerm[] = [
     period: '2016–2018',
     election: 'Eleita em 14 de dezembro de 2016',
     groups: [
-      coordination('Sady Jacques', 'Ricardo Fritsch', 'Clarisse Abrahão'),
+      coordination('Sady Jacques', 'Ricardo Fritsch', 'Clarisse de Lima Abrahão'),
       council('Conselho geral', [
-        'José Fernandez',
+        'José Francisco Nunes Fernandez',
         'Eloir José Rockenbach',
         'Daniel Muller',
-        'Deobrandino Borges',
+        'Deobrandino Ninrod Borges',
       ]),
-      substitutes(['Tatiane Pires', 'Carlos Castro', 'Paulo Meirelles'], 'Suplentes do conselho geral'),
+      substitutes(['Tatiane Pires da Silva', 'Carlos Alberto Jacques de Castro', 'Paulo Roberto Miranda Meirelles'], 'Suplentes do conselho geral'),
       council('Conselho fiscal', [
         'Thomas Tschoepke Soares',
-        'Junior Goergen',
-        'Flavio Eduardo Neves Teixeira',
+        'Júnior Goergen',
+        'Flávio Eduardo Neves Teixeira',
       ]),
       substitutes(
-        ['Tania Regina da Silva', 'José Tavares', 'Alexandre Thomé'],
+        ['Tânia Regina da Silva', 'José Antônio Dias Tavares', 'Alexandre Junqueira Thomé'],
         'Suplentes do conselho fiscal',
       ),
     ],
@@ -152,20 +158,20 @@ export const pastTerms: PastTerm[] = [
   {
     period: '2014–2016',
     groups: [
-      coordination('Sady Jacques', 'Felipe Santos', 'Ricardo Fritsch'),
+      coordination('Sady Jacques', 'Felipe Santos da Silva', 'Ricardo Fritsch'),
       council('Conselho geral', [
-        'Tatiane Pires',
-        'José Francisco',
-        'Eloir Rockenbach',
-        'Gustavo Pacheco',
+        'Tatiane Pires da Silva',
+        'José Francisco Nunes Fernandez',
+        'Eloir José Rockenbach',
+        'Gustavo Buzzatti Pacheco',
       ]),
       substitutes(
-        ['Paulo Meirelles', 'Clarisse Abrahão', 'Ronaldo Lages (in memoriam)'],
+        ['Paulo Roberto Miranda Meirelles', 'Clarisse de Lima Abrahão', 'Ronaldo Cardozo Lages (in memoriam)'],
         'Suplentes do conselho geral',
       ),
-      council('Conselho fiscal', ['Tânia Silva', 'Deobrandino Borges', 'Daniel Barbieri']),
+      council('Conselho fiscal', ['Tânia Regina da Silva', 'Deobrandino Ninrod Borges', 'Daniel Barbieri']),
       substitutes(
-        ['Flávio Teixeira', 'Claudimir Zavalik', 'José Tavares'],
+        ['Flávio Eduardo Neves Teixeira', 'Claudimir Zavalik', 'José Antônio Dias Tavares'],
         'Suplentes do conselho fiscal',
       ),
     ],
@@ -177,7 +183,7 @@ export const pastTerms: PastTerm[] = [
       council('Conselho geral', [
         'Tatiane Pires da Silva',
         'Jonatas Daniel Dornelles Barbieri',
-        'Tania Regina da Silva',
+        'Tânia Regina da Silva',
         'Ronaldo Cardozo Lages',
       ]),
       substitutes(
@@ -186,7 +192,7 @@ export const pastTerms: PastTerm[] = [
       ),
       council('Conselho fiscal', [
         'Gisele Machado de Oliveira',
-        'Virginia Silva Ferreira',
+        'Virgínia Silva Ferreira',
         'Deobrandino Ninrod Borges',
       ]),
       substitutes(
@@ -202,20 +208,20 @@ export const pastTerms: PastTerm[] = [
       council('Conselho geral', [
         'Eloir José Rockenbach',
         'Jonatas Daniel Dornelles Barbieri',
-        'Tania Regina da Silva',
+        'Tânia Regina da Silva',
         'José Francisco Nunes Fernandez',
       ]),
       substitutes(
-        ['Flavio Eduardo Neves Teixeira', 'Priscilla Kurtz', 'Ronaldo Cardozo Lages'],
+        ['Flávio Eduardo Neves Teixeira', 'Priscilla Kurtz Vieira de Carvalho', 'Ronaldo Cardozo Lages'],
         'Suplentes do conselho geral',
       ),
       council('Conselho fiscal', [
         'Gisele Machado de Oliveira',
-        'Virginia Silva Ferreira',
-        'José Antonio Dias Tavares',
+        'Virgínia Silva Ferreira',
+        'José Antônio Dias Tavares',
       ]),
       substitutes(
-        ['Paloma Brandão da Costa', 'Vinicius John', 'Paulo Meirelles'],
+        ['Paloma Brandão da Costa', 'Vinicius John', 'Paulo Roberto Miranda Meirelles'],
         'Suplentes do conselho fiscal',
       ),
     ],
@@ -226,7 +232,7 @@ export const pastTerms: PastTerm[] = [
       coordination('Marcelo D’Elia Branco', 'Virgínia Silva Ferreira', 'Ricardo Fritsch'),
       council('Conselho geral', [
         'Fabrício Solagna',
-        'Priscila Kurtz Vieira de Carvalho',
+        'Priscilla Kurtz Vieira de Carvalho',
         'Gustavo Barboza de Melo',
         'José Francisco Nunes Fernandez',
       ]),
@@ -260,7 +266,7 @@ export const pastTerms: PastTerm[] = [
         'Andres Renato Biaggi',
       ]),
       council('Conselho fiscal', [
-        'Silvio Antonio Hoffmann Jacques',
+        'Sílvio Antonio Hoffmann Jacques',
         'Ronaldo Cardozo Lages',
         'Marlon Feijó Dutra',
       ]),

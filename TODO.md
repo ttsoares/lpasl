@@ -86,6 +86,16 @@ hosting, ASL's decisions, SEO, audits and performance.
 - [ ] **Coordination records.** Old terms were transcribed from the site,
       including gaps where substitute slots were empty. Someone from ASL should
       confirm the 2019–2021 and 2006–2008 lists are complete.
+- [ ] **Names in the archive.** On 1 Nov 2026 each person's name was set to
+      its most complete spelling across terms (e.g. Junior → Júnior Goergen,
+      Carlos Castro → Carlos Alberto Jacques de Castro; full list in the commit).
+      Three were left as transcribed because the match is uncertain; ASL should
+      settle them: "Daniel Barbieri" (2014–2016 fiscal council) vs "Jonatas
+      Daniel Dornelles Barbieri"; "Fátima de Fátima Torres Formoso" (2008–2010,
+      likely a doubled first name); "Daniel Muller" (Muller or Müller?). Also
+      confirm "Priscilla" (two terms) over "Priscila" (one term).
+- [ ] **Election dates before 2016.** Terms from 2014–2016 back show "Data da
+      eleição não localizada". Add the dates if the atas exist.
 - [ ] **Coordination on the home page** shows the seven coordination roles on
       tablets and desktops (phones skip it). Confirm that is the right level of
       detail for a home page.

@@ -1,11 +1,10 @@
-import { useId } from 'react'
 import { Box, Button, Container, Stack, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link } from 'react-router-dom'
 import { PageHero } from '../components/PageHero/PageHero'
 import { Section } from '../components/Section/Section'
 import { governance, pastTerms, type Group } from '../content/people'
-import { hideOnPhone } from '../styles/phone'
+import { visuallyHidden } from '@mui/utils'
 import { colors, textRoles } from '../styles/tokens'
 
 const currentGroups: Group[] = [
@@ -39,16 +38,14 @@ const termColumns: Group[][] = [
   [currentGroups[1], currentGroups[3]],
 ]
 
-function PeopleGroup({ group }: { group: Group }) {
-  const id = useId()
-
+/**
+ * One body (coordination, council, substitutes). A plain container, not a
+ * region: the page has dozens of these, and landmarks are for the few big parts.
+ */
+function PeopleGroup({ group, level }: { group: Group; level: 'h3' | 'h4' }) {
   return (
-    <Box component="section" aria-labelledby={id}>
-      <Typography
-        id={id}
-        component="h3"
-        sx={{ ...textRoles.itemTitle }}
-      >
+    <Box>
+      <Typography component={level} sx={{ ...textRoles.itemTitle }}>
         {group.title}
       </Typography>
 
@@ -78,7 +75,14 @@ function PeopleGroup({ group }: { group: Group }) {
             <Typography component="dt" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
               {person.role}
             </Typography>
-            <Typography component="dd" sx={{ m: 0, fontWeight: 500 }}>
+            <Typography
+              component="dd"
+              sx={{
+                m: 0,
+                fontWeight: person.vacant ? 400 : 500,
+                color: person.vacant ? 'text.secondary' : 'text.primary',
+              }}
+            >
               {person.name}
             </Typography>
           </Box>
@@ -98,7 +102,7 @@ export function Coordenacao() {
 
       <Section labelledBy="atual-title" sx={{ pt: { xs: 8, md: 10 } }}>
         <Typography id="atual-title" component="h2" variant="h2">
-          {governance.term}
+          Mandato {governance.term}
         </Typography>
         <Typography sx={{ mt: 2, color: 'text.secondary' }}>
           Eleita em {governance.electedOn}.
@@ -120,15 +124,15 @@ export function Coordenacao() {
               sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}
             >
               {column.map((group) => (
-                <PeopleGroup key={group.title} group={group} />
+                <PeopleGroup key={group.title} group={group} level="h3" />
               ))}
             </Box>
           ))}
         </Box>
       </Section>
 
-      {/* The archive is reference material: kept off phones. */}
-      <Section tone="sand" labelledBy="historico-title" sx={hideOnPhone}>
+      {/* Shown on every width: the hero lead promises it, and terms start closed. */}
+      <Section tone="sand" labelledBy="historico-title">
         <Typography id="historico-title" component="h2" variant="h2">
           Gestões anteriores
         </Typography>
@@ -152,33 +156,34 @@ export function Coordenacao() {
                 sx={{
                   display: 'flex',
                   alignItems: 'baseline',
-                  justifyContent: 'space-between',
-                  gap: 3,
+                  flexWrap: 'wrap',
+                  columnGap: { xs: 2, md: 4 },
+                  rowGap: 0.5,
                   py: 3,
                   cursor: 'pointer',
                   listStyle: 'none',
                   '&::-webkit-details-marker': { display: 'none' },
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: { xs: 2, md: 4 }, flexWrap: 'wrap' }}>
-                  <Typography
-                    component="span"
-                    sx={{
-                      ...textRoles.statement,
-                    }}
-                  >
-                    {term.period}
-                  </Typography>
-                  {term.election && (
-                    <Typography component="span" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
-                      {term.election}
-                    </Typography>
-                  )}
-                </Box>
-                <ExpandMoreIcon
-                  className="term-chevron"
-                  sx={{ transition: 'transform 140ms ease', flexShrink: 0, alignSelf: 'center' }}
-                />
+                {/* A heading inside the summary lets screen readers jump term by term. */}
+                <Typography
+                  component="h3"
+                  sx={{ ...textRoles.statement, display: 'inline-flex', alignItems: 'center', gap: 1 }}
+                >
+                  {term.period}
+                  <ExpandMoreIcon
+                    className="term-chevron"
+                    aria-hidden
+                    sx={{ transition: 'transform 140ms ease', fontSize: '1.5rem' }}
+                  />
+                </Typography>
+                <Typography component="span" sx={{ ...textRoles.meta, color: 'text.secondary' }}>
+                  {/* Keeps the period and the date apart when read aloud. */}
+                  <Box component="span" sx={visuallyHidden}>
+                    ,{' '}
+                  </Box>
+                  {term.election ?? 'Data da eleição não localizada'}
+                </Typography>
               </Box>
 
               <Box
@@ -191,7 +196,7 @@ export function Coordenacao() {
                 }}
               >
                 {term.groups.map((group) => (
-                  <PeopleGroup key={`${term.period}-${group.title}`} group={group} />
+                  <PeopleGroup key={`${term.period}-${group.title}`} group={group} level="h4" />
                 ))}
               </Box>
             </Box>
@@ -204,8 +209,12 @@ export function Coordenacao() {
         component="section"
         aria-labelledby="coordenacao-cta"
         sx={{
-          bgcolor: (theme) => (theme.palette.mode === 'dark' ? colors.graphite : colors.ink),
+          // Ink in both modes: in dark mode the archive band above is graphite,
+          // so graphite here would run the two together.
+          bgcolor: colors.ink,
           color: colors.paper,
+          borderTop: 1,
+          borderColor: 'divider',
         }}
       >
         <Container
@@ -226,21 +235,21 @@ export function Coordenacao() {
               variant="h2"
               sx={{ maxWidth: '18ch', color: colors.paper }}
             >
-              As regras que valem para todos.
+              Associados elegem quem coordena.
             </Typography>
             <Typography sx={{ mt: 3, maxWidth: '31em', color: 'rgba(255, 255, 255, 0.76)' }}>
-              O estatuto e o regimento interno definem como a associação se organiza e como as
-              decisões são tomadas.
+              A coordenação e o conselho fiscal são votados na Assembleia Geral, como definem o
+              estatuto e o regimento interno. Associar-se é gratuito.
             </Typography>
           </Box>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifySelf: { md: 'end' } }}>
-            <Button component={Link} to="/documentos" variant="contained" size="large">
-              Ver documentos
+            <Button component={Link} to="/associe-se" variant="contained" size="large">
+              Associe-se (gratuito)
             </Button>
             <Button
               component={Link}
-              to="/contato"
+              to="/documentos"
               variant="outlined"
               size="large"
               sx={{
@@ -250,10 +259,9 @@ export function Coordenacao() {
                   borderColor: colors.paper,
                   bgcolor: 'rgba(255, 255, 255, 0.08)',
                 },
-                ...hideOnPhone,
               }}
             >
-              Falar com a coordenação
+              Ver documentos
             </Button>
           </Stack>
         </Container>
