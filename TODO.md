@@ -6,14 +6,15 @@ Ordered by what blocks what; each item says what "done" looks like.
 State as of 1 Nov 2026: every page is built (home, `/quem-somos`,
 `/atuacao`, `/coordenacao`, `/documentos`, `/contato`, `/noticias`,
 `/noticias/:slug`, `/associe-se`, 404), the redirect map is generated at build,
-favicons and the Open Graph card are in, and 68 Playwright tests cover routes,
-motion, the phone layout, `/atuacao` and `/associe-se`. The home hero flies a 3D
+favicons and the Open Graph card are in, and 77 Playwright test runs cover
+routes, motion, the phone layout, `/atuacao`, `/associe-se` and `/coordenacao`. The home hero flies a 3D
 swallowtail (`src/components/FlyingBorb/`); `/atuacao` is a run of five
 scroll-driven scenes (`src/sections/atuacao/`); below 600px the site is a single
 column with one call to action per screen (`src/styles/phone.ts`). Product
 truth (audience, main action, binding facts) is in `PRODUCT.md`; text roles are
-in `src/styles/tokens.ts` (`textRoles`) and `DESIGN.md`. What remains is
-hosting, ASL's decisions, SEO, audits and performance.
+in `src/styles/tokens.ts` (`textRoles`) and `DESIGN.md`. Body text is
+Instrument Sans. What remains is hosting, ASL's decisions, SEO, audits and
+performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
 
 ---
 
@@ -36,9 +37,10 @@ hosting, ASL's decisions, SEO, audits and performance.
 ### Membership
 
 - [ ] **`/associe-se` is built as download-the-PDF-and-email-it.** It still needs
-      ASL's answer on cost and on whether Apoia.se is part of it (see §2). *Done
-      when:* the page states what a membership costs and the flow is the one ASL
-      confirmed.
+      ASL to confirm the flow and whether Apoia.se is part of it (§2), and to
+      settle the anuidade in the Estatuto against "gratuito" on the site (§3).
+      *Done when:* the flow is the one ASL confirmed and the cost line matches
+      the Estatuto.
 
 ---
 
@@ -94,12 +96,22 @@ hosting, ASL's decisions, SEO, audits and performance.
       Daniel Dornelles Barbieri"; "Fátima de Fátima Torres Formoso" (2008–2010,
       likely a doubled first name); "Daniel Muller" (Muller or Müller?). Also
       confirm "Priscilla" (two terms) over "Priscila" (one term).
-- [ ] **Election dates and atas.** Terms from 2014–2016 back show "Data da
-      eleição não consta nos registros publicados". Add the dates if the atas
-      exist, and link each term to its ata (`record` in `people.ts`).
+- [ ] **Election dates and atas.** The terms from 2006–2008 to 2014–2016 have no
+      election date; one note above the archive says so. Add the dates to
+      `people.ts` if the atas exist (the note updates itself), and link each
+      term to its ata (`record`).
 - [ ] **Approve the body descriptions on `/coordenacao`.** One sentence per
       body (coordenação, suplentes, conselho fiscal) drafted from the Estatuto,
       art. 20–23 (`bodyRoles` in `people.ts`). ASL to confirm the wording.
+- [ ] **Conselho geral and the archive source.** The archive intro says the
+      terms come from ASL's previous site and that "até o mandato 2019–2021
+      havia também um conselho geral, órgão que o Estatuto de 2019 não prevê".
+      Both are inferred (the 2019 Estatuto has no conselho geral; the earlier
+      statute was not available). ASL to confirm, or supply the earlier
+      statute.
+- [ ] **Current coordinators' names.** `/coordenacao` now sets the seven
+      2025–2028 names large in Archivo, so a misspelling is very visible.
+      Confirm each spelling against the ata or Edital 1/2025.
 - [ ] **Annual fee vs "membership is free".** The Estatuto (art. 7, §2) says
       full members vote and stand for election "30 dias após o seu ingresso e
       com a quitação da anuidade do exercício", i.e. an annual fee. The site
@@ -167,8 +179,10 @@ hosting, ASL's decisions, SEO, audits and performance.
       the current page; MUI's icons and the `@mui/material` barrel are the bulk.
       (three.js is already its own 128 kB gzip chunk, loaded only on the home
       page at 600×600 and up.)
-- [ ] Preload the two fonts used above the fold; drop the Vietnamese and
-      Latin-Ext subsets (Portuguese-only is settled in `PRODUCT.md`).
+- [ ] Preload the two fonts used above the fold (Archivo and Instrument Sans);
+      drop the Vietnamese and Latin-Ext subsets (Portuguese-only is settled in
+      `PRODUCT.md`). Check that `@fontsource-variable/instrument-sans` ships a
+      Latin-only file to import instead of the full one.
 - [ ] Measure Lighthouse on a throttled connection before launch, not after.
 
 ---
@@ -212,6 +226,14 @@ hosting, ASL's decisions, SEO, audits and performance.
 - [ ] Decide whether `npm test` runs in CI (no workflow exists yet).
 - [ ] `.ignore` (graft's search re-admit, at the repo root) is untracked:
       commit it or add it to `.gitignore`.
+- [ ] **Stale hand-off files.** `HANDOFF.md` is dated 29 Oct 2026, points at the
+      old repo path (`/home/ttsoares/ASL/LP`) and calls four pages placeholders;
+      `continue.txt` holds only an opencode session id. Both are tracked.
+      Update `HANDOFF.md` from this TODO and the session reports, or delete
+      both.
+- [ ] Screen-reader check of the new `/coordenacao` structure: the
+      coordination is a `<dl>` grid, the other bodies use subgrid on wide
+      screens. Confirm the reading order is role then name, body by body.
 
 ---
 
@@ -250,6 +272,9 @@ hosting, ASL's decisions, SEO, audits and performance.
 
 ## Known deviations, recorded on purpose
 
+- The binary rail repeats `01110111` (119, read as 11/9, ASL's founding day)
+  instead of encoding "ASL". Changed on request on 1 Nov 2026; recorded in
+  `DESIGN.md` and in `BinaryRail.tsx`, so it isn't "fixed" back.
 - The amber membership band exceeds the 10% accent budget from the design
   audit. It is the one place where the accent becomes a surface, and it carries
   the primary conversion. Documented in `DESIGN.md`.
