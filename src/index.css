@@ -161,9 +161,9 @@ h3 {
 /* The Associe-se butterfly (components/Borb): it flies in on a swaying path
    while both wings flap, lands on the top-right corner of the "Baixar a
    proposta" button, clear of its label (it is positioned relative to the
-   button, so it holds at any screen size), keeps flapping slowly for 5
-   seconds, then vanishes. It waits, paused, until the
-   button is in view. */
+   button, so it holds at any screen size), rests there flapping slowly for 5
+   seconds, then flies off over the top of the page. It starts 3 seconds
+   after the page renders (paused until then, see Borb.tsx). */
 .borb {
   position: absolute;
   /* Sitting on the top edge 46px in from the corner, only its lower 16px over
@@ -176,7 +176,9 @@ h3 {
   pointer-events: none;
   animation:
     borb-flight 2100ms 150ms both,
-    borb-vanish 400ms 7250ms both;
+    /* forwards, not both: both animate transform, and a backwards fill would
+       hold this one's first frame over the whole entry flight. */
+    borb-depart 2000ms ease-in 7250ms forwards;
 }
 
 .borb-tilt {
@@ -190,10 +192,12 @@ h3 {
   display: block;
   height: 100%;
   width: auto;
-  /* Fast beats in flight, then two slow ones after landing. */
+  /* Fast beats in flight, slow ones through the 5-second rest, fast again
+     to leave. */
   animation:
     borb-flap 210ms ease-in-out 150ms 9,
-    borb-flap 900ms ease-in-out 2350ms 5;
+    borb-flap 975ms ease-in-out 2350ms 5,
+    borb-flap 210ms ease-in-out 7250ms 10;
 }
 
 .borb img:first-child {
@@ -248,8 +252,23 @@ h3 {
   }
 }
 
-@keyframes borb-vanish {
-  to {
+/* It leaves the way it came, up and to the left, until it is clear of the
+   top of the window; only then does it fade, so it never just vanishes. */
+@keyframes borb-depart {
+  0% {
+    transform: none;
+  }
+  30% {
+    transform: translate(-5vw, -18vh) rotate(-10deg);
+  }
+  60% {
+    transform: translate(-12vw, -50vh) rotate(8deg);
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-22vw, -110vh) rotate(-14deg);
     opacity: 0;
   }
 }
