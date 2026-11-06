@@ -230,7 +230,7 @@ export function RadioAct({ initiative }: { initiative: Initiative }) {
         <Copy initiative={initiative}>
           <p className="atu-onair">
             <span className="atu-onair-dot" aria-hidden="true" />
-            No ar desde a madrugada de 19 de junho de 2009
+            No ar pela primeira vez na madrugada de 19 de junho de 2009
           </p>
         </Copy>
       </div>

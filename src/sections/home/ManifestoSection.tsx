@@ -69,8 +69,8 @@ export function ManifestoSection() {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, alignSelf: 'end' }}>
           <Typography sx={{ color: 'rgba(255, 255, 255, 0.72)', maxWidth: '26.5em' }}>
             Fundada em 11 de setembro de 2003, em Porto Alegre, a ASL organizou o FISL, o maior
-            evento de software livre da América do Sul, até a última edição, em 2018, e mantém
-            projetos de transmissão, formação e cultura livre.
+            evento de software livre da América do Sul, até a última edição, em 2018. Hoje
+            apoia projetos ligados ao software livre, como o Cine Kafuné.
           </Typography>
           <MuiLink
             component={Link}

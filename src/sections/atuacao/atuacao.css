@@ -422,17 +422,8 @@
   background: #e5322d;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .atu-onair-dot {
-    animation: atu-onair 1.6s ease-in-out infinite;
-  }
-}
-
-@keyframes atu-onair {
-  50% {
-    opacity: 0.25;
-  }
-}
+/* A steady dot, not a pulse: the radio went off air with FISL in 2018, so a
+   live signal would mislead. It marks the first broadcast as a record. */
 
 /* The photo stays inside its column; it only drifts within its own frame. */
 .atu-radio.is-live .atu-radio-photo img {

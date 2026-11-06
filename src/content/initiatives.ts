@@ -52,22 +52,24 @@ export const initiatives: Initiative[] = [
     summary:
       'Transmitiu o FISL e outros eventos de software livre com ferramentas livres e de código aberto. É um dos maiores cases de transmissão ao vivo na internet.',
     body: [
-      'A TVSL disponibiliza sua plataforma de ferramentas, infraestrutura e conhecimentos para a transmissão de eventos de software livre no Brasil.',
+      'A TVSL dispunha de plataforma, infraestrutura e conhecimentos próprios para a transmissão de eventos de software livre no Brasil, e funcionava sobretudo de dentro de cada FISL.',
       'De 2005 a 2018 transmitiu o FISL, um dos maiores cases de transmissão ao vivo na internet com ferramentas livres e de código aberto.',
     ],
     since: '2005',
+    until: '2018',
     // tv.softwarelivre.org no longer resolves, so no outbound link.
   },
   {
     slug: 'radio-software-livre',
     name: 'Rádio Software Livre',
     summary:
-      'Entrou no ar em 19 de junho de 2009, numa operação conjunta entre voluntários de Porto Alegre, São Carlos e Denver. Hoje transmite eventos livres e independentes por demanda.',
+      'Entrou no ar em 19 de junho de 2009, numa operação conjunta entre voluntários de Porto Alegre, São Carlos e Denver. Transmitiu sobretudo de dentro do FISL, até a última edição, em 2018.',
     body: [
       'A Rádio Software Livre entrou no ar na madrugada de 19 de junho de 2009. Numa operação conjunta entre voluntários de Porto Alegre, São Carlos e Denver, ganhou as ondas da web.',
-      'Atualmente transmite por demanda eventos livres e independentes.',
+      'Funcionou sobretudo de dentro de cada FISL e saiu do ar com ele, depois da última edição, em 2018.',
     ],
     since: '2009',
+    until: '2018',
   },
   {
     slug: 'cine-kafune',
