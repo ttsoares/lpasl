@@ -79,106 +79,138 @@ function disposeScene(scene: Scene) {
   })
 }
 
+/** Hands the main thread back to the browser so input can run between steps. */
+function yieldToMain() {
+  return new Promise<void>((resolve) => setTimeout(resolve, 0))
+}
+
 /**
  * Mounts the sky and the swallowtail in `container` and returns a teardown.
  * With `still`, it renders one frame, gliding in the middle of a still sky,
  * and never animates.
+ *
+ * Setup runs as separate tasks rather than one: creating the WebGL context and
+ * compiling the shaders each took 270-550ms on a cold load, long enough to
+ * block a click. Shaders compile through compileAsync, which uses the driver's
+ * parallel compile where it has one. The canvas joins the page only once the
+ * first frame is ready; until then the box's own gradient shows. The teardown
+ * is safe at any step.
  */
 export function mountFlyingBorb(container: HTMLElement, { still }: { still: boolean }) {
-  const renderer = new WebGLRenderer({ antialias: true })
-  renderer.outputColorSpace = SRGBColorSpace
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-  renderer.domElement.style.display = 'block'
-  container.appendChild(renderer.domElement)
-
-  const scene = new Scene()
-  const camera = new PerspectiveCamera(FOV, 1, 0.1, 20)
-  camera.position.z = CAMERA_Z
-
-  const sky = createSky(scene, CAMERA_Z, FOV)
-  const sun = new DirectionalLight('#FFF4DC', 3)
-  sun.position.set(-2, 3, 4)
-  scene.add(sun, new HemisphereLight('#D4E8FF', '#B09868', 2.2))
-
-  const butterfly = createSwallowtail()
-  butterfly.root.scale.setScalar(SCALE)
-  scene.add(butterfly.root)
-
-  const resize = () => {
-    const { clientWidth: w, clientHeight: h } = container
-    if (!w || !h) return
-    renderer.setSize(w, h)
-    camera.aspect = w / h
-    camera.updateProjectionMatrix()
-    if (still) renderer.render(scene, camera)
-  }
-  const resizer = new ResizeObserver(resize)
-  resizer.observe(container)
-
-  const dispose = () => {
-    resizer.disconnect()
-    disposeScene(scene)
-    renderer.dispose()
-    renderer.domElement.remove()
+  let stopped = false
+  const cleanups: (() => void)[] = []
+  const teardown = () => {
+    stopped = true
+    while (cleanups.length) cleanups.pop()!()
   }
 
-  if (still) {
-    aim(new Vector3(0.35, 1, 0), butterfly.root.quaternion)
-    butterfly.setWings(0.3, 0.25)
-    resize()
-    return dispose
-  }
-  resize()
+  const setup = async () => {
+    await yieldToMain()
+    if (stopped) return
 
-  const clock = new Clock()
-  const pos = new Vector3()
-  const ahead = new Vector3()
-  const target = new Quaternion()
-  let elapsed = 0
-  let phase = 0
-  let frame = 0
+    const renderer = new WebGLRenderer({ antialias: true })
+    renderer.outputColorSpace = SRGBColorSpace
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.domElement.style.display = 'block'
+    cleanups.push(() => {
+      renderer.dispose()
+      renderer.domElement.remove()
+    })
 
-  const tick = () => {
-    frame = requestAnimationFrame(tick)
-    // Clamp so a long pause (hidden tab) resumes in place instead of jumping.
-    const dt = Math.min(clock.getDelta(), 1 / 20)
-    elapsed += dt
+    await yieldToMain()
+    if (stopped) return
 
-    flightPath(elapsed, camera.aspect, pos)
-    const heading = flightPath(elapsed + 0.3, camera.aspect, ahead).sub(pos)
-    // Ease toward the heading rather than snapping, so turns read as banking.
-    butterfly.root.quaternion.slerp(aim(heading, target), 1 - Math.exp(-3 * dt))
+    const scene = new Scene()
+    cleanups.push(() => disposeScene(scene))
+    const camera = new PerspectiveCamera(FOV, 1, 0.1, 20)
+    camera.position.z = CAMERA_Z
 
-    // Flap in bursts with short glides between (power 0), beating faster
-    // when climbing.
-    const power = MathUtils.smoothstep(Math.sin((elapsed * Math.PI * 2) / 5.3), -0.8, -0.4)
-    phase += dt * Math.PI * 2 * BEAT * (1 + MathUtils.clamp(heading.y * 2, -0.3, 0.4))
-    const open = MathUtils.lerp(0.2, 0.42, power)
-    const swing = MathUtils.lerp(0.06, 0.75, power)
-    // The hindwings trail the forewings slightly, as in a real stroke.
-    butterfly.setWings(open + swing * Math.sin(phase), open + swing * 0.92 * Math.sin(phase - 0.4))
+    const sky = createSky(scene, CAMERA_Z, FOV)
+    const sun = new DirectionalLight('#FFF4DC', 3)
+    sun.position.set(-2, 3, 4)
+    scene.add(sun, new HemisphereLight('#D4E8FF', '#B09868', 2.2))
 
-    // Each downstroke lifts the body a touch.
-    const lift = new Vector3(0, 0, 1).applyQuaternion(butterfly.root.quaternion)
-    butterfly.root.position.copy(pos).addScaledVector(lift, -0.03 * power * Math.cos(phase))
+    const butterfly = createSwallowtail()
+    butterfly.root.scale.setScalar(SCALE)
+    scene.add(butterfly.root)
 
-    sky.update(dt)
-    renderer.render(scene, camera)
-  }
+    await renderer.compileAsync(scene, camera)
+    if (stopped) return
 
-  // Only spend frames while the square is on screen.
-  const watcher = new IntersectionObserver(([entry]) => {
-    cancelAnimationFrame(frame)
-    if (entry.isIntersecting) {
-      clock.getDelta()
-      tick()
+    container.appendChild(renderer.domElement)
+
+    const resize = () => {
+      const { clientWidth: w, clientHeight: h } = container
+      if (!w || !h) return
+      renderer.setSize(w, h)
+      camera.aspect = w / h
+      camera.updateProjectionMatrix()
+      if (still) renderer.render(scene, camera)
     }
-  })
-  watcher.observe(container)
+    const resizer = new ResizeObserver(resize)
+    resizer.observe(container)
+    cleanups.push(() => resizer.disconnect())
 
-  return () => {
-    cancelAnimationFrame(frame)
-    watcher.disconnect()
-    dispose()
+    if (still) {
+      aim(new Vector3(0.35, 1, 0), butterfly.root.quaternion)
+      butterfly.setWings(0.3, 0.25)
+      resize()
+      return
+    }
+    resize()
+
+    const clock = new Clock()
+    const pos = new Vector3()
+    const ahead = new Vector3()
+    const target = new Quaternion()
+    let elapsed = 0
+    let phase = 0
+    let frame = 0
+
+    const tick = () => {
+      frame = requestAnimationFrame(tick)
+      // Clamp so a long pause (hidden tab) resumes in place instead of jumping.
+      const dt = Math.min(clock.getDelta(), 1 / 20)
+      elapsed += dt
+
+      flightPath(elapsed, camera.aspect, pos)
+      const heading = flightPath(elapsed + 0.3, camera.aspect, ahead).sub(pos)
+      // Ease toward the heading rather than snapping, so turns read as banking.
+      butterfly.root.quaternion.slerp(aim(heading, target), 1 - Math.exp(-3 * dt))
+
+      // Flap in bursts with short glides between (power 0), beating faster
+      // when climbing.
+      const power = MathUtils.smoothstep(Math.sin((elapsed * Math.PI * 2) / 5.3), -0.8, -0.4)
+      phase += dt * Math.PI * 2 * BEAT * (1 + MathUtils.clamp(heading.y * 2, -0.3, 0.4))
+      const open = MathUtils.lerp(0.2, 0.42, power)
+      const swing = MathUtils.lerp(0.06, 0.75, power)
+      // The hindwings trail the forewings slightly, as in a real stroke.
+      butterfly.setWings(open + swing * Math.sin(phase), open + swing * 0.92 * Math.sin(phase - 0.4))
+
+      // Each downstroke lifts the body a touch.
+      const lift = new Vector3(0, 0, 1).applyQuaternion(butterfly.root.quaternion)
+      butterfly.root.position.copy(pos).addScaledVector(lift, -0.03 * power * Math.cos(phase))
+
+      sky.update(dt)
+      renderer.render(scene, camera)
+    }
+
+    // Only spend frames while the square is on screen.
+    const watcher = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(frame)
+      if (entry.isIntersecting) {
+        clock.getDelta()
+        tick()
+      }
+    })
+    watcher.observe(container)
+    cleanups.push(() => {
+      cancelAnimationFrame(frame)
+      watcher.disconnect()
+    })
   }
+
+  // No WebGL, or a failed compile: undo what was built and leave the gradient.
+  setup().catch(teardown)
+  return teardown
 }
