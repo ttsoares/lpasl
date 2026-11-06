@@ -5,6 +5,7 @@ import { FlyingBorb } from '../components/FlyingBorb/FlyingBorb'
 import { site } from '../content/site'
 import { hideOnPhone } from '../styles/phone'
 import { colors, layout, sky, typeScale } from '../styles/tokens'
+import { FislSection } from '../sections/home/FislSection'
 import { GovernanceSection } from '../sections/home/GovernanceSection'
 import { InitiativesSection } from '../sections/home/InitiativesSection'
 import { ManifestoSection } from '../sections/home/ManifestoSection'
@@ -17,6 +18,7 @@ export function Home() {
       <HomeHero />
       <InitiativesSection />
       <ManifestoSection />
+      <FislSection />
       <NewsSection />
       <MembershipSection />
       <GovernanceSection />

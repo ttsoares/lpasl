@@ -85,3 +85,16 @@ export function formatPostDate(isoDate: string) {
 }
 
 export const postsNewestFirst = [...posts].sort((a, b) => b.date.localeCompare(a.date))
+
+/** How long a post counts as news on the home page. */
+const homeNewsWindowDays = 183
+
+/**
+ * Posts recent enough for the home page, newest first. Older posts stay on
+ * /noticias; a home page that leads with a year-old notice reads as inactive.
+ * Evaluated in the browser, so the section reappears when a new post lands.
+ */
+export function homeNews(now: Date = new Date()) {
+  const cutoff = now.getTime() - homeNewsWindowDays * 24 * 60 * 60 * 1000
+  return postsNewestFirst.filter((post) => new Date(`${post.date}T12:00:00`).getTime() >= cutoff)
+}

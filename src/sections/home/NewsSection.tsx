@@ -2,11 +2,16 @@ import { Box, Link as MuiLink, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Section } from '../../components/Section/Section'
 import { SectionHeading } from '../../components/SectionHeading/SectionHeading'
-import { formatPostDate, posts } from '../../content/posts'
+import { formatPostDate, homeNews } from '../../content/posts'
 import { hideOnPhone } from '../../styles/phone'
 import { textRoles } from '../../styles/tokens'
 
 export function NewsSection() {
+  const recent = homeNews()
+  // Nothing from the last six months: leave the section out rather than lead
+  // with old notices. /noticias keeps the full archive.
+  if (recent.length === 0) return null
+
   return (
     <Section tone="paper" labelledBy="noticias-title">
       <SectionHeading
@@ -17,7 +22,7 @@ export function NewsSection() {
       />
 
       <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, mt: { xs: 4, md: 6 } }}>
-        {posts.map((post) => (
+        {recent.map((post) => (
           <Box
             component="li"
             key={post.slug}
