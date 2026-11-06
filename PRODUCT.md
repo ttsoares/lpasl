@@ -8,15 +8,18 @@ web
 
 ## Users
 
-Primary: would-be members. People in the Brazilian free-software community
-(developers, students, activists, professionals and public servants) who are
-deciding whether to join ASL. They arrive curious about what ASL is, often
-knowing it only through FISL, and need to understand it, trust it, and see how
-to join.
+Primary (decided 2026-11-06): the evaluators of two funding applications
+ASL has submitted, about US$270,000 each. They will look at this site to judge
+whether ASL is real, active, well governed and able to deliver a project of
+that size. They do not know ASL and are not joining it; they are checking it.
 
-Secondary, served by the same site: current members (editais, assemblies,
-statute and governance documents), volunteers, and partners or press checking
-the association's history and legitimacy.
+Secondary: old friends, former volunteers and partners of the FISL years, who
+are expected to come back if funding returns; and current associates
+(editais, assemblies, statute and governance documents).
+
+Membership is no longer a goal: the coordination does not expect new
+applications. "Associe-se" stays available but is not the site's call to
+action.
 
 ## Product Purpose
 
@@ -24,9 +27,12 @@ asl.org.br is the site of Associação Software Livre.Org, a non-profit civil
 association founded on 11 September 2003 in Porto Alegre. It replaces a dated
 WordPress site that never said what ASL is.
 
-The site exists to turn a curious visitor into a member. Success means a
-visitor understands within seconds that ASL is the free-software association
-behind FISL, active since 2003, and finds the way to join without searching.
+The site exists to show a funder, within minutes, that ASL is a credible
+organisation to fund: a long track record (FISL, 18 editions, 2000-2018),
+current work (Cine Kafuné, and the projects it has applied for), documented
+governance (elected coordination, Estatuto, atas, accounts), and a real
+address and people to contact. Success means an evaluator finds that evidence
+without searching and leaves trusting ASL's capacity.
 
 ## Positioning
 
