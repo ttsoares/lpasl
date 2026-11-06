@@ -307,6 +307,9 @@
 .atu-tv-track.is-live {
   /* Full size at 70% of the pin, then held, so the screen rests filled. */
   --g: clamp(0, (var(--p, 0) - 0.05) * 1.55, 1);
+  /* The monitor's scale. It shrinks around its centre, so each edge sits
+     (1 - s) / 2 in from the frame: the caption uses that to follow it. */
+  --s: calc(0.36 + var(--g) * 0.64);
   /* Still the page's one pinned scene, but short: at 300vh it felt stuck. */
   height: 170vh;
 }
@@ -350,7 +353,7 @@
 }
 
 .atu-tv-track.is-live .atu-tv-screen {
-  transform: scale(calc(0.36 + var(--g) * 0.64));
+  transform: scale(var(--s));
   border-radius: calc((1 - var(--g)) * 24px);
 }
 
@@ -358,11 +361,17 @@
   opacity: calc(0.6 - var(--g) * 0.3);
 }
 
+/*
+ * The caption rides 12px above the monitor while it is small, aligned to its
+ * edges, and rises with the top edge as it grows until it settles 16px inside
+ * the full screen. Above, not below: the clip's own lower third names the
+ * speaker. 80px = the bar's 68px (a 44px button plus padding) and the gap.
+ */
 .atu-tv-track.is-live .atu-tv-caption {
   position: absolute;
-  top: 24px;
-  left: 24px;
-  right: 24px;
+  top: max(16px, calc((1 - var(--s)) * 50% - 80px));
+  left: max(16px, calc((1 - var(--s)) * 50%));
+  right: max(16px, calc((1 - var(--s)) * 50%));
   margin: 0;
   padding: 12px 16px;
   border-radius: 8px;
