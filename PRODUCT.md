@@ -30,12 +30,18 @@ behind FISL, active since 2003, and finds the way to join without searching.
 
 ## Positioning
 
-ASL is the association that organises FISL (Fórum Internacional Software
+ASL is the association that organised FISL (Fórum Internacional Software
 Livre), the largest free-software event in South America, and maintains the
-Projeto Software Livre Brasil. Its standing comes from more than two decades of
-running FISL, TV Software Livre, Rádio Software Livre and Cine Kafuné, and from
-an elected, documented governance. No newer group can truthfully claim that
-history.
+Projeto Software Livre Brasil. FISL ran for 18 editions, 2000 to 2018; it
+ended with COVID-19 and with free software becoming ordinary in Brazil, and is
+not expected to return. ASL's standing comes from that history (FISL, TV
+Software Livre, Rádio Software Livre, Cine Kafuné) and from an elected,
+documented governance. No newer group can truthfully claim it. Write about
+FISL in the past tense.
+
+Open question: with FISL over, what ASL does now is the weakest part of the
+pitch to new members. ASL later widened its cause to Padrões Livres (open
+codecs and document formats); see TODO.md.
 
 ## Operating Context
 

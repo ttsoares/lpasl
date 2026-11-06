@@ -130,6 +130,21 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
 - [ ] **PSL.Br link.** The project row links to the Facebook page
       (`facebook.com/PSLBrasil`) because the old site is gone; confirm that is
       the link and wording ASL wants.
+- [ ] **Padrões Livres (deferred, user is researching).** ASL widened its cause
+      from free software to open standards: free audio/video codecs, open
+      document formats. Nothing on the site says so. Needs when it started and
+      one or two concrete actions before it goes on `/quem-somos` (a three-step
+      history: FISL 2000 → ASL 2003 → Padrões Livres). Wikipedia's FISL article
+      does not cover it.
+- [ ] **Which initiatives are still active?** FISL ended in 2018 and the site
+      now says so (`until` in `initiatives.ts`). TV Software Livre's domain no
+      longer resolves; Rádio Software Livre and Cine Kafuné are unconfirmed. Any
+      that ended need an `until` year, and the home mission line ("mantém
+      projetos de transmissão, formação e cultura livre") must match.
+- [ ] **Workshop Software Livre.** FISL's academic event since 2000 (SBC,
+      published proceedings, per Wikipedia), which ASL ran inside FISL. Not on
+      the site; decide whether it is its own `/atuacao` scene or a line under
+      FISL.
 
 ---
 

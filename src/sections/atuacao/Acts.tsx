@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import type { Initiative } from '../../content/initiatives'
+import { initiativePeriod, type Initiative } from '../../content/initiatives'
 import { useReveal } from './useReveal'
 import { useScrollProgress } from './useScrollProgress'
 
@@ -21,7 +21,7 @@ function Copy({ initiative, children }: { initiative: Initiative; children?: Rea
       </h2>
       {initiative.since && (
         <p className="atu-since atu-r" style={step(next++)}>
-          Desde {initiative.since}
+          {initiativePeriod(initiative)}
         </p>
       )}
       {children && (

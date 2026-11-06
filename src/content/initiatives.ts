@@ -6,8 +6,16 @@ export type Initiative = {
   /** Full description, used on the Atuação page. */
   body: string[]
   since?: string
+  /** Final year, for an initiative that has ended. */
+  until?: string
   /** Project site, when there is one. */
   url?: string
+}
+
+/** "Desde 2005", or "2000–2018" for an initiative that has ended. */
+export function initiativePeriod({ since, until }: Initiative) {
+  if (!since) return undefined
+  return until ? `${since}–${until}` : `Desde ${since}`
 }
 
 /** Initiatives run by ASL, from the association's own Atuação page. */
@@ -28,25 +36,27 @@ export const initiatives: Initiative[] = [
     slug: 'fisl',
     name: 'FISL',
     summary:
-      'O Fórum Internacional Software Livre é o maior evento de software livre da América do Sul. Acontece todos os anos em Porto Alegre, organizado pelo PSL.Br e pela ASL.',
+      'O Fórum Internacional Software Livre foi o maior evento de software livre da América do Sul: 18 edições em Porto Alegre, de 2000 a 2018, organizadas pelo PSL.Br e pela ASL.',
     body: [
       'Criado em 2000, o Fórum Internacional Software Livre tornou-se um ponto de encontro anual de pessoas de todo o Brasil e do mundo para debates técnicos e estratégicos sobre as novas tecnologias da informação.',
-      'É promovido, organizado e realizado pelo Projeto Software Livre Brasil e pela ASL. É o maior evento de software livre da América do Sul e um dos maiores do mundo.',
+      'Promovido, organizado e realizado pelo Projeto Software Livre Brasil e pela ASL, foi o maior evento de software livre da América do Sul e um dos maiores do mundo. A maior edição, o FISL 10, em 2009, teve 8.232 inscritos; a última, o FISL 18, aconteceu em 2018.',
     ],
     since: '2000',
-    url: 'http://www.fisl.org.br/',
+    until: '2018',
+    // fisl.org.br no longer resolves; the Wikipedia article keeps the record.
+    url: 'https://pt.wikipedia.org/wiki/F%C3%B3rum_Internacional_Software_Livre',
   },
   {
     slug: 'tv-software-livre',
     name: 'TV Software Livre',
     summary:
-      'Transmite o FISL e outros eventos de software livre com ferramentas livres e de código aberto. É um dos maiores cases de transmissão ao vivo na internet.',
+      'Transmitiu o FISL e outros eventos de software livre com ferramentas livres e de código aberto. É um dos maiores cases de transmissão ao vivo na internet.',
     body: [
       'A TVSL disponibiliza sua plataforma de ferramentas, infraestrutura e conhecimentos para a transmissão de eventos de software livre no Brasil.',
-      'Desde 2005 transmite o FISL e representa um dos maiores cases de transmissão ao vivo na internet com ferramentas livres e de código aberto.',
+      'De 2005 a 2018 transmitiu o FISL, um dos maiores cases de transmissão ao vivo na internet com ferramentas livres e de código aberto.',
     ],
     since: '2005',
-    url: 'http://tv.softwarelivre.org/',
+    // tv.softwarelivre.org no longer resolves, so no outbound link.
   },
   {
     slug: 'radio-software-livre',

@@ -18,7 +18,7 @@ export function FislSection() {
     <Section tone="paper" labelledBy="fisl-title">
       <SectionHeading
         id="fisl-title"
-        title="O maior evento de software livre da América do Sul"
+        title="18 edições do maior evento de software livre da América do Sul"
         lead={fisl.body[0]}
         action={{ label: 'Ver o FISL na Atuação', to: '/atuacao#fisl' }}
       />
@@ -40,8 +40,8 @@ export function FislSection() {
           component="figcaption"
           sx={{ ...textRoles.meta, mt: 2, color: 'text.secondary' }}
         >
-          FISL 10, Porto Alegre, 2009: Luiz Inácio Lula da Silva, então presidente da República.
-          Imagem da TV Software Livre.
+          FISL 10, Porto Alegre, 2009, a maior edição, com 8.232 inscritos: Luiz Inácio Lula da
+          Silva, então presidente da República. Imagem da TV Software Livre.
         </Typography>
       </Box>
     </Section>

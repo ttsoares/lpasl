@@ -171,11 +171,11 @@ export function QuemSomos() {
               variant="h2"
               sx={{ maxWidth: '18ch', color: colors.paper }}
             >
-              A ASL organiza o FISL.
+              A ASL organizou o FISL.
             </Typography>
             <Typography sx={{ mt: 3, maxWidth: '31em', color: 'rgba(255, 255, 255, 0.76)' }}>
-              O Fórum Internacional Software Livre é o maior evento de software livre da América
-              do Sul e acontece todos os anos em Porto Alegre.
+              O Fórum Internacional Software Livre foi o maior evento de software livre da América
+              do Sul: 18 edições em Porto Alegre, de 2000 a 2018.
             </Typography>
           </Box>
 

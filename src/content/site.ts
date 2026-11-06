@@ -10,7 +10,7 @@ export const site = {
     lead:
       'A ASL é uma associação sem fins lucrativos que reúne pessoas e instituições em torno do software livre e do conhecimento compartilhado.',
     place: 'Desde 2003, em Porto Alegre.',
-    work: 'Organizamos o FISL.',
+    work: 'Organizamos o FISL até 2018.',
   },
   emails: {
     general: 'asl@asl.org.br',

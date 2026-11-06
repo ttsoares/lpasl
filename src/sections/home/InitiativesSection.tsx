@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { RuledRow } from '../../components/RuledRow/RuledRow'
 import { Section } from '../../components/Section/Section'
 import { SectionHeading } from '../../components/SectionHeading/SectionHeading'
-import { initiatives } from '../../content/initiatives'
+import { initiativePeriod, initiatives } from '../../content/initiatives'
 
 export function InitiativesSection() {
   return (
@@ -20,7 +20,7 @@ export function InitiativesSection() {
             key={initiative.slug}
             title={initiative.name}
             description={initiative.summary}
-            meta={initiative.since ? `Desde ${initiative.since}` : undefined}
+            meta={initiativePeriod(initiative)}
             to={`/atuacao#${initiative.slug}`}
             brief
           />
