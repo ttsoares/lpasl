@@ -1,11 +1,36 @@
 /*
  * Atuação: one dark run of five scenes, each with its own scroll device.
  *
- * Every rule outside `.is-live` is the finished composition, which is what
- * phones, reduced motion and no-JS get. `useScrollProgress` adds `.is-live`
- * on wide screens with motion allowed and writes the section's progress into
- * `--p` (0 to 1). Only transform, opacity and clip-path animate.
+ * Every rule outside `.will-reveal` and `.is-live` is the finished
+ * composition, which is what reduced motion and no-JS get.
+ *
+ * Most acts make a timed entrance (`useReveal`): `.will-reveal` sets the start,
+ * `.is-in` the end, and the transition always runs to completion, so a visitor
+ * who stops scrolling never sees a half-revealed image. Only two effects follow
+ * the scroll position, because they read well at any point: the TV monitor's
+ * growth (the peak) and the radio photo's drift. `useScrollProgress` adds
+ * `.is-live` for those on wide screens with motion allowed and writes the
+ * progress into `--p` (0 to 1). Only transform, opacity and clip-path animate.
  */
+
+/* Entrances: copy lines rise in sequence after the image (step 0). */
+
+.atu-r {
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(180ms + var(--i, 0) * 70ms);
+}
+
+.will-reveal .atu-r {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+}
+
+.will-reveal.is-in .atu-r {
+  opacity: 1;
+  transform: none;
+}
 
 .atu {
   background: #000;
@@ -129,7 +154,7 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* PSL.Br: a paper panel wipes open across the logo */
+/* PSL.Br: the panel settles in and the logo turns into place on it */
 
 .atu-psl-panel {
   display: grid;
@@ -145,19 +170,34 @@
   height: 180px;
 }
 
-.atu-psl.is-live {
-  --r: clamp(0, (var(--p, 0) - 0.12) * 3.2, 1);
+.atu-psl-panel,
+.atu-psl-panel img {
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1000ms cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
-.atu-psl.is-live .atu-psl-panel {
-  clip-path: inset(0 calc((1 - var(--r)) * 100%) 0 0 round 8px);
+.atu-psl-panel img {
+  transition-delay: 160ms;
 }
 
-.atu-psl.is-live .atu-psl-panel img {
-  transform: scale(calc(0.8 + var(--r) * 0.2));
+.will-reveal .atu-psl-panel {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0) scale(0.96);
 }
 
-/* FISL: the yellow sign shows alone, then the diamond opens onto the poster */
+.will-reveal .atu-psl-panel img {
+  opacity: 0;
+  transform: scale(0.7) rotate(-12deg);
+}
+
+.will-reveal.is-in .atu-psl-panel,
+.will-reveal.is-in .atu-psl-panel img {
+  opacity: 1;
+  transform: none;
+}
+
+/* FISL: the sign swings upright, like a road sign set in place */
 
 .atu-fisl-frame {
   justify-self: center;
@@ -169,34 +209,21 @@
   display: block;
   width: 100%;
   height: 100%;
+  /* Pivot from the bottom corner, where a post would hold it. */
+  transform-origin: 50% 100%;
+  transition:
+    opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1100ms cubic-bezier(0.34, 1.25, 0.64, 1);
 }
 
-.atu-fisl.is-live {
-  --o: clamp(0, (var(--p, 0) - 0.1) * 1.6, 1);
-  height: 240vh;
-  padding: 0;
+.will-reveal .atu-fisl-frame img {
+  opacity: 0;
+  transform: rotate(-24deg) scale(0.86);
 }
 
-.atu-fisl.is-live .atu-stage {
-  position: sticky;
-  top: 80px;
-  display: flex;
-  align-items: center;
-  height: calc(100vh - 80px);
-}
-
-.atu-fisl.is-live .atu-fisl-frame {
-  width: min(100%, 440px, 62vh);
-}
-
-.atu-fisl.is-live .atu-fisl-frame img {
-  clip-path: polygon(
-    calc(50% - var(--o) * 50%) calc((1 - var(--o)) * 3.5%),
-    calc(100% - (1 - var(--o)) * 3.5%) calc(50% - var(--o) * 50%),
-    calc(50% + var(--o) * 50%) calc(100% - (1 - var(--o)) * 3.5%),
-    calc((1 - var(--o)) * 3.5%) calc(50% + var(--o) * 50%)
-  );
-  transform: scale(calc(0.72 + var(--o) * 0.28)) rotate(calc((1 - var(--o)) * -14deg));
+.will-reveal.is-in .atu-fisl-frame img {
+  opacity: 1;
+  transform: none;
 }
 
 /* TV Software Livre, the peak: a small monitor grows to fill the screen */
@@ -278,9 +305,10 @@
 }
 
 .atu-tv-track.is-live {
-  --g: clamp(0, (var(--p, 0) - 0.08) * 1.45, 1);
-  /* The tallest span on the page: this is the moment it was built for. */
-  height: 300vh;
+  /* Full size at 70% of the pin, then held, so the screen rests filled. */
+  --g: clamp(0, (var(--p, 0) - 0.05) * 1.55, 1);
+  /* Still the page's one pinned scene, but short: at 300vh it felt stuck. */
+  height: 170vh;
 }
 
 .atu-tv:has(.atu-tv-track.is-live) {
@@ -355,6 +383,18 @@
   height: auto;
 }
 
+.atu-radio-photo {
+  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.will-reveal .atu-radio-photo {
+  opacity: 0;
+}
+
+.will-reveal.is-in .atu-radio-photo {
+  opacity: 1;
+}
+
 .atu-onair {
   display: inline-flex;
   align-items: center;
@@ -390,7 +430,7 @@
   transform: translate3d(0, calc((var(--p, 0) - 0.5) * -6%), 0) scale(1.12);
 }
 
-/* Cine Kafuné: letterbox bars part on the logo */
+/* Cine Kafuné: letterbox bars part on the logo, once, like house lights going down */
 
 .atu-kafune {
   background: #1c1c1c;
@@ -413,13 +453,20 @@
   margin: 64px auto 0;
 }
 
-.atu-kafune.is-live {
-  --l: clamp(0, (var(--p, 0) - 0.1) * 2.6, 1);
+.atu-kafune-screen img {
+  transition:
+    clip-path 1300ms cubic-bezier(0.65, 0, 0.35, 1),
+    transform 1600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.atu-kafune.is-live .atu-kafune-screen img {
-  clip-path: inset(calc((1 - var(--l)) * 50%) 0);
-  transform: scale(calc(1.08 - var(--l) * 0.08));
+.will-reveal .atu-kafune-screen img {
+  clip-path: inset(50% 0);
+  transform: scale(1.08);
+}
+
+.will-reveal.is-in .atu-kafune-screen img {
+  clip-path: inset(0 0);
+  transform: none;
 }
 
 /* Phones: tighter rhythm, the front plane steps aside */

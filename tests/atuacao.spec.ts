@@ -41,6 +41,29 @@ test.describe('/atuacao', () => {
     await expect(button).toHaveText(before ? 'Silenciar' : 'Ativar som')
   })
 
+  test('every act finishes its entrance, wherever the visitor stops', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/atuacao')
+    for (const id of ['psl-br', 'fisl', 'cine-kafune']) {
+      const act = page.locator(`#${id}`)
+      await act.scrollIntoViewIfNeeded()
+      await expect(act).toHaveClass(/is-in/)
+      // Scroll no further: the entrance must still run to its end state.
+      await expect
+        .poll(() =>
+          act.evaluate((el) =>
+            [...el.querySelectorAll('img, .atu-r')].every((node) => {
+              const style = getComputedStyle(node)
+              return style.opacity === '1' && style.transform === 'none' && style.clipPath !== 'inset(50% 0px)'
+            }),
+          ),
+        )
+        .toBe(true)
+    }
+    // Only the TV scene is pinned now; FISL scrolls like any other act.
+    expect(await page.locator('#fisl').evaluate((el) => el.offsetHeight)).toBeLessThan(900)
+  })
+
   test('deep links land below the sticky header', async ({ page }) => {
     await page.setViewportSize({ width: 1366, height: 900 })
     await page.goto('/atuacao#cine-kafune')

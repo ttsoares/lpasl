@@ -1,24 +1,43 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import type { Initiative } from '../../content/initiatives'
+import { useReveal } from './useReveal'
 import { useScrollProgress } from './useScrollProgress'
 
 const media = '/media/atuacao'
 
-/** Name, founding year, body and the project link, shared by every act. */
+/** Position in an act's entrance sequence; atuacao.css turns it into a delay. */
+const step = (index: number) => ({ '--i': index }) as CSSProperties
+
+/**
+ * Name, founding year, body and the project link, shared by every act. Each
+ * line is one step of the act's entrance, after the image (step 0).
+ */
 function Copy({ initiative, children }: { initiative: Initiative; children?: ReactNode }) {
+  let next = 1
   return (
     <div className="atu-copy">
-      <h2 className="atu-name">{initiative.name}</h2>
-      {initiative.since && <p className="atu-since">Desde {initiative.since}</p>}
-      {children}
+      <h2 className="atu-name atu-r" style={step(next++)}>
+        {initiative.name}
+      </h2>
+      {initiative.since && (
+        <p className="atu-since atu-r" style={step(next++)}>
+          Desde {initiative.since}
+        </p>
+      )}
+      {children && (
+        <div className="atu-r" style={step(next++)}>
+          {children}
+        </div>
+      )}
       {initiative.body.map((paragraph) => (
-        <p key={paragraph.slice(0, 24)} className="atu-body">
+        <p key={paragraph.slice(0, 24)} className="atu-body atu-r" style={step(next++)}>
           {paragraph}
         </p>
       ))}
       {initiative.url && (
         <a
-          className="atu-link"
+          className="atu-link atu-r"
+          style={step(next++)}
           href={initiative.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -45,9 +64,9 @@ export function AtuacaoHero({ lead }: { lead: string }) {
   )
 }
 
-/** A paper panel wipes open across the PSL.Br logo. */
+/** The paper panel settles in and the PSL.Br logo turns into place on it. */
 export function PslAct({ initiative }: { initiative: Initiative }) {
-  const ref = useScrollProgress<HTMLElement>('pass')
+  const ref = useReveal<HTMLElement>()
   return (
     <article ref={ref} id={initiative.slug} className="atu-act atu-psl">
       <div className="atu-wrap atu-split">
@@ -65,22 +84,20 @@ export function PslAct({ initiative }: { initiative: Initiative }) {
   )
 }
 
-/** The yellow FISL sign shows alone, then the diamond opens onto the full poster. */
+/** The FISL sign swings upright, like a road sign set in place. */
 export function FislAct({ initiative }: { initiative: Initiative }) {
-  const ref = useScrollProgress<HTMLElement>('pin')
+  const ref = useReveal<HTMLElement>()
   return (
     <article ref={ref} id={initiative.slug} className="atu-act atu-fisl">
-      <div className="atu-stage">
-        <div className="atu-wrap atu-split atu-split-flip">
-          <Copy initiative={initiative} />
-          <div className="atu-fisl-frame">
-            <img
-              src={`${media}/fisl.webp`}
-              alt="Cartaz do FISL: a placa amarela em losango com a frase Informação e comunicação abertas para a sociedade"
-              width={389}
-              height={389}
-            />
-          </div>
+      <div className="atu-wrap atu-split atu-split-flip">
+        <Copy initiative={initiative} />
+        <div className="atu-fisl-frame">
+          <img
+            src={`${media}/fisl.webp`}
+            alt="Cartaz do FISL: a placa amarela em losango com a frase Informação e comunicação abertas para a sociedade"
+            width={389}
+            height={389}
+          />
         </div>
       </div>
     </article>
@@ -95,6 +112,7 @@ export function FislAct({ initiative }: { initiative: Initiative }) {
  */
 export function TvAct({ initiative }: { initiative: Initiative }) {
   const ref = useScrollProgress<HTMLDivElement>('pin')
+  const copyRef = useReveal<HTMLDivElement>()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [muted, setMuted] = useState(false)
   // The visitor's own choice wins over the automatic unmute.
@@ -186,7 +204,7 @@ export function TvAct({ initiative }: { initiative: Initiative }) {
           </figure>
         </div>
       </div>
-      <div className="atu-wrap atu-tv-copy">
+      <div ref={copyRef} className="atu-wrap atu-tv-copy">
         <Copy initiative={initiative} />
       </div>
     </article>
@@ -196,9 +214,10 @@ export function TvAct({ initiative }: { initiative: Initiative }) {
 /** A studio photo drifting inside its frame, the copy beside it. */
 export function RadioAct({ initiative }: { initiative: Initiative }) {
   const ref = useScrollProgress<HTMLElement>('pass')
+  const revealRef = useReveal<HTMLDivElement>()
   return (
     <article ref={ref} id={initiative.slug} className="atu-act atu-radio">
-      <div className="atu-wrap atu-split atu-split-flip">
+      <div ref={revealRef} className="atu-wrap atu-split atu-split-flip">
         <div className="atu-radio-photo">
           <img
             src={`${media}/radio.webp`}
@@ -221,7 +240,7 @@ export function RadioAct({ initiative }: { initiative: Initiative }) {
 
 /** Letterbox bars part on the Cine Kafuné logo, like house lights going down. */
 export function KafuneAct({ initiative }: { initiative: Initiative }) {
-  const ref = useScrollProgress<HTMLElement>('pass')
+  const ref = useReveal<HTMLElement>()
   return (
     <article ref={ref} id={initiative.slug} className="atu-act atu-kafune">
       <div className="atu-kafune-screen">
