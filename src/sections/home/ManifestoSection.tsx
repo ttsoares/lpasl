@@ -3,10 +3,13 @@ import { visuallyHidden } from '@mui/utils'
 import { Link } from 'react-router-dom'
 import { Section } from '../../components/Section/Section'
 import { hideOnPhone } from '../../styles/phone'
-import { colors } from '../../styles/tokens'
+import { colors, fonts, textRoles, typeScale } from '../../styles/tokens'
 
-const mission =
-  'Difundir o software livre e seus princípios, propiciando espaço de discussão, apoio, organização e visibilidade a modelos, sistemas, iniciativas e resultados que promovam o conhecimento compartilhado para o desenvolvimento humano.'
+// The statute's mission, split where it turns from what to how: the first
+// clause carries the display type, the rest reads at lead size.
+const missionHead = 'Difundir o software livre e seus princípios,'
+const missionRest =
+  'propiciando espaço de discussão, apoio, organização e visibilidade a modelos, sistemas, iniciativas e resultados que promovam o conhecimento compartilhado para o desenvolvimento humano.'
 
 export function ManifestoSection() {
   return (
@@ -32,20 +35,34 @@ export function ManifestoSection() {
           >
             Missão
           </Typography>
-          <Typography
-            component="p"
-            sx={{
-              maxWidth: '38ch',
-              color: colors.paper,
-              fontFamily: '"Archivo Variable", "Archivo", system-ui, sans-serif',
-              fontWeight: 700,
-              fontStretch: '100%',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.2,
-              fontSize: 'clamp(1.5rem, 2.4vw, 2rem)',
-            }}
-          >
-            {mission}
+          <Typography component="p" sx={{ color: colors.paper }}>
+            <Box
+              component="span"
+              sx={{
+                display: 'block',
+                maxWidth: '14em',
+                fontFamily: fonts.display,
+                fontWeight: 700,
+                letterSpacing: '-0.02em',
+                lineHeight: 1.1,
+                fontSize: typeScale.h2,
+                textWrap: 'balance',
+              }}
+            >
+              {missionHead}
+            </Box>{' '}
+            <Box
+              component="span"
+              sx={{
+                display: 'block',
+                mt: 3,
+                maxWidth: '30em',
+                ...textRoles.lead,
+                color: 'rgba(255, 255, 255, 0.85)',
+              }}
+            >
+              {missionRest}
+            </Box>
           </Typography>
         </Box>
 

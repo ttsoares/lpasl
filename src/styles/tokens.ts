@@ -9,6 +9,8 @@ export const colors = {
   graphite: '#1C1C1C',
   paper: '#FFFFFF',
   sand: '#F4EDDD',
+  /** Sand's dark-mode stand-in: warm, so it still reads apart from graphite. */
+  sandNight: '#221D15',
   amber: '#FFC00F',
   amberPressed: '#E0A800',
   muted: '#565656',

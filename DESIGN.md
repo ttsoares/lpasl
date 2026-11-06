@@ -39,6 +39,7 @@ ornament.
 | `amber` | `#FFC00F` | Signal: hero type, primary CTA, marks |
 | `amberPressed` | `#E0A800` | Pressed/hover state for amber |
 | `graphite` | `#1C1C1C` | Raised dark surface |
+| `sandNight` | `#221D15` | Sand's dark-mode band |
 | `muted` | `#565656` | Secondary text on paper |
 
 Rules:
@@ -252,8 +253,8 @@ who runs it. Shared primitives were built first so the sections did not each inv
 **Primitives**
 
 - `src/components/Section/Section.tsx` — full-bleed band with three tones: `paper` (reading
-  surface, becomes ink in dark mode), `sand` (the one warm band, becomes graphite in dark
-  mode) and `ink` (statement, always black). Vertical rhythm is 64px on mobile and 128px on
+  surface, becomes ink in dark mode), `sand` (the one warm band, becomes `sandNight` #221D15 in
+  dark mode, a warm near-black that stays apart from the graphite footer) and `ink` (statement, always black). Vertical rhythm is 64px on mobile and 128px on
   desktop; `compact` halves it for a band that only carries a CTA.
 - `src/components/SectionHeading/SectionHeading.tsx` — a 7/5 grid with the hairline rule
   above it, the `h2` on the left and the lead plus optional link on the right. No eyebrow,

@@ -31,7 +31,7 @@ export function Section({
 
   const palette: Record<SectionTone, { bg: string; fg: string }> = {
     paper: { bg: isDark ? colors.ink : colors.paper, fg: isDark ? colors.paper : colors.ink },
-    sand: { bg: isDark ? colors.graphite : colors.sand, fg: isDark ? colors.paper : colors.ink },
+    sand: { bg: isDark ? colors.sandNight : colors.sand, fg: isDark ? colors.paper : colors.ink },
     // On a black page a black band disappears, so ink surfaces lift to graphite.
     ink: { bg: isDark ? colors.graphite : colors.ink, fg: colors.paper },
   }
