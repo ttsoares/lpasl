@@ -58,7 +58,8 @@ export function Header() {
         >
           <Link
             to="/"
-            aria-label={`${site.name} — página inicial`}
+            // Starts with the visible "ASL.org" so voice control can name it (WCAG 2.5.3).
+            aria-label={`ASL.org — ${site.name}, página inicial`}
             style={{ display: 'flex', alignItems: 'center', minHeight: 48, marginRight: 'auto' }}
           >
             <BrandLockup height={40} />
