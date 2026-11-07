@@ -82,6 +82,8 @@ export function RuledRow({ title, description, meta, to, children, brief = false
             ...textRoles.meta,
             color: 'text.secondary',
             justifySelf: { md: 'end' },
+            // Labels such as "Criada em 2005" must not break in the narrow column.
+            whiteSpace: 'nowrap',
             ...detail,
           }}
         >
