@@ -8,18 +8,15 @@ web
 
 ## Users
 
-Primary (decided 2026-11-06): the evaluators of two funding applications
-ASL has submitted, about US$270,000 each. They will look at this site to judge
-whether ASL is real, active, well governed and able to deliver a project of
-that size. They do not know ASL and are not joining it; they are checking it.
+Primary: would-be members. People in the Brazilian free-software community
+(developers, students, activists, professionals and public servants) who are
+deciding whether to join ASL. They arrive curious about what ASL is, often
+knowing it only through FISL, and need to understand it, trust it, and see how
+to join.
 
-Secondary: old friends, former volunteers and partners of the FISL years, who
-are expected to come back if funding returns; and current associates
-(editais, assemblies, statute and governance documents).
-
-Membership is no longer a goal: the coordination does not expect new
-applications. "Associe-se" stays available but is not the site's call to
-action.
+Secondary, served by the same site: current members (editais, assemblies,
+statute and governance documents), volunteers, and partners or press checking
+the association's history and legitimacy.
 
 ## Product Purpose
 
@@ -27,35 +24,38 @@ asl.org.br is the site of Associação Software Livre.Org, a non-profit civil
 association founded on 11 September 2003 in Porto Alegre. It replaces a dated
 WordPress site that never said what ASL is.
 
-The site exists to show a funder, within minutes, that ASL is a credible
-organisation to fund: a long track record (FISL, 18 editions, 2000-2018),
-current work (Cine Kafuné, and the projects it has applied for), documented
-governance (elected coordination, Estatuto, atas, accounts), and a real
-address and people to contact. Success means an evaluator finds that evidence
-without searching and leaves trusting ASL's capacity.
+The site exists to turn a curious visitor into a member. Success means a
+visitor understands within seconds that ASL is the free-software association
+behind FISL, active since 2003, and finds the way to join without searching.
 
-The one message, above all: **"A ASL está viva."** The redesign gives ASL a
-modern face, moves it off WordPress and shows a living organisation, not an
-archive of FISL. Every page should carry at least one current, dated sign of
-activity. When ready, this site replaces the WordPress site at asl.org.br.
+The redesign gives ASL a modern face, moves it off WordPress and shows that
+the association is still active. When ready, this site replaces the WordPress
+site at asl.org.br.
+
+Scope: this is a website refactor, not a strategy for the association. Keep
+the content, priorities and calls to action the current site has; do not
+reposition ASL or change what it asks of visitors on the strength of one
+member's view.
+
+## Tone
+
+Keep the tone of the current asl.org.br: plain, institutional and rooted in
+the free-software movement. It leads with the association's own news and
+editais, offers its documents, and quotes the movement (FSF, Snowden, Aaron
+Swartz). Nothing promotional, nothing salesy.
 
 ## Positioning
 
 ASL is the association that organises FISL (Fórum Internacional Software
 Livre), the largest free-software event ever held in South America, and
 maintains the Projeto Software Livre Brasil. FISL had 18 editions, 2000 to
-2018. COVID-19 and free software becoming ordinary in Brazil stopped it, but
-it is **not** over: ASL may bring it back in another format and size. Never
+2018. It has not run since 2018, but it is **not** over: ASL may bring it back in another format and size. Never
 say or imply that FISL ended for good: no "última edição", no closed
 "2000–2018" period. Say "18 edições entre 2000 e 2018" and "a mais recente,
 em 2018"; describe what FISL is in the present tense ("o maior … já
 realizado"). TV and Rádio Software Livre work mostly from inside FISL, so the
 same rule applies to them. ASL's standing comes from that history and from an
 elected, documented governance. No newer group can truthfully claim it.
-
-Open question: with FISL over, what ASL does now is the weakest part of the
-pitch to new members. ASL later widened its cause to Padrões Livres (open
-codecs and document formats); see TODO.md.
 
 ## Operating Context
 
