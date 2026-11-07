@@ -34,6 +34,11 @@ governance (elected coordination, Estatuto, atas, accounts), and a real
 address and people to contact. Success means an evaluator finds that evidence
 without searching and leaves trusting ASL's capacity.
 
+The one message, above all: **"A ASL está viva."** The redesign gives ASL a
+modern face, moves it off WordPress and shows a living organisation, not an
+archive of FISL. Every page should carry at least one current, dated sign of
+activity. When ready, this site replaces the WordPress site at asl.org.br.
+
 ## Positioning
 
 ASL is the association that organised FISL (Fórum Internacional Software
