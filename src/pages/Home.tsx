@@ -16,12 +16,13 @@ export function Home() {
   return (
     <>
       <HomeHero />
+      {/* The newest dated fact on the page, so it comes first: the 2025 election. */}
+      <GovernanceSection />
       <InitiativesSection />
       <ManifestoSection />
       <FislSection />
       <NewsSection />
       <MembershipSection />
-      <GovernanceSection />
     </>
   )
 }

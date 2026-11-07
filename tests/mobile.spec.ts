@@ -51,7 +51,10 @@ test.describe('phones (375px)', () => {
     await expect(hero.getByRole('link', { name: 'Conheça a ASL' })).toBeHidden()
     await expect(page.getByRole('banner').getByRole('link', { name: 'Associe-se' })).toBeHidden()
     await expect(page.getByText(/^Fundada em 11 de setembro/)).toBeHidden()
-    await expect(page.getByRole('heading', { name: /Coordenação 2025/ })).toBeHidden()
+    // The coordination band stays, compact: title and election date, no names.
+    await expect(page.getByRole('heading', { name: /Coordenação 2025/ })).toBeVisible()
+    await expect(page.getByText('Eleitos em 14 de novembro de 2025.')).toBeVisible()
+    await expect(page.getByText('Coordenação geral', { exact: true })).toBeHidden()
     await expect(page.getByRole('heading', { name: 'Navegue' })).toBeHidden()
     expect(scripts.some((url) => url.includes('FlyingBorb/scene'))).toBe(false)
   })

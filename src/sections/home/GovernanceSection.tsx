@@ -7,8 +7,9 @@ import { textRoles } from '../../styles/tokens'
 
 export function GovernanceSection() {
   return (
-    // On phones the names live on Coordenação only.
-    <Section tone="sand" labelledBy="coordenacao-title" sx={hideOnPhone}>
+    // On phones the band keeps its title, election date and link; the names
+    // live on Coordenação only.
+    <Section tone="sand" labelledBy="coordenacao-title">
       <SectionHeading
         id="coordenacao-title"
         title={
@@ -34,6 +35,7 @@ export function GovernanceSection() {
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
           columnGap: 4,
           rowGap: 4,
+          ...hideOnPhone,
         }}
       >
         {governance.coordination.map((person) => (
@@ -57,6 +59,7 @@ export function GovernanceSection() {
           borderColor: 'divider',
           ...textRoles.meta,
           color: 'text.secondary',
+          ...hideOnPhone,
         }}
       >
         Conselho fiscal com três titulares e três suplentes. A composição das gestões anteriores
