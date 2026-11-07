@@ -422,8 +422,8 @@
   background: #e5322d;
 }
 
-/* A steady dot, not a pulse: the radio went off air with FISL in 2018, so a
-   live signal would mislead. It marks the first broadcast as a record. */
+/* A steady dot, not a pulse: the radio broadcasts from inside FISL, which has
+   not run since 2018, so a live signal would mislead. */
 
 /* The photo stays inside its column; it only drifts within its own frame. */
 .atu-radio.is-live .atu-radio-photo img {

@@ -41,14 +41,17 @@ activity. When ready, this site replaces the WordPress site at asl.org.br.
 
 ## Positioning
 
-ASL is the association that organised FISL (Fórum Internacional Software
-Livre), the largest free-software event in South America, and maintains the
-Projeto Software Livre Brasil. FISL ran for 18 editions, 2000 to 2018; it
-ended with COVID-19 and with free software becoming ordinary in Brazil, and is
-not expected to return. ASL's standing comes from that history (FISL, TV
-Software Livre, Rádio Software Livre, Cine Kafuné) and from an elected,
-documented governance. No newer group can truthfully claim it. Write about
-FISL in the past tense.
+ASL is the association that organises FISL (Fórum Internacional Software
+Livre), the largest free-software event ever held in South America, and
+maintains the Projeto Software Livre Brasil. FISL had 18 editions, 2000 to
+2018. COVID-19 and free software becoming ordinary in Brazil stopped it, but
+it is **not** over: ASL may bring it back in another format and size. Never
+say or imply that FISL ended for good: no "última edição", no closed
+"2000–2018" period. Say "18 edições entre 2000 e 2018" and "a mais recente,
+em 2018"; describe what FISL is in the present tense ("o maior … já
+realizado"). TV and Rádio Software Livre work mostly from inside FISL, so the
+same rule applies to them. ASL's standing comes from that history and from an
+elected, documented governance. No newer group can truthfully claim it.
 
 Open question: with FISL over, what ASL does now is the weakest part of the
 pitch to new members. ASL later widened its cause to Padrões Livres (open

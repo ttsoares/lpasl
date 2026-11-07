@@ -136,11 +136,12 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
       one or two concrete actions before it goes on `/quem-somos` (a three-step
       history: FISL 2000 → ASL 2003 → Padrões Livres). Wikipedia's FISL article
       does not cover it.
-- [ ] **Which initiatives are still active?** FISL ended in 2018 and the site
-      now says so (`until` in `initiatives.ts`). TV Software Livre's domain no
-      longer resolves; Rádio Software Livre and Cine Kafuné are unconfirmed. Any
-      that ended need an `until` year, and the home mission line ("mantém
-      projetos de transmissão, formação e cultura livre") must match.
+- [ ] **FISL's status in the copy.** FISL has not run since 2018 but is not
+      over (ASL may revive it in another format). The site gives it no end
+      date: "18 edições entre 2000 e 2018", "a mais recente, em 2018", and a
+      neutral `period` label in `initiatives.ts`. TV and Rádio work from inside
+      FISL and are labelled "Criada em". Cine Kafuné is active. If FISL comes
+      back, update `period` and the "mais recente" lines.
 - [ ] **Workshop Software Livre.** FISL's academic event since 2000 (SBC,
       published proceedings, per Wikipedia), which ASL ran inside FISL. Not on
       the site; decide whether it is its own `/atuacao` scene or a line under
