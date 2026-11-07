@@ -14,7 +14,70 @@ column with one call to action per screen (`src/styles/phone.ts`). Product
 truth (audience, main action, binding facts) is in `PRODUCT.md`; text roles are
 in `src/styles/tokens.ts` (`textRoles`) and `DESIGN.md`. Body text is
 Instrument Sans. What remains is hosting, ASL's decisions, SEO, audits and
-performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
+performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`;
+6 Nov 2026 is summarised under "Start here" below and in the git log.
+
+---
+
+## Start here — next session (written 6 Nov 2026)
+
+`main` is pushed and clean; 82 tests pass. The deployed preview is
+`lpasl.vercel.app`; `asl.org.br` is still the old WordPress site.
+
+**Ground rules set on 6 Nov** (also in `PRODUCT.md` and `~/.claude/CLAUDE.md`):
+- This is a website refactor, not a strategy for ASL. Keep the tone of the
+  current asl.org.br (plain, institutional, movement-rooted, nothing
+  promotional) and keep its audience and calls to action ("Associe-se" stays).
+- Never say or imply FISL ended for good. It has not run since 2018 but may
+  return in another format: "18 edições entre 2000 e 2018", "a mais recente,
+  em 2018", "o maior evento … já realizado". No "última edição".
+- The user always does `git push`. Work on a branch, merge when asked, leave
+  the repo on `main`.
+
+**Design suggestions still open** (from the 6 Nov review; none changes what
+the site says or asks):
+1. [ ] **"Ativo" marker on active projects** in the home list and `/atuacao`
+       (amber dot + word), active ones first. Cine Kafuné is active. *Needs:*
+       is PSL.Br active?
+2. [ ] **Mission heading style.** "Difundir o software livre…"
+       (`ManifestoSection.tsx`) is Archivo 700 at normal width; every other
+       heading is Archivo 800 expanded (125%). Use one style.
+3. [ ] **Desktop density.** The home is 5,100px tall; section padding is 128px
+       on desktop. Try ~96px, and set the FISL section's numbers (18 edições ·
+       8.232 inscritos no FISL 10) large beside the photo instead of leaving
+       its right half empty.
+4. [ ] **A recent photo.** Nothing visual is newer than 2009. One photo of a
+       Cine Kafuné session, the 2025 assembly or the team. *Needs:* the photo
+       and permission.
+
+**Waiting on the user / ASL:**
+- [ ] **Hero lead** (`site.hero.lead`, `src/content/site.ts`). Draft offered,
+      not applied: "A ASL nasceu para organizar o FISL, o maior evento de
+      software livre da América do Sul. Dele vieram o Workshop Software Livre,
+      a TV e a Rádio Software Livre." If a lead naming FISL lands, drop the
+      "Desde 2003… Organizamos o FISL." line at the hero's foot (repeat).
+- [ ] **Recent, dated activity** (2025–2026): Cine Kafuné sessions, supported
+      projects, meetings. News on the home only shows posts from the last six
+      months (`homeNews()` in `posts.ts`), so the section is hidden today.
+      *Reconsider:* the current asl.org.br leads with its news and editais,
+      and the tone rule says to keep that. Either show the latest posts
+      regardless of age, or keep the rule and publish recent posts. User's
+      call.
+- [ ] **CNPJ and publishable documents** (accounts, the 2025 assembly ata).
+      None are on the site; `/documentos` has the Estatuto, the Regimento and
+      the membership form only.
+- [ ] **Padrões Livres**: the user is researching it (see §3).
+- [ ] **FISL 10 frame on the home** (Lula at the podium) needs ASL's approval
+      as the home's only photo (see §11, footage rights).
+
+**Ready to do without input:**
+- [ ] **Old WordPress links on Vercel.** The redirect map only builds Netlify's
+      `_redirects`; Vercel ignores it. Generate the same rules into
+      `vercel.json` (`redirects`, with `has` for the `?p=` / `?page_id=`
+      query links) from `src/content/redirects.json`. Needed before
+      `asl.org.br` points at the new site.
+- [ ] **Route-level code splitting** (§7): the 3D now starts when idle, but the
+      main bundle (175 KB gzip) still carries every page.
 
 ---
 
@@ -22,12 +85,14 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
 
 ### Hosting and deploy
 
-- [ ] Choose the host and write the deploy steps. Static site, so any static
-      host works, but SPA routing needs a rewrite to `index.html` (and the 404
-      must not swallow the old-URL redirects).
+- [ ] Choose the host and write the deploy steps. The preview runs on Vercel
+      (`lpasl.vercel.app`); `vercel.json` rewrites client routes to
+      `index.html` (paths with a dot still 404), done 6 Nov. Confirm Vercel is
+      the production host, then point `asl.org.br` at it (ASL's call, when the
+      site is ready).
 - [ ] Verify real 301s on that host. `src/content/redirects.json` →
       `scripts/build-redirects.mjs` → `public/_redirects` is written in Netlify
-      syntax and untested. Hosts that ignore query strings in redirect rules
+      syntax and untested; on Vercel it does nothing (see "Start here"). Hosts that ignore query strings in redirect rules
       (Cloudflare Pages) can't serve the `?p=40`-style links as 301s; there only
       the in-app fallback (`LegacyRedirects`) applies. *Done when:* a link from
       2010 lands on the right new page with a 301, not the 404.
@@ -72,8 +137,9 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
       card with `npm run brand`).
 - [ ] **Hero lead.** `site.hero.lead` is written, not approved. It should read
       like ASL's own words.
-- [ ] **Photos.** There are no images of FISL, of the team, or of any project.
-      Decide whether to add three or four real photos before launch or after.
+- [ ] **Photos.** The home now shows one FISL 10 (2009) video frame; there is
+      still no photo of the team or of any current project. Decide whether to
+      add three or four real photos before launch or after.
 
 ---
 
@@ -122,8 +188,9 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
       set the anuidade at zero (art. 12 and art. 19 let it fix the amount). Also: the Estatuto has the Coordenação approve new
       members (art. 7, §2) and the Assembleia only referendar (art. 19), while
       `/associe-se` says the proposal is voted at the Assembleia.
-- [ ] **Coordination on the home page** shows the seven coordination roles on
-      tablets and desktops (phones skip it). Confirm that is the right level of
+- [ ] **Coordination on the home page** is the second section since 6 Nov:
+      the seven roles and names on tablets and desktops; on phones a compact
+      band (title, election date, link). Confirm that is the right level of
       detail for a home page.
 - [ ] **Dates.** Confirm the 2025 election was 14 November 2025, as the editais
       state.
@@ -166,7 +233,8 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
 - [ ] Per-route `<title>` and `<meta name="description">`. Every page still
       inherits the home title from `index.html`.
 - [ ] Canonical URLs.
-- [ ] `robots.txt` and `sitemap.xml` (neither exists in `public/`).
+- [ ] `sitemap.xml`. (`robots.txt` was added on 6 Nov; add its `Sitemap:`
+      line once the sitemap exists and the domain is final.)
 - [ ] JSON-LD: `Organization` (name, logo, address, founding date, sameAs to
       social profiles) and `Article` on posts.
 - [ ] Verify the `lang` and the Portuguese diacritics in every meta tag.
@@ -200,6 +268,14 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
       `PRODUCT.md`). Check that `@fontsource-variable/instrument-sans` ships a
       Latin-only file to import instead of the full one.
 - [ ] Measure Lighthouse on a throttled connection before launch, not after.
+      Baseline on 6 Nov (production build, headless Chromium): mobile 83–87,
+      desktop 71–74; accessibility, best practices and SEO 100. Desktop is held
+      down by the 3D shader compile (~330ms), which `compileAsync` can only
+      hide where the GPU driver supports parallel compile; headless Chrome has
+      none, so check on real hardware (DevTools → Performance → reload; there
+      should be no long `scene` task). If it stays long, swap
+      `MeshStandardMaterial` for `MeshLambertMaterial` (design call: less
+      gloss on the wings).
 
 ---
 
@@ -269,8 +345,10 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
 
 - [ ] **Real phones and Safari.** The scenes were checked in headless Chromium
       only. Check scroll smoothness on a real iPhone, an Android phone and
-      desktop Safari. Scenes run only at ≥900px with motion allowed; below that
-      and under reduced motion the page is static by design.
+      desktop Safari. Since 6 Nov most scenes are timed entrances that play
+      once in view (`useReveal`), at every width with motion allowed; only the
+      TV monitor's growth and the radio photo's drift follow the scroll, at
+      ≥900px. Under reduced motion the page is static.
 - [ ] **Video with sound.** The FISL 10 clip (`public/media/atuacao/tv-fisl10.mp4`,
       75 s, 5 MB) loops with sound while on screen. Browsers block sound until
       the visitor's first interaction, so a direct visit plays muted and
@@ -296,8 +374,10 @@ performance. What was done on 1 Nov 2026 is in `docs/sessions/2026-11-01.md`.
   the primary conversion. Documented in `DESIGN.md`.
 - Display type runs at line-height 0.96–1.05 rather than the 1.1–1.2 rule; at
   76px the looser value breaks the headline apart.
-- `/atuacao` uses scroll-driven motion, against the "no scroll-fade" rule in
-  `DESIGN.md`; recorded there as a page-specific exception the user asked for.
+- `/atuacao` uses scroll-driven motion for the TV scene and the radio drift,
+  against the "no scroll-fade" rule in `DESIGN.md`; recorded there as a
+  page-specific exception the user asked for. The other scenes became timed
+  entrances on 6 Nov, because scrubbed reveals froze half-cut logos.
 - On phones (below 600px) the home page drops the manifesto and the
   coordination list, lists show titles only, the footer drops its menu
   columns, and secondary buttons are hidden. Tablets and desktops keep all of
