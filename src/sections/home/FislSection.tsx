@@ -23,22 +23,43 @@ export function FislSection() {
         action={{ label: 'Ver o FISL na Atuação', to: '/atuacao#fisl' }}
       />
 
-      <Box component="figure" sx={{ m: 0, mt: { xs: 4, md: 6 }, maxWidth: 654 }}>
-        <Box
-          component="img"
-          // A frame of the 2009 broadcast; 654px is its native width, so the
-          // figure never scales it up.
-          src="/media/atuacao/tv-fisl10-poster.webp"
-          alt="Luiz Inácio Lula da Silva discursa no púlpito do FISL 10, com a placa amarela do evento à frente."
-          width={654}
-          height={480}
-          loading="lazy"
-          decoding="async"
-          sx={{ display: 'block', width: '100%', height: 'auto' }}
-        />
+      <Box
+        component="figure"
+        sx={{
+          m: 0,
+          mt: { xs: 4, md: 6 },
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', md: '7fr 5fr' },
+          columnGap: 6,
+          rowGap: 2,
+          alignItems: 'end',
+          // The frame zooms 2% on hover; the photo never leaves it.
+          '&:hover img': { transform: 'scale(1.02)' },
+        }}
+      >
+        <Box sx={{ overflow: 'hidden', lineHeight: 0, maxWidth: 654 }}>
+          <Box
+            component="img"
+            // A frame of the 2009 broadcast; 654px is its native width, so the
+            // figure never scales it up.
+            src="/media/atuacao/tv-fisl10-poster.webp"
+            alt="Luiz Inácio Lula da Silva discursa no púlpito do FISL 10, com a placa amarela do evento à frente."
+            width={654}
+            height={480}
+            loading="lazy"
+            decoding="async"
+            sx={{
+              display: 'block',
+              width: '100%',
+              height: 'auto',
+              transition: 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)',
+              '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+            }}
+          />
+        </Box>
         <Typography
           component="figcaption"
-          sx={{ ...textRoles.meta, mt: 2, color: 'text.secondary' }}
+          sx={{ ...textRoles.meta, color: 'text.secondary', maxWidth: '22em' }}
         >
           FISL 10, Porto Alegre, 2009, a maior edição, com 8.232 inscritos: Luiz Inácio Lula da
           Silva, então presidente da República. Imagem da TV Software Livre.

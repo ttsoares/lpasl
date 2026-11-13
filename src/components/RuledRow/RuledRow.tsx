@@ -49,6 +49,8 @@ export function RuledRow({ title, description, meta, to, children, brief = false
         borderTop: '1px solid',
         borderColor: 'divider',
         alignItems: 'baseline',
+        transition: 'border-color 140ms',
+        '&:hover': to ? { borderColor: 'text.primary' } : undefined,
       }}
     >
       <Typography

@@ -82,7 +82,7 @@ function HomeHero() {
             columnGap: 6,
           }}
         >
-          <Box sx={{ minWidth: 0 }}>
+          <Box className="fade-in" sx={{ minWidth: 0 }}>
             <Typography
               id="home-title"
               variant="h1"
